@@ -32,12 +32,10 @@ main{min-height:100%;display:flex;flex-direction:column;align-items:center;justi
 .status b{font-family:var(--black);font-weight:400;font-size:clamp(1.9rem,4.5vw,3rem);line-height:1;letter-spacing:.01em}
 .status span{font-size:clamp(.75rem,1.4vw,.85rem);letter-spacing:.08em;color:var(--ink-soft)}
 .ink{
-  width:calc(100% + max(16px,env(safe-area-inset-left,0px)) + max(16px,env(safe-area-inset-right,0px)));
-  max-width:none;height:clamp(220px,44vh,560px);
+  width:100vw;max-width:none;height:clamp(220px,44vh,560px);
   object-fit:cover;object-position:50% 100%;display:block;pointer-events:none;
-  margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));
-  margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));
-  margin-bottom:0;
+  position:relative;left:50%;transform:translateX(-50%);
+  margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px));
 }
 /* glitch: still most of the time, short tearing bursts every few seconds */
 .word{position:relative}
@@ -69,6 +67,10 @@ main{min-height:100%;display:flex;flex-direction:column;align-items:center;justi
   97%{opacity:0}
 }
 @media (prefers-reduced-motion:reduce){.word,.word::before,.word::after{animation:none}}
+.player{width:min(100%,420px);margin-top:clamp(.25rem,1.5vw,1rem)}
+.player iframe{display:block;width:100%;height:80px;border:0;border-radius:12px}
+.player a{display:block;text-align:center;margin-top:.6rem;font-size:.75rem;letter-spacing:.08em;color:var(--ink-soft)}
+.player a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -76,6 +78,7 @@ main{min-height:100%;display:flex;flex-direction:column;align-items:center;justi
   <div class="top">
     <h1 class="word">the Feral<br>Collective</h1>
     <p class="status"><b>Coming soon</b><span>Something wild is gathering.</span></p>
+    <div class="player"><iframe title="Fade Away by Logic on Spotify" src="https://open.spotify.com/embed/track/4QRWA5UqYU1st9aO0UfxOj?theme=0" loading="lazy" allow="encrypted-media; clipboard-write; fullscreen; picture-in-picture"></iframe><a href="https://open.spotify.com/track/4QRWA5UqYU1st9aO0UfxOj" target="_blank" rel="noopener">Now playing: Fade Away, Logic ↗</a></div>
   </div>
   <img class="ink" alt="" src="images/ink.webp" width="2400" height="1000">
 </main>
