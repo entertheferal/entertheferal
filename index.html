@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Feral Collective</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+@font-face{font-family:'ED Fairville';src:url(fonts/ED-Fairville-Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+/* Layout: poster. Blackletter wordmark upper-centre, one quiet line of mono beneath it, wet ink brush bleeding off the bottom edge. */
+:root{
+  --paper:#f6f5f1;
+  --ink:#0b0b0b;
+  --ink-soft:#4a4944;
+  --display:'IBM Plex Mono','Courier New',monospace;
+  --black:'ED Fairville','UnifrakturCook',Georgia,serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+img{max-width:100%}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--display);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0;overflow-x:hidden;position:relative;
+}
+main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:2rem;position:relative}
+.top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(1.25rem,3vw,2rem);padding-top:clamp(2rem,8vh,5rem);min-width:0;width:100%}
+.word{font-family:var(--black);font-weight:400;font-size:clamp(4rem,19vw,9.5rem);line-height:.95;letter-spacing:0;text-align:center;margin:0;text-wrap:balance}
+.status{display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+.status b{font-family:var(--black);font-weight:400;font-size:clamp(1.9rem,4.5vw,3rem);line-height:1;letter-spacing:.01em}
+.status span{font-size:clamp(.75rem,1.4vw,.85rem);letter-spacing:.08em;color:var(--ink-soft)}
+.ink{
+  width:100vw;max-width:none;height:clamp(220px,44vh,560px);
+  object-fit:cover;object-position:50% 100%;display:block;pointer-events:none;
+  position:relative;left:50%;transform:translateX(-50%);
+  margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px));
+}
+/* glitch: still most of the time, short tearing bursts every few seconds */
+.word{position:relative}
+.word::before,.word::after{
+  content:"the Feral\A Collective";white-space:pre;position:absolute;inset:0;text-align:center;
+  pointer-events:none;opacity:0;
+}
+.word::before{color:var(--ink);animation:g1 5.5s steps(1,end) infinite}
+.word::after{color:var(--ink-soft);animation:g2 5.5s steps(1,end) infinite .08s}
+.word{animation:jit 5.5s steps(1,end) infinite}
+@keyframes jit{0%,100%{transform:none}91%{transform:translateX(-3px) skewX(-2deg)}92%{transform:translateX(4px)}93%{transform:none}96%{transform:translateX(2px) skewX(3deg)}97%{transform:none}}
+@keyframes g1{
+  0%,90%,100%{opacity:0;clip-path:inset(0 0 0 0);transform:none}
+  91%{opacity:1;clip-path:inset(8% 0 62% 0);transform:translateX(-14px)}
+  92%{opacity:1;clip-path:inset(54% 0 22% 0);transform:translateX(16px)}
+  93%{opacity:1;clip-path:inset(30% 0 48% 0);transform:translateX(-8px)}
+  94%{opacity:0}
+  96%{opacity:1;clip-path:inset(70% 0 6% 0);transform:translateX(12px)}
+  97%{opacity:1;clip-path:inset(2% 0 80% 0);transform:translateX(-10px)}
+  98%{opacity:0}
+}
+@keyframes g2{
+  0%,90%,100%{opacity:0;clip-path:inset(0 0 0 0);transform:none}
+  91%{opacity:.75;clip-path:inset(44% 0 36% 0);transform:translateX(18px)}
+  92%{opacity:.75;clip-path:inset(12% 0 70% 0);transform:translateX(-12px)}
+  93%{opacity:.75;clip-path:inset(76% 0 4% 0);transform:translateX(9px)}
+  94%{opacity:0}
+  96%{opacity:.75;clip-path:inset(36% 0 40% 0);transform:translateX(-16px)}
+  97%{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){.word,.word::before,.word::after{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <h1 class="word">the Feral<br>Collective</h1>
+    <p class="status"><b>Coming soon</b><span>Something wild is gathering.</span></p>
+  </div>
+  <img class="ink" alt="" src="images/ink.webp" width="2400" height="1000">
+</main>
+</body>
+</html>
