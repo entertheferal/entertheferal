@@ -32,10 +32,12 @@ main{min-height:100%;display:flex;flex-direction:column;align-items:center;justi
 .status b{font-family:var(--black);font-weight:400;font-size:clamp(1.9rem,4.5vw,3rem);line-height:1;letter-spacing:.01em}
 .status span{font-size:clamp(.75rem,1.4vw,.85rem);letter-spacing:.08em;color:var(--ink-soft)}
 .ink{
-  width:100vw;max-width:none;height:clamp(220px,44vh,560px);
+  width:calc(100% + max(16px,env(safe-area-inset-left,0px)) + max(16px,env(safe-area-inset-right,0px)));
+  max-width:none;height:clamp(220px,44vh,560px);
   object-fit:cover;object-position:50% 100%;display:block;pointer-events:none;
-  position:relative;left:50%;transform:translateX(-50%);
-  margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px));
+  margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));
+  margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  margin-bottom:0;
 }
 /* glitch: still most of the time, short tearing bursts every few seconds */
 .word{position:relative}
