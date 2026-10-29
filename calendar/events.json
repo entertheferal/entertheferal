@@ -1,0 +1,231 @@
+[
+ {
+  "uid": "e01",
+  "type": "workout",
+  "title": "Live Workout: Full Body Burn",
+  "start": "2026-10-29T01:00:00Z",
+  "end": "2026-10-29T01:45:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Bring water and a mat. Coaches call the rounds live."
+ },
+ {
+  "uid": "e02",
+  "type": "event",
+  "label": "Game night",
+  "title": "Game Night: Pick Your Poison",
+  "start": "2026-10-31T03:00:00Z",
+  "end": "2026-10-31T05:00:00Z",
+  "where": {
+   "kind": "discord",
+   "name": "Game Night voice channel",
+   "url": ""
+  },
+  "about": "Vote on the games in the chat before we start."
+ },
+ {
+  "uid": "e03",
+  "type": "workout",
+  "title": "Live Workout: Halloween Cardio",
+  "start": "2026-10-31T16:00:00Z",
+  "end": "2026-10-31T16:45:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Costumes encouraged, shoes required."
+ },
+ {
+  "uid": "e04",
+  "type": "event",
+  "label": "Movie night",
+  "title": "Movie Night: Halloween Double",
+  "start": "2026-11-01T02:00:00Z",
+  "end": "2026-11-01T04:30:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Two scary movies back to back. Snacks encouraged."
+ },
+ {
+  "uid": "e05",
+  "type": "event",
+  "label": "Game night",
+  "title": "Game Night: Midnight Mafia",
+  "start": "2026-11-01T05:00:00Z",
+  "end": "2026-11-01T07:00:00Z",
+  "where": {
+   "kind": "discord",
+   "name": "Game Night voice channel",
+   "url": ""
+  },
+  "about": "Late-night round after the movies. New players welcome."
+ },
+ {
+  "uid": "e06",
+  "type": "deadline",
+  "title": "Costume Contest Entries Due",
+  "start": "2026-11-01T06:59:00Z",
+  "end": null,
+  "where": {
+   "kind": "discord",
+   "name": "#costume-contest",
+   "url": ""
+  },
+  "about": "Winners announced at movie night."
+ },
+ {
+  "uid": "e07",
+  "type": "deadline",
+  "title": "Challenge Sign-ups Close",
+  "start": "2026-11-03T07:59:00Z",
+  "end": null,
+  "where": {
+   "kind": "discord",
+   "name": "#sign-ups",
+   "url": ""
+  },
+  "about": "No late entries after this."
+ },
+ {
+  "uid": "e08",
+  "type": "challenge",
+  "title": "The 14-Day Feral Challenge",
+  "start": "2026-11-03T16:00:00Z",
+  "end": "2026-11-17T16:00:00Z",
+  "where": {
+   "kind": "discord",
+   "name": "#challenge-check-ins",
+   "url": ""
+  },
+  "about": "One task a day. Post your proof, earn your spot on the board."
+ },
+ {
+  "uid": "e09",
+  "type": "workout",
+  "title": "Live Workout: Legs and Core",
+  "start": "2026-11-05T01:00:00Z",
+  "end": "2026-11-05T01:45:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Low impact options for every move."
+ },
+ {
+  "uid": "e10",
+  "type": "event",
+  "label": "Game night",
+  "title": "Game Night: Trivia Takeover",
+  "start": "2026-11-07T03:00:00Z",
+  "end": "2026-11-07T05:00:00Z",
+  "where": {
+   "kind": "discord",
+   "name": "Game Night voice channel",
+   "url": ""
+  },
+  "about": "Teams of four. Winners pick the next movie."
+ },
+ {
+  "uid": "e11",
+  "type": "event",
+  "label": "Baking",
+  "title": "Bake-Along: Pumpkin Bread",
+  "start": "2026-11-08T19:00:00Z",
+  "end": "2026-11-08T21:00:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Bring your own ingredients. The recipe is posted a day before."
+ },
+ {
+  "uid": "e12",
+  "type": "event",
+  "label": "Book club",
+  "title": "Book Club: Chapters 1 to 5",
+  "start": "2026-11-11T02:00:00Z",
+  "end": "2026-11-11T03:00:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Read the first five chapters and bring one quote you loved or hated."
+ },
+ {
+  "uid": "e13",
+  "type": "event",
+  "label": "Movie night",
+  "title": "Movie Night: Member Pick",
+  "start": "2026-11-14T02:00:00Z",
+  "end": "2026-11-14T04:30:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Chosen by the poll that closes Thursday."
+ },
+ {
+  "uid": "e14",
+  "type": "deadline",
+  "title": "Challenge Check-in Deadline",
+  "start": "2026-11-17T07:59:00Z",
+  "end": null,
+  "where": {
+   "kind": "discord",
+   "name": "#challenge-check-ins",
+   "url": ""
+  },
+  "about": "Final proof posts must be in."
+ },
+ {
+  "uid": "e15",
+  "type": "workout",
+  "title": "Live Workout: Upper Body",
+  "start": "2026-11-19T01:00:00Z",
+  "end": "2026-11-19T01:45:00Z",
+  "where": {
+   "kind": "meet",
+   "name": "",
+   "url": "https://meet.google.com/abc-defg-hij"
+  },
+  "about": "Dumbbells or bands, your call."
+ },
+ {
+  "uid": "e16",
+  "type": "deadline",
+  "title": "Poll Awards Voting Closes",
+  "start": "2026-11-19T07:59:00Z",
+  "end": null,
+  "where": {
+   "kind": "discord",
+   "name": "#poll-awards",
+   "url": ""
+  },
+  "about": "Cast your votes before this deadline."
+ },
+ {
+  "uid": "e17",
+  "type": "event",
+  "label": "Poll awards",
+  "title": "Poll Awards Night",
+  "start": "2026-11-22T03:00:00Z",
+  "end": "2026-11-22T04:30:00Z",
+  "where": {
+   "kind": "discord",
+   "name": "Game Night voice channel",
+   "url": ""
+  },
+  "about": "Winners revealed live. Best moments, best newcomer and more."
+ }
+]
