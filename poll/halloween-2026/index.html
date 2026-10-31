@@ -393,7 +393,7 @@ function hlCard(h, i) {
     <p>${esc(h.p)}</p>
     <p class="j">${esc(h.j)}</p>
     <div class="big">${digs(h.big)}<small>${h.u}</small></div>
-    <button class="sh share-btns" type="button" style="margin-top:.5rem;padding:.4rem .6rem;font-size:.65rem;border:1.5px solid ${h.red?'var(--paper)':'var(--ink)'}">Share</button>
+    <button class="sh share-btns" type="button" style="margin-top:.5rem;padding:.4rem .6rem;font-size:.65rem;border:1.5px solid ${h.red?'var(--paper)':'var(--ink)'};background:${h.red?'var(--paper)':'transparent'};color:var(--ink)">Share</button>
   </article>`;
 }
 
