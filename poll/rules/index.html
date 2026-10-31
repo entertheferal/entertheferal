@@ -83,11 +83,24 @@ section{padding-top:clamp(2.6rem,6vw,4.4rem)}
 footer{margin-top:clamp(3rem,6vw,5rem);background:var(--ink);color:var(--paper);padding:2.2rem 0 2.6rem;position:relative;overflow:hidden}
 footer .art{position:absolute;right:-8%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.4;pointer-events:none}
 footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--bl);display:block}footer p{margin:.5rem 0 0;color:#c9c7bf;font-family:var(--ar);max-width:34rem}
+/* mobile bottom bar */
+.bottombar{display:none}
 @media(max-width:900px){.steps{grid-template-columns:1fr;--dh:3.6rem}.steps li{padding:0 0 26px 34px;border-left:2px solid var(--ink);margin-left:8px}.steps li:last-child{border-left-color:transparent;padding-bottom:0}
  .steps li::before{display:none}.steps li::after{left:-8px;top:6px}}
-@media(max-width:760px){.wrap{padding:0 16px}.bar{padding-left:16px;padding-right:16px}.hero .art{height:80%;right:-28%;opacity:.3}
+@media(max-width:760px){
+ body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+ .wrap{padding:0 16px}.bar{padding-left:16px;padding-right:16px;position:sticky;top:0;z-index:20}
+ .hero .art{height:80%;right:-28%;opacity:.3}
  .two,.turn,.band .in{grid-template-columns:1fr}.fp>div{grid-template-columns:5.4rem 1fr;padding:14px 14px;gap:6px 14px}.fp .dg img{height:4.4rem}.band .art{opacity:.3}
- .row{gap:6px}.aw{width:46px;height:46px}.pass{margin-left:0;flex-basis:100%}}
+ .row{gap:6px}.aw{width:46px;height:46px}.pass{margin-left:0;flex-basis:100%}
+ .hero h1{font-size:clamp(3.2rem,12vw,4.2rem)}
+ .hero .sub{font-size:1rem}
+ .chips{gap:6px}.chips a{padding:5px 9px;font-size:.62rem}
+ footer{padding-bottom:calc(2rem + env(safe-area-inset-bottom))}
+ .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--ink);border-top:2px solid var(--ink);padding:8px 16px calc(8px + env(safe-area-inset-bottom))}
+ .bottombar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--paper);color:var(--ink);padding:12px 16px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:2px solid var(--paper)}
+ .bottombar a::before{content:"";width:8px;height:8px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+}
 </style></head><body>
 <header class="bar"><a href="/" class="mark">the Feral Collective</a><span class="pill">Rules</span></header>
 <div class="hero"><img class="art" src="/poll/art/loop.webp" alt=""><img class="art art2" src="/poll/art/drip.webp" alt=""><div class="wrap"><div class="in">
@@ -122,6 +135,7 @@ footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--
 <div class="cta"><b>ready to play?</b><a class="btn" href="/poll/">see this month's poll</a></div>
 </main>
 <footer><img class="art" src="/poll/art/bold.webp" alt=""><div class="wrap"><div class="in"><b>fair is the whole point.</b><p>One poll a month. Everybody gets a turn. Find out who gets us all killed.</p></div></div></footer>
+<nav class="bottombar"><a href="/poll/">back to poll</a></nav>
 <script src="/poll/rules-data.js"></script>
 <script>
 (function() {
