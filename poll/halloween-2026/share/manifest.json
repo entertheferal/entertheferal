@@ -615,24 +615,24 @@
     },
     {
       "type": "personal",
-      "slug": "thewinternyx",
-      "name": "TheWinterNyx",
+      "slug": "winter",
+      "name": "Winter",
       "size": "story",
-      "file": "p-thewinternyx-story.png"
+      "file": "p-winter-story.png"
     },
     {
       "type": "personal",
-      "slug": "thewinternyx",
-      "name": "TheWinterNyx",
+      "slug": "winter",
+      "name": "Winter",
       "size": "feed",
-      "file": "p-thewinternyx-feed.png"
+      "file": "p-winter-feed.png"
     },
     {
       "type": "personal",
-      "slug": "thewinternyx",
-      "name": "TheWinterNyx",
+      "slug": "winter",
+      "name": "Winter",
       "size": "og",
-      "file": "p-thewinternyx-og.png"
+      "file": "p-winter-og.png"
     },
     {
       "type": "personal",
