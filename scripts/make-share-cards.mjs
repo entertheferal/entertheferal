@@ -178,7 +178,7 @@ function personalCard(person, size) {
   <img class="art a2" src="file://${resolve(POLL_DIR, 'art/loop.webp')}" alt="">
   <div class="in">
     ${isOG ? '<div class="left">' : ''}
-    <div class="eye"><i></i>My horror movie results</div>
+    <div class="eye"><i></i>Halloween 2026 · Horror Movie Poll</div>
     ${isOG ? '' : '<div class="sp"></div>'}
     <div class="cat">${escHtml(caption)}</div>
     <div class="nm ${nmClass}">${escHtml(person)}</div>
