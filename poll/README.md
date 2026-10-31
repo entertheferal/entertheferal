@@ -19,12 +19,13 @@ poll/
 ├── index.html              # Poll hub page (this month + past polls)
 ├── polls.json              # Computed index of all published polls
 ├── hub-data.js             # Data access module for hub page
+├── rules-data.js           # Poll settings for rules page
 ├── art/                    # Shared texture assets
 ├── icons/                  # Hand-drawn digit images (n0-n9.webp)
 ├── join/index.html         # Join the current poll
 ├── ideas/index.html        # Submit and upvote ideas
 ├── vote/index.html         # Voting interface
-├── rules/index.html        # How it works
+├── rules/index.html        # How the poll works (public)
 ├── template/
 │   └── results.js          # Shared results rendering utilities
 ├── halloween-2026/         # Example poll instance
@@ -330,3 +331,32 @@ On phones (<760px), the page shows a two-tab bottom bar:
 - "Past polls" tab
 
 On desktop, both sections appear on one page.
+
+## Rules Page
+
+The `/poll/rules/` page explains how the poll works. It's a public page with no member data.
+
+### Dynamic Numbers
+
+All numbers come from poll settings via `rules-data.js`:
+
+```javascript
+var S = FeralRulesData.getSettings();
+// S.votes_per_person_per_ballot = 3
+// S.gold_cap = 3
+// S.min_votes_for_award = 2
+// S.max_categories = 20
+```
+
+When there's no active poll, defaults are shown and dates are hidden.
+
+### Sections
+
+1. **Hero** - Jump links to each section
+2. **How it works** - 6-step timeline with dates
+3. **Fair play** - Rulebook rows with hand-drawn digits
+4. **Anonymous** - Black band explaining vote privacy
+5. **Everybody gets a turn** - Gold cap with example diagram
+6. **Joining is your choice** - Two cards (if you join / if you don't)
+7. **Questions** - Accordion FAQ
+8. **CTA** - Link to the polls hub
