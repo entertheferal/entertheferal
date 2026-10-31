@@ -16,7 +16,11 @@ The poll system supports a complete cycle:
 
 ```
 poll/
-├── index.html              # Poll landing page
+├── index.html              # Poll hub page (this month + past polls)
+├── polls.json              # Computed index of all published polls
+├── hub-data.js             # Data access module for hub page
+├── art/                    # Shared texture assets
+├── icons/                  # Hand-drawn digit images (n0-n9.webp)
 ├── join/index.html         # Join the current poll
 ├── ideas/index.html        # Submit and upvote ideas
 ├── vote/index.html         # Voting interface
@@ -256,3 +260,73 @@ npx playwright install chromium
 - Share cards are public images once posted to social media
 - Members can opt out of share cards after results publish
 - Votes are anonymous - even admins can't see who voted for whom
+
+## Hub Page
+
+The `/poll/` landing page shows:
+
+**This Month section:**
+- Current poll with phase-appropriate UI
+- Progress tracker (Join → Ideas → Voting → Results)
+- Member status card (not joined, joined, voted)
+- Action button based on state and login status
+
+**Past Polls section:**
+- Grid of published polls
+- Hand-drawn digits showing awards count and gold winners
+- "See results" links
+
+### Data Access
+
+The hub page uses `hub-data.js` to abstract data access:
+
+```javascript
+// Get current poll (or null if between polls)
+const poll = await FeralPollHub.getCurrentPoll();
+
+// Get all published polls with stats
+const polls = await FeralPollHub.getPastPolls();
+
+// Get phase key for state machine
+const phase = FeralPollHub.getPhaseKey(poll.status);
+// Returns: 'open', 'curating', 'voting', 'closed', 'results', 'none'
+```
+
+Today this reads `polls.json`. Later it can switch to Supabase.
+
+### Build the Polls Index
+
+After publishing a poll or updating metadata:
+
+```bash
+npm run polls-index
+```
+
+This reads each poll's `data.json` and computes:
+- `awards`: number of categories
+- `peopleWithGold`: number of unique gold winners
+
+To add a new poll to the index, add its metadata to `scripts/build-polls-index.mjs`:
+
+```javascript
+const POLL_META = {
+  'halloween-2026': {
+    month: 'oct 2026',
+    line: 'who survives the horror movie and who gets us all killed.',
+    art: 'loop'
+  },
+  'november-2026': {
+    month: 'nov 2026',
+    line: 'theme description here.',
+    art: 'drip'  // loop, drip, bold, or red
+  }
+};
+```
+
+### Mobile Layout
+
+On phones (<760px), the page shows a two-tab bottom bar:
+- "This month" tab
+- "Past polls" tab
+
+On desktop, both sections appear on one page.

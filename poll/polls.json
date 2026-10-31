@@ -1,0 +1,16 @@
+{
+  "current": null,
+  "polls": [
+    {
+      "slug": "halloween-2026",
+      "title": "Halloween Horror Movie Poll",
+      "month": "oct 2026",
+      "line": "who survives the horror movie and who gets us all killed.",
+      "status": "published",
+      "resultsUrl": "/poll/halloween-2026/",
+      "art": "loop",
+      "awards": 27,
+      "peopleWithGold": 20
+    }
+  ]
+}

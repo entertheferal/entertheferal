@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "validate-poll": "node scripts/validate-poll.mjs",
-    "share-cards": "node scripts/make-share-cards.mjs"
+    "share-cards": "node scripts/make-share-cards.mjs",
+    "polls-index": "node scripts/build-polls-index.mjs"
   },
   "devDependencies": {
     "playwright": "^1.40.0"
