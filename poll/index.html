@@ -337,18 +337,36 @@ footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--
     // Get user state
     var user = null;
     try {
-      user = await FeralAuth.getUser();
+      if (typeof FeralAuth !== 'undefined') {
+        user = await FeralAuth.getUser();
+      }
     } catch (e) {
-      console.warn('Auth not available');
+      console.warn('Auth not available:', e);
     }
 
-    // Load poll data
-    var currentPoll = await FeralPollHub.getCurrentPoll();
-    var pastPolls = await FeralPollHub.getPastPolls();
+    // Load poll data with fallback
+    var currentPoll = null;
+    var pastPolls = [];
+    try {
+      if (typeof FeralPollHub !== 'undefined') {
+        currentPoll = await FeralPollHub.getCurrentPoll();
+        pastPolls = await FeralPollHub.getPastPolls();
+      } else {
+        // Fallback: load polls.json directly
+        var resp = await fetch('/poll/polls.json');
+        if (resp.ok) {
+          var data = await resp.json();
+          currentPoll = data.current;
+          pastPolls = data.polls.filter(function(p) { return p.status === 'published'; });
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load poll data:', e);
+    }
 
     // Get member stats for past polls (if logged in)
     var memberStats = {};
-    if (user) {
+    if (user && typeof FeralPollHub !== 'undefined') {
       try {
         memberStats = await FeralPollHub.getMemberPollStats(user.id);
       } catch (e) {
