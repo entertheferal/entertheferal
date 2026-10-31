@@ -80,10 +80,10 @@ body{margin:0;padding:0}
 .story .a1{top:auto;bottom:20%;right:-14%;height:42%}
 .feed .a1{top:auto;bottom:11%;right:-16%;height:46%}
 .og .a1{right:-10%;top:5%;height:80%}
-.a2{left:-8%;bottom:5%;height:35%;opacity:.4;transform:rotate(12deg)}
-.story .a2{left:-6%;bottom:18%;height:30%}
-.feed .a2{left:-8%;bottom:8%;height:35%}
-.og .a2{left:-5%;bottom:5%;height:50%}
+.a2{left:0;bottom:0;height:35%;opacity:.3;transform:rotate(15deg) translateX(-20%)}
+.story .a2{height:28%;bottom:15%}
+.feed .a2{height:32%;bottom:5%}
+.og .a2{height:45%;bottom:0}
 .in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
 .story .in{padding:180px 84px 400px}
 .feed .in{padding:100px 84px 120px}
