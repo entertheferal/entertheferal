@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);padding:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);line-height:1;margin:0 0 1.5rem}
+
+.tabs{display:flex;gap:.5rem;border-bottom:2px solid var(--ink);margin-bottom:1.5rem}
+.tab{background:none;border:0;padding:.7rem 1.2rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab:hover{background:var(--paper-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-bottom-color:var(--ink)}
+
+.panel{display:none}
+.panel.active{display:block}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2rem;align-items:start}
+@media (max-width:800px){.grid{grid-template-columns:1fr}}
+
+.card{border:2px solid var(--ink);padding:1.25rem}
+.card h2{font-family:var(--black);font-weight:400;font-size:1.8rem;margin:0 0 1rem;line-height:1}
+
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.9rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.field input,.field select,.field textarea{background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;font-size:.9rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media (max-width:480px){.field-row{grid-template-columns:1fr}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.5rem 1.2rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.85rem;letter-spacing:.04em}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--paper)}
+.btn.small{min-height:2.2rem;padding:.4rem .8rem;font-size:.75rem}
+.btn.warn{border-color:var(--red);background:var(--red)}
+.btn.warn:hover{background:var(--paper);color:var(--red)}
+
+.msg{padding:.6rem;border:1.5px solid var(--line);font-size:.82rem;margin-bottom:1rem}
+.msg.bad{border-color:var(--red);color:var(--red)}
+.msg.ok{border-color:var(--green);color:var(--green)}
+
+.code-result{background:var(--paper-2);border:1.5px solid var(--ink);padding:.8rem 1rem;margin-bottom:1rem;display:none}
+.code-result code{font-family:var(--mono);font-size:1rem;font-weight:500;word-break:break-all}
+.code-result .url{font-size:.8rem;color:var(--ink-soft);margin-top:.5rem;word-break:break-all}
+.code-result .copy{margin-top:.6rem}
+
+.list{border:2px solid var(--ink)}
+.list-empty{padding:1.5rem;color:var(--ink-soft);font-family:var(--archivo)}
+.row{display:flex;flex-wrap:wrap;gap:.5rem 1rem;padding:.8rem 1rem;border-bottom:1px solid var(--line);align-items:center;justify-content:space-between}
+.row:last-child{border-bottom:0}
+.row-info{display:flex;flex-direction:column;min-width:0;flex:1 1 12rem}
+.row-info b{font-weight:600;font-size:.9rem}
+.row-info span{font-size:.75rem;color:var(--ink-soft)}
+.row-acts{display:flex;gap:.4rem;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;padding:.15rem .5rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink)}
+.tag.active{background:var(--green);color:#fff;border-color:var(--green)}
+.tag.used{background:var(--ink-soft);color:var(--paper);border-color:var(--ink-soft)}
+.tag.expired{background:var(--red);color:#fff;border-color:var(--red)}
+.tag.revoked{background:var(--red);color:#fff;border-color:var(--red)}
+
+.member-detail{margin-top:1rem;padding:1rem;border:2px solid var(--ink);display:none}
+.member-detail h3{font-family:var(--black);font-weight:400;font-size:1.5rem;margin:0 0 .8rem}
+.member-detail .info{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+.member-detail .info p{margin:0;font-size:.85rem}
+.member-detail .info b{font-weight:500}
+.member-acts{display:flex;flex-wrap:wrap;gap:.5rem}
+
+.loading{padding:2rem;text-align:center;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<div class="wrap">
+  <h1>Admin</h1>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tabInvites" aria-selected="true" aria-controls="panelInvites">Invites</button>
+    <button class="tab" role="tab" id="tabMembers" aria-selected="false" aria-controls="panelMembers">Members</button>
+  </div>
+
+  <!-- Invites Panel -->
+  <div class="panel active" id="panelInvites" role="tabpanel" aria-labelledby="tabInvites">
+    <div class="grid">
+      <div class="card">
+        <h2>Create invite</h2>
+        <form id="createInviteForm">
+          <div class="field">
+            <label for="invNote">Note (who is this for?)</label>
+            <input type="text" id="invNote" placeholder="e.g. For Sarah">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="invMax">Max uses</label>
+              <input type="number" id="invMax" value="1" min="1" max="100">
+            </div>
+            <div class="field">
+              <label for="invExpires">Expires in (days)</label>
+              <input type="number" id="invExpires" placeholder="Never" min="1" max="365">
+            </div>
+          </div>
+          <div class="field">
+            <label for="invRoles">Grant roles (comma-separated)</label>
+            <input type="text" id="invRoles" placeholder="e.g. Workout leader">
+          </div>
+          <div class="code-result" id="codeResult">
+            <div><code id="codeText"></code></div>
+            <div class="url" id="codeUrl"></div>
+            <div class="copy"><button type="button" class="btn small outline" id="copyBtn">Copy link</button></div>
+          </div>
+          <div class="msg" id="invMsg" role="alert" aria-live="polite" hidden></div>
+          <button type="submit" class="btn" id="createBtn">Create invite code</button>
+        </form>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Invite codes</h2>
+          <div class="list" id="inviteList">
+            <div class="loading">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Members Panel -->
+  <div class="panel" id="panelMembers" role="tabpanel" aria-labelledby="tabMembers">
+    <div class="grid">
+      <div class="card">
+        <h2>All members</h2>
+        <div class="list" id="memberList">
+          <div class="loading">Loading...</div>
+        </div>
+      </div>
+      <div>
+        <div class="member-detail" id="memberDetail">
+          <h3 id="detailName">Member details</h3>
+          <div class="info" id="detailInfo"></div>
+          <div class="field">
+            <label for="detailRoles">Roles (comma-separated)</label>
+            <input type="text" id="detailRoles">
+          </div>
+          <div class="member-acts">
+            <button type="button" class="btn small" id="saveRolesBtn">Save roles</button>
+            <button type="button" class="btn small outline" id="toggleActiveBtn">Deactivate</button>
+            <button type="button" class="btn small warn" id="clearAvatarBtn">Clear avatar</button>
+          </div>
+          <div class="msg" id="detailMsg" role="alert" aria-live="polite" hidden style="margin-top:.8rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  let sb, currentProfile;
+  let selectedMember = null;
+
+  async function init() {
+    sb = FeralAuth.getSupabase();
+    const user = await FeralAuth.getUser();
+    currentProfile = user ? await FeralAuth.getProfile() : null;
+
+    // Check admin
+    if (!currentProfile || !currentProfile.is_admin) {
+      window.location.href = '/';
+      return;
+    }
+
+    // Render header
+    const headerMenu = document.getElementById('headerMenu');
+    headerMenu.innerHTML = `
+      <a href="/u/${FeralAuth.esc(currentProfile.handle)}">My profile</a>
+      <a href="/calendar">Calendar</a>
+      <a href="/settings">Settings</a>
+      <button type="button" id="signOutBtn">Sign out</button>
+    `;
+    document.getElementById('signOutBtn').addEventListener('click', async () => {
+      await FeralAuth.signOut();
+      window.location.href = '/';
+    });
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+      });
+    });
+
+    // Load data
+    loadInvites();
+    loadMembers();
+    setupCreateInvite();
+    setupMemberDetail();
+  }
+
+  // --- Invites ---
+
+  async function loadInvites() {
+    const { data, error } = await sb.from('invite_codes').select('*').order('created_at', { ascending: false });
+    const list = document.getElementById('inviteList');
+
+    if (error || !data) {
+      list.innerHTML = `<div class="list-empty">Failed to load invites.</div>`;
+      return;
+    }
+
+    if (data.length === 0) {
+      list.innerHTML = `<div class="list-empty">No invite codes yet.</div>`;
+      return;
+    }
+
+    list.innerHTML = data.map(inv => {
+      let status = 'active';
+      let statusLabel = 'Active';
+      if (inv.revoked) {
+        status = 'revoked';
+        statusLabel = 'Revoked';
+      } else if (inv.uses >= inv.max_uses) {
+        status = 'used';
+        statusLabel = 'Used up';
+      } else if (inv.expires_at && new Date(inv.expires_at) < new Date()) {
+        status = 'expired';
+        statusLabel = 'Expired';
+      }
+
+      return `
+        <div class="row">
+          <div class="row-info">
+            <b>${FeralAuth.esc(inv.code)}</b>
+            <span>${FeralAuth.esc(inv.note || 'No note')} · ${inv.uses}/${inv.max_uses} uses</span>
+          </div>
+          <span class="tag ${status}">${statusLabel}</span>
+          ${status === 'active' ? `<button type="button" class="btn small warn" data-revoke="${FeralAuth.esc(inv.code)}">Revoke</button>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    // Revoke handlers
+    list.querySelectorAll('[data-revoke]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const code = btn.dataset.revoke;
+        if (!confirm(`Revoke invite code ${code}?`)) return;
+        const { error } = await sb.rpc('revoke_invite', { invite_code: code });
+        if (error) {
+          alert('Failed to revoke: ' + error.message);
+        } else {
+          loadInvites();
+        }
+      });
+    });
+  }
+
+  function setupCreateInvite() {
+    const form = document.getElementById('createInviteForm');
+    const msg = document.getElementById('invMsg');
+    const result = document.getElementById('codeResult');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.hidden = true;
+      result.style.display = 'none';
+
+      const note = document.getElementById('invNote').value.trim() || null;
+      const maxUses = parseInt(document.getElementById('invMax').value) || 1;
+      const expiresIn = document.getElementById('invExpires').value ? parseInt(document.getElementById('invExpires').value) : null;
+      const rolesStr = document.getElementById('invRoles').value.trim();
+      const roles = rolesStr ? rolesStr.split(',').map(r => r.trim()).filter(Boolean) : [];
+
+      const btn = document.getElementById('createBtn');
+      btn.disabled = true;
+      btn.textContent = 'Creating...';
+
+      const { data, error } = await sb.rpc('create_invite', {
+        note,
+        max_uses: maxUses,
+        expires_in_days: expiresIn,
+        grant_roles: roles
+      });
+
+      btn.disabled = false;
+      btn.textContent = 'Create invite code';
+
+      if (error) {
+        msg.className = 'msg bad';
+        msg.textContent = FeralAuth.friendlyError(error);
+        msg.hidden = false;
+        return;
+      }
+
+      // Show result
+      const code = data;
+      const url = window.location.origin + '/join?code=' + code;
+      document.getElementById('codeText').textContent = code;
+      document.getElementById('codeUrl').textContent = url;
+      result.style.display = 'block';
+
+      document.getElementById('copyBtn').onclick = () => {
+        navigator.clipboard.writeText(url);
+        document.getElementById('copyBtn').textContent = 'Copied!';
+        setTimeout(() => { document.getElementById('copyBtn').textContent = 'Copy link'; }, 2000);
+      };
+
+      // Refresh list
+      loadInvites();
+    });
+  }
+
+  // --- Members ---
+
+  async function loadMembers() {
+    const { data, error } = await sb.from('profiles').select('*').order('joined_at', { ascending: false });
+    const list = document.getElementById('memberList');
+
+    if (error || !data) {
+      list.innerHTML = `<div class="list-empty">Failed to load members.</div>`;
+      return;
+    }
+
+    if (data.length === 0) {
+      list.innerHTML = `<div class="list-empty">No members yet.</div>`;
+      return;
+    }
+
+    list.innerHTML = data.map(m => {
+      const status = m.is_active ? 'active' : 'inactive';
+      return `
+        <div class="row" data-member-id="${m.id}">
+          <div class="row-info">
+            <b>${FeralAuth.esc(m.display_name || m.handle)}</b>
+            <span>@${FeralAuth.esc(m.handle)} · Joined ${FeralAuth.formatJoined(m.joined_at)}</span>
+          </div>
+          ${m.is_admin ? '<span class="tag">Admin</span>' : ''}
+          ${!m.is_active ? '<span class="tag used">Inactive</span>' : ''}
+        </div>
+      `;
+    }).join('');
+
+    // Click handlers
+    list.querySelectorAll('.row').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        const id = row.dataset.memberId;
+        const member = data.find(m => m.id === id);
+        if (member) showMemberDetail(member);
+      });
+    });
+  }
+
+  function showMemberDetail(member) {
+    selectedMember = member;
+    const detail = document.getElementById('memberDetail');
+    const detailMsg = document.getElementById('detailMsg');
+    detailMsg.hidden = true;
+
+    document.getElementById('detailName').textContent = member.display_name || '@' + member.handle;
+    document.getElementById('detailInfo').innerHTML = `
+      <p><b>Handle:</b> @${FeralAuth.esc(member.handle)}</p>
+      <p><b>Joined:</b> ${new Date(member.joined_at).toLocaleDateString()}</p>
+      <p><b>Active:</b> ${member.is_active ? 'Yes' : 'No'}</p>
+      <p><b>Admin:</b> ${member.is_admin ? 'Yes' : 'No'}</p>
+    `;
+    document.getElementById('detailRoles').value = (member.roles || []).join(', ');
+    document.getElementById('toggleActiveBtn').textContent = member.is_active ? 'Deactivate' : 'Reactivate';
+    detail.style.display = 'block';
+  }
+
+  function setupMemberDetail() {
+    const detailMsg = document.getElementById('detailMsg');
+
+    document.getElementById('saveRolesBtn').addEventListener('click', async () => {
+      if (!selectedMember) return;
+      const rolesStr = document.getElementById('detailRoles').value.trim();
+      const roles = rolesStr ? rolesStr.split(',').map(r => r.trim()).filter(Boolean) : [];
+
+      const { error } = await sb.rpc('set_member_roles', {
+        target_user_id: selectedMember.id,
+        new_roles: roles
+      });
+
+      if (error) {
+        detailMsg.className = 'msg bad';
+        detailMsg.textContent = FeralAuth.friendlyError(error);
+        detailMsg.hidden = false;
+      } else {
+        detailMsg.className = 'msg ok';
+        detailMsg.textContent = 'Roles saved.';
+        detailMsg.hidden = false;
+        loadMembers();
+      }
+    });
+
+    document.getElementById('toggleActiveBtn').addEventListener('click', async () => {
+      if (!selectedMember) return;
+      const newActive = !selectedMember.is_active;
+
+      if (!newActive && !confirm(`Deactivate @${selectedMember.handle}? They will lose access.`)) return;
+
+      const { error } = await sb.rpc('set_member_active', {
+        target_user_id: selectedMember.id,
+        active: newActive
+      });
+
+      if (error) {
+        detailMsg.className = 'msg bad';
+        detailMsg.textContent = FeralAuth.friendlyError(error);
+        detailMsg.hidden = false;
+      } else {
+        selectedMember.is_active = newActive;
+        document.getElementById('toggleActiveBtn').textContent = newActive ? 'Deactivate' : 'Reactivate';
+        detailMsg.className = 'msg ok';
+        detailMsg.textContent = newActive ? 'Member reactivated.' : 'Member deactivated.';
+        detailMsg.hidden = false;
+        loadMembers();
+      }
+    });
+
+    document.getElementById('clearAvatarBtn').addEventListener('click', async () => {
+      if (!selectedMember) return;
+      if (!confirm(`Clear avatar for @${selectedMember.handle}?`)) return;
+
+      // First remove from storage
+      try {
+        await sb.storage.from('avatars').remove([`${selectedMember.id}/avatar.webp`]);
+      } catch (e) {
+        // May not exist, that's OK
+      }
+
+      const { error } = await sb.rpc('admin_clear_avatar', {
+        target_user_id: selectedMember.id
+      });
+
+      if (error) {
+        detailMsg.className = 'msg bad';
+        detailMsg.textContent = FeralAuth.friendlyError(error);
+        detailMsg.hidden = false;
+      } else {
+        detailMsg.className = 'msg ok';
+        detailMsg.textContent = 'Avatar cleared.';
+        detailMsg.hidden = false;
+      }
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

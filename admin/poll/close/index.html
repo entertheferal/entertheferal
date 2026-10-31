@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Close Poll - Admin - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../../../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;--yellow:#b89c2e;--gold:#c9a227;--silver:#6b7280;--bronze:#92400e;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);padding:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2rem,5vw,2.8rem);line-height:1;margin:0 0 .3rem}
+.subtitle{font-size:.85rem;color:var(--ink-soft);margin-bottom:1.5rem}
+.poll-status{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .7rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink)}
+.poll-status.voting{background:var(--green);color:#fff;border-color:var(--green)}
+.poll-status.closed{background:var(--yellow);color:#fff;border-color:var(--yellow)}
+
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+.card{border:2px solid var(--ink);padding:1.25rem;margin-bottom:1.5rem}
+.card h2{font-family:var(--black);font-weight:400;font-size:1.5rem;margin:0 0 1rem;line-height:1}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.5rem 1.2rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.85rem;letter-spacing:.04em;text-decoration:none}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.small{min-height:2.2rem;padding:.4rem .8rem;font-size:.75rem}
+.btn.warn{border-color:var(--red);background:var(--red)}
+.btn.warn:hover{background:var(--paper);color:var(--red)}
+.btn.success{border-color:var(--green);background:var(--green)}
+.btn.success:hover{background:var(--paper);color:var(--green)}
+
+.msg{padding:.6rem .8rem;border:1.5px solid var(--line);font-size:.82rem;margin-bottom:1rem}
+.msg.bad{border-color:var(--red);color:var(--red)}
+.msg.ok{border-color:var(--green);color:var(--green)}
+.msg.warn{border-color:var(--yellow);color:var(--yellow)}
+
+.stat-row{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.stat-row:last-child{border-bottom:0}
+.stat-label{color:var(--ink-soft)}
+.stat-value{font-weight:500}
+
+.results-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.results-table th{text-align:left;padding:.6rem .5rem;border-bottom:2px solid var(--ink);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.results-table td{padding:.6rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+.results-table tr.changed{background:rgba(184,156,46,.1)}
+.results-table tr.kept{background:rgba(184,156,46,.2)}
+.cat-title{font-weight:500}
+.award{display:flex;align-items:center;gap:.4rem}
+.award-medal{width:14px;height:14px;border-radius:50%}
+.medal-gold{background:var(--gold)}
+.medal-silver{background:var(--silver)}
+.medal-bronze{background:var(--bronze)}
+.award-names{font-size:.82rem}
+.award-votes{font-size:.72rem;color:var(--ink-soft)}
+.changed-tag{font-size:.65rem;padding:.1rem .3rem;background:var(--yellow);color:#fff;margin-left:.5rem}
+.kept-tag{font-size:.65rem;padding:.1rem .3rem;background:var(--red);color:#fff;margin-left:.5rem}
+
+.cap-effects{margin-top:1rem}
+.cap-member{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--line);font-size:.85rem}
+.cap-member:last-child{border-bottom:0}
+.cap-count{font-weight:500}
+.cap-count.over{color:var(--red)}
+
+.confirm-checks{margin:1rem 0}
+.confirm-check{display:flex;align-items:flex-start;gap:.5rem;padding:.5rem 0}
+.confirm-check input{margin-top:.2rem}
+.confirm-check label{font-size:.85rem}
+
+.voting-msg{padding:1.5rem;background:var(--green);color:#fff;text-align:center;margin-bottom:1.5rem}
+.voting-msg h3{font-family:var(--black);font-weight:400;font-size:1.3rem;margin:0 0 .5rem}
+.voting-msg p{margin:0}
+
+.loading{padding:3rem;text-align:center;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<div class="wrap">
+  <div id="loading" class="loading">Loading...</div>
+
+  <div id="content" hidden>
+    <h1 id="pollTitle">Close & Publish</h1>
+    <p class="subtitle">
+      <span class="poll-status" id="pollStatus">Voting Open</span>
+    </p>
+
+    <div id="votingOpen" class="voting-msg" hidden>
+      <h3>Voting is still open</h3>
+      <p>Close voting before viewing results.</p>
+    </div>
+
+    <div class="grid">
+      <!-- Results Preview -->
+      <div>
+        <div class="card">
+          <h2>Results Preview</h2>
+          <div id="resultsLoading" class="loading">Loading tally...</div>
+          <table class="results-table" id="resultsTable" hidden>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Gold</th>
+                <th>Silver</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Control Panel -->
+      <div>
+        <div class="card">
+          <h2>Turnout</h2>
+          <div id="turnoutStats">
+            <div class="stat-row">
+              <span class="stat-label">Participants</span>
+              <span class="stat-value" id="participantCount">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Ballots cast</span>
+              <span class="stat-value" id="ballotCount">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Turnout</span>
+              <span class="stat-value" id="turnoutPct">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="capCard" hidden>
+          <h2>Cap Effects</h2>
+          <p style="font-size:.85rem;color:var(--ink-soft);margin:0 0 1rem">
+            Gold cap: <strong id="goldCap">3</strong>
+          </p>
+          <div class="cap-effects" id="capEffects"></div>
+        </div>
+
+        <div class="card" id="closeVotingCard" hidden>
+          <h2>Close Voting</h2>
+          <p style="font-size:.85rem;color:var(--ink-soft)">When ready, close voting to lock in results.</p>
+          <button type="button" class="btn warn" id="closeVotingBtn">Close voting</button>
+        </div>
+
+        <div class="card" id="publishCard" hidden>
+          <h2>Publish Results</h2>
+          <div class="confirm-checks">
+            <div class="confirm-check">
+              <input type="checkbox" id="confirmReviewed">
+              <label for="confirmReviewed">I have reviewed all category winners</label>
+            </div>
+            <div class="confirm-check">
+              <input type="checkbox" id="confirmCap">
+              <label for="confirmCap">I understand the cap effects above</label>
+            </div>
+            <div class="confirm-check">
+              <input type="checkbox" id="confirmFinal">
+              <label for="confirmFinal">I understand this cannot be undone</label>
+            </div>
+          </div>
+          <div class="msg" id="publishMsg" hidden></div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button type="button" class="btn outline" id="reopenVotingBtn">Reopen voting</button>
+            <button type="button" class="btn success" id="publishBtn" disabled>Publish results</button>
+          </div>
+        </div>
+
+        <div class="card" id="publishedCard" hidden>
+          <h2>Published!</h2>
+          <p style="font-size:.9rem">Results are live. Share cards can be generated.</p>
+          <a href="/poll/" class="btn">View results</a>
+        </div>
+
+        <div class="msg" id="errorMsg" hidden></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../../../js/supabase-config.js"></script>
+<script src="../../../js/auth.js"></script>
+<script src="../../../js/poll.js"></script>
+<script type="module">
+// Import cap algorithm (ES modules)
+// In production, this would be bundled. For now, inline the logic.
+
+const CapAlgorithm = {
+  applyCap(categories, settings) {
+    // Simplified inline version
+    const ranked = categories.map(cat => {
+      const groups = this.rankIntoGroups(cat.nominees);
+      const margin = groups.length > 1 ? groups[0][0].votes - groups[1][0].votes : (groups[0]?.[0]?.votes ?? 0);
+      return { ...cat, groups, margin, rawVotes: groups[0]?.[0]?.votes ?? 0 };
+    });
+
+    const ordered = [...ranked].sort((a, b) => (b.margin - a.margin) || (b.rawVotes - a.rawVotes));
+    const goldCounts = {};
+    const results = [];
+
+    for (const cat of ordered) {
+      const rawAward = {
+        gold: cat.groups[0] || [],
+        silver: cat.groups[1] || [],
+        bronze: cat.groups[2] || []
+      };
+
+      if ((cat.groups[0]?.[0]?.votes ?? 0) < settings.minVotesForAward) {
+        results.push({
+          categoryId: cat.categoryId,
+          title: cat.title,
+          position: cat.position,
+          raw: rawAward,
+          final: { gold: [], silver: [], bronze: [], reason: 'Under minimum votes' },
+          changed: true,
+          kept: false
+        });
+        continue;
+      }
+
+      let awarded = null;
+      let awardedLevel = 0;
+
+      for (let i = 0; i < cat.groups.length; i++) {
+        const group = cat.groups[i];
+        const allUnderCap = group.every(n => (goldCounts[n.id] || 0) < settings.goldCap);
+        if (allUnderCap) {
+          awarded = group;
+          awardedLevel = i;
+          break;
+        }
+      }
+
+      let kept = false;
+      if (!awarded && cat.groups[0]) {
+        if (settings.capFallback === 'keep_winner') {
+          awarded = cat.groups[0];
+          kept = true;
+        }
+      }
+
+      if (awarded) {
+        for (const n of awarded) {
+          if (!kept) goldCounts[n.id] = (goldCounts[n.id] || 0) + 1;
+        }
+      }
+
+      let finalAward;
+      if (!awarded) {
+        finalAward = { gold: [], silver: rawAward.gold, bronze: rawAward.silver, reason: 'No eligible winner' };
+      } else if (awardedLevel === 0) {
+        finalAward = { gold: awarded, silver: rawAward.silver, bronze: rawAward.bronze, reason: kept ? 'Kept' : undefined };
+      } else {
+        finalAward = { gold: awarded, silver: cat.groups[0] || [], bronze: cat.groups[1] || [], reason: 'Cap applied' };
+      }
+
+      results.push({
+        categoryId: cat.categoryId,
+        title: cat.title,
+        position: cat.position,
+        raw: rawAward,
+        final: finalAward,
+        changed: awardedLevel > 0 || kept || !awarded,
+        kept
+      });
+    }
+
+    return results.sort((a, b) => a.position - b.position);
+  },
+
+  rankIntoGroups(nominees) {
+    const sorted = [...nominees].sort((a, b) => b.votes - a.votes);
+    const groups = [];
+    let currentVotes = -1;
+    for (const n of sorted) {
+      if (n.votes !== currentVotes) {
+        groups.push([]);
+        currentVotes = n.votes;
+      }
+      groups[groups.length - 1].push(n);
+    }
+    return groups;
+  },
+
+  getSummary(results) {
+    const goldCounts = {};
+    const names = {};
+    let kept = 0;
+    let capApplied = 0;
+
+    for (const r of results) {
+      if (r.final.gold.length > 0) {
+        for (const w of r.final.gold) {
+          goldCounts[w.id] = (goldCounts[w.id] || 0) + 1;
+          names[w.id] = w.name;
+        }
+      }
+      if (r.kept) kept++;
+      else if (r.changed && r.final.gold.length > 0) capApplied++;
+    }
+
+    return { goldCounts, names, kept, capApplied };
+  }
+};
+
+(async function() {
+  'use strict';
+
+  let poll = null;
+  let tally = null;
+  let results = null;
+
+  function esc(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  async function init() {
+    await FeralAuth.renderHeader('headerMenu');
+
+    const isAdmin = await FeralAuth.isAdmin();
+    if (!isAdmin) {
+      window.location.href = '/';
+      return;
+    }
+
+    poll = await FeralPoll.getCurrentPoll();
+
+    document.getElementById('loading').hidden = true;
+    document.getElementById('content').hidden = false;
+
+    if (!poll) {
+      showError('No active poll.');
+      return;
+    }
+
+    document.getElementById('pollTitle').textContent = poll.title || 'Close & Publish';
+    document.getElementById('goldCap').textContent = poll.settings?.gold_cap || 3;
+
+    updateStatusUI();
+    await loadStats();
+
+    if (poll.status === 'voting_open') {
+      document.getElementById('votingOpen').hidden = false;
+      document.getElementById('closeVotingCard').hidden = false;
+      document.getElementById('resultsLoading').textContent = 'Close voting to see results.';
+    } else if (poll.status === 'closed') {
+      await loadResults();
+      document.getElementById('publishCard').hidden = false;
+    } else if (poll.status === 'published') {
+      await loadResults();
+      document.getElementById('publishedCard').hidden = false;
+    }
+
+    setupHandlers();
+  }
+
+  function updateStatusUI() {
+    const el = document.getElementById('pollStatus');
+    el.textContent = FeralPoll.getPollPhaseLabel(poll);
+    el.className = 'poll-status';
+    if (poll.status === 'voting_open') el.classList.add('voting');
+    else if (poll.status === 'closed') el.classList.add('closed');
+  }
+
+  async function loadStats() {
+    const stats = await FeralPoll.getPollStats(poll.id);
+    if (stats) {
+      document.getElementById('participantCount').textContent = stats.participants;
+      document.getElementById('ballotCount').textContent = stats.ballots_cast;
+      document.getElementById('turnoutPct').textContent = stats.turnout_pct + '%';
+    }
+  }
+
+  async function loadResults() {
+    document.getElementById('resultsLoading').hidden = true;
+
+    const { data, error } = await FeralPoll.getPollTally(poll.id);
+
+    if (error) {
+      showError(FeralPoll.friendlyError(error));
+      return;
+    }
+
+    tally = data;
+
+    // Convert tally to algorithm input format
+    const categories = tally.map(cat => ({
+      categoryId: cat.category_id,
+      title: cat.title,
+      position: cat.position,
+      nominees: (cat.nominees || []).map(n => ({
+        id: n.nominee_id,
+        name: n.display_name || n.handle,
+        votes: n.votes
+      }))
+    }));
+
+    // Apply cap algorithm
+    results = CapAlgorithm.applyCap(categories, {
+      goldCap: poll.settings?.gold_cap || 3,
+      minVotesForAward: poll.settings?.min_votes_for_award || 2,
+      capFallback: poll.settings?.cap_fallback || 'keep_winner',
+      tieRule: 'share_gold'
+    });
+
+    renderResults();
+    renderCapEffects();
+  }
+
+  function renderResults() {
+    const table = document.getElementById('resultsTable');
+    const body = document.getElementById('resultsBody');
+
+    body.innerHTML = results.map(r => {
+      const goldNames = r.final.gold.map(n => n.name).join(', ') || '-';
+      const goldVotes = r.final.gold[0]?.votes || 0;
+      const silverNames = r.final.silver.map(n => n.name).join(', ') || '-';
+      const silverVotes = r.final.silver[0]?.votes || 0;
+
+      let tags = '';
+      if (r.kept) tags = '<span class="kept-tag">KEPT</span>';
+      else if (r.changed) tags = '<span class="changed-tag">CAP</span>';
+
+      return `
+        <tr class="${r.kept ? 'kept' : (r.changed ? 'changed' : '')}">
+          <td class="cat-title">${esc(r.title)}</td>
+          <td>
+            <div class="award">
+              <span class="award-medal medal-gold"></span>
+              <span class="award-names">${esc(goldNames)}</span>
+              <span class="award-votes">${goldVotes}v</span>
+              ${tags}
+            </div>
+          </td>
+          <td>
+            <div class="award">
+              <span class="award-medal medal-silver"></span>
+              <span class="award-names">${esc(silverNames)}</span>
+              <span class="award-votes">${silverVotes}v</span>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    table.hidden = false;
+  }
+
+  function renderCapEffects() {
+    const summary = CapAlgorithm.getSummary(results);
+    const card = document.getElementById('capCard');
+    const effects = document.getElementById('capEffects');
+    const goldCap = poll.settings?.gold_cap || 3;
+
+    const entries = Object.entries(summary.goldCounts)
+      .map(([id, count]) => ({ id, name: summary.names[id], count }))
+      .sort((a, b) => b.count - a.count);
+
+    if (entries.length === 0) {
+      effects.innerHTML = '<p style="color:var(--ink-soft);font-size:.85rem">No winners yet.</p>';
+    } else {
+      effects.innerHTML = entries.map(e => `
+        <div class="cap-member">
+          <span>${esc(e.name)}</span>
+          <span class="cap-count ${e.count >= goldCap ? 'over' : ''}">${e.count} gold${e.count >= goldCap ? ' (at cap)' : ''}</span>
+        </div>
+      `).join('');
+    }
+
+    card.hidden = false;
+  }
+
+  function setupHandlers() {
+    // Close voting
+    document.getElementById('closeVotingBtn').addEventListener('click', async () => {
+      if (!confirm('Close voting? No more ballots can be submitted.')) return;
+
+      const btn = document.getElementById('closeVotingBtn');
+      btn.disabled = true;
+
+      const { error } = await FeralPoll.transitionPollStatus(poll.id, 'closed');
+
+      if (error) {
+        showError(FeralPoll.friendlyError(error));
+        btn.disabled = false;
+        return;
+      }
+
+      window.location.reload();
+    });
+
+    // Reopen voting
+    document.getElementById('reopenVotingBtn').addEventListener('click', async () => {
+      if (!confirm('Reopen voting? Members can submit more ballots.')) return;
+
+      const btn = document.getElementById('reopenVotingBtn');
+      btn.disabled = true;
+
+      const { error } = await FeralPoll.transitionPollStatus(poll.id, 'voting_open');
+
+      if (error) {
+        showError(FeralPoll.friendlyError(error));
+        btn.disabled = false;
+        return;
+      }
+
+      window.location.reload();
+    });
+
+    // Confirm checkboxes
+    const checks = ['confirmReviewed', 'confirmCap', 'confirmFinal'];
+    checks.forEach(id => {
+      document.getElementById(id).addEventListener('change', () => {
+        const allChecked = checks.every(c => document.getElementById(c).checked);
+        document.getElementById('publishBtn').disabled = !allChecked;
+      });
+    });
+
+    // Publish
+    document.getElementById('publishBtn').addEventListener('click', async () => {
+      if (!confirm('Publish results? This is permanent and cannot be undone.')) return;
+
+      const btn = document.getElementById('publishBtn');
+      const msg = document.getElementById('publishMsg');
+      btn.disabled = true;
+      msg.hidden = true;
+
+      // Save results to database
+      const resultsToSave = results.map(r => ({
+        category_id: r.categoryId,
+        raw: r.raw,
+        final: r.final,
+        reason: r.final.reason || null
+      }));
+
+      const { error: saveError } = await FeralPoll.saveResults(poll.id, resultsToSave);
+      if (saveError) {
+        msg.textContent = 'Failed to save results: ' + FeralPoll.friendlyError(saveError);
+        msg.className = 'msg bad';
+        msg.hidden = false;
+        btn.disabled = false;
+        return;
+      }
+
+      // Transition to published
+      const { error: transError } = await FeralPoll.transitionPollStatus(poll.id, 'published');
+      if (transError) {
+        msg.textContent = 'Failed to publish: ' + FeralPoll.friendlyError(transError);
+        msg.className = 'msg bad';
+        msg.hidden = false;
+        btn.disabled = false;
+        return;
+      }
+
+      msg.textContent = 'Published! Generating data.json...';
+      msg.className = 'msg ok';
+      msg.hidden = false;
+
+      // Generate data.json content (for manual copy or API)
+      const dataJson = generateDataJson();
+      console.log('data.json:', JSON.stringify(dataJson, null, 2));
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    });
+  }
+
+  function generateDataJson() {
+    const year = new Date().getFullYear();
+    return {
+      poll: {
+        slug: poll.slug,
+        title: poll.title,
+        year: year
+      },
+      categories: results.map(r => {
+        const slug = r.title.toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-');
+
+        const gold = r.final.gold.length > 0
+          ? { names: r.final.gold.map(n => n.name), votes: r.final.gold[0].votes }
+          : null;
+
+        let silver = null;
+        if (r.final.silver.length > 0) {
+          silver = { names: r.final.silver.map(n => n.name), votes: r.final.silver[0].votes };
+        }
+
+        let bronze = null;
+        if (r.final.bronze.length > 0) {
+          bronze = { names: r.final.bronze.map(n => n.name), votes: r.final.bronze[0].votes };
+        }
+
+        return { slug, title: r.title, gold, silver, bronze };
+      })
+    };
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.className = 'msg bad';
+    el.hidden = false;
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

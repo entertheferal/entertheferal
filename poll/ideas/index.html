@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggest Ideas - The Feral Collective</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+@font-face{font-family:'ED Fairville';src:url(../../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;--yellow:#b89c2e;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);padding:0;min-height:100dvh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+.wrap{max-width:720px;margin:0 auto;padding:2rem 1rem}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,6vw,3rem);line-height:1.1;margin:0 0 .3rem}
+.subtitle{font-size:.85rem;color:var(--ink-soft);margin-bottom:2rem}
+
+.card{border:2px solid var(--ink);padding:1.5rem;margin-bottom:1.5rem}
+.card h2{font-family:var(--black);font-weight:400;font-size:1.4rem;margin:0 0 1rem;line-height:1.1}
+
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.9rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.field textarea{background:var(--paper);border:1.5px solid var(--ink);padding:.7rem;font-size:.95rem;resize:vertical;min-height:4.5rem}
+.field-hint{display:flex;justify-content:space-between;align-items:center}
+.char-count{font-size:.75rem;color:var(--ink-soft)}
+.char-count.warn{color:var(--yellow)}
+.char-count.over{color:var(--red)}
+
+.warning{padding:.6rem .8rem;border:1.5px solid var(--yellow);background:rgba(184,156,46,.08);font-size:.82rem;color:var(--yellow);margin-bottom:.9rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.5rem 1.2rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.85rem;letter-spacing:.04em;text-decoration:none}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.small{min-height:2.2rem;padding:.4rem .8rem;font-size:.75rem}
+
+.msg{padding:.6rem .8rem;border:1.5px solid var(--line);font-size:.82rem;margin-bottom:1rem}
+.msg.bad{border-color:var(--red);color:var(--red)}
+.msg.ok{border-color:var(--green);color:var(--green)}
+
+.ideas-list{border:2px solid var(--ink)}
+.ideas-empty{padding:1.5rem;color:var(--ink-soft);text-align:center}
+
+.idea{display:flex;gap:1rem;padding:1rem;border-bottom:1px solid var(--line);align-items:flex-start}
+.idea:last-child{border-bottom:0}
+.idea-vote{display:flex;flex-direction:column;align-items:center;gap:.2rem;min-width:2.5rem}
+.vote-btn{background:none;border:1.5px solid var(--ink);width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .15s,color .15s}
+.vote-btn:hover{background:var(--paper-2)}
+.vote-btn.voted{background:var(--ink);color:var(--paper)}
+.vote-count{font-size:.75rem;font-weight:500}
+.idea-content{flex:1;min-width:0}
+.idea-text{font-size:.92rem;margin:0 0 .4rem;word-break:break-word}
+.idea-meta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.idea-tag{display:inline-flex;padding:.12rem .4rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink)}
+.idea-tag.accepted{background:var(--green);color:#fff;border-color:var(--green)}
+.idea-tag.declined{background:var(--red);color:#fff;border-color:var(--red)}
+.idea-tag.pending{background:var(--paper-2);color:var(--ink-soft)}
+.idea-tag.own{background:transparent;border-style:dashed}
+
+.join-gate{text-align:center;margin-top:2rem;padding:2rem;border:2px solid var(--ink)}
+.join-gate p{margin:0 0 1rem;font-size:.9rem}
+
+.closed-msg{margin-top:1.5rem;padding:1.5rem;border:2px solid var(--line);text-align:center}
+.closed-msg h3{font-family:var(--black);font-weight:400;font-size:1.3rem;margin:0 0 .5rem}
+.closed-msg p{margin:0;font-size:.85rem;color:var(--ink-soft)}
+
+.loading{padding:3rem;text-align:center;color:var(--ink-soft)}
+
+.nav-links{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;gap:1.5rem}
+.nav-links a{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.nav-links a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<div class="wrap">
+  <div id="loading" class="loading">Loading...</div>
+
+  <div id="content" hidden>
+    <h1>Suggest an Award</h1>
+    <p class="subtitle" id="pollSubtitle">Help decide what categories we vote on</p>
+
+    <div id="joinGate" class="join-gate" hidden>
+      <p>Join the poll to suggest ideas and upvote.</p>
+      <a href="/poll/join/" class="btn">Join the poll</a>
+    </div>
+
+    <div id="mainContent" hidden>
+      <div id="submitSection" class="card">
+        <h2>Your idea</h2>
+        <form id="ideaForm">
+          <div class="field">
+            <label for="ideaText">Award category</label>
+            <textarea id="ideaText" placeholder="Most likely to..." maxlength="90" rows="2"></textarea>
+            <div class="field-hint">
+              <span></span>
+              <span class="char-count" id="charCount">0 / 90</span>
+            </div>
+          </div>
+          <div id="nameWarning" class="warning" hidden>
+            That looks like it might name someone. Awards should be categories (like "Most likely to...") not specific people.
+          </div>
+          <div class="msg" id="submitMsg" hidden></div>
+          <button type="submit" class="btn" id="submitBtn">Submit idea</button>
+          <span id="ideaLimit" style="margin-left:.75rem;font-size:.8rem;color:var(--ink-soft)"></span>
+        </form>
+      </div>
+
+      <div id="closedSection" class="closed-msg" hidden>
+        <h3>Ideas are closed</h3>
+        <p>Idea submission has ended. Voting will open soon.</p>
+      </div>
+
+      <h2 style="font-family:var(--black);font-weight:400;margin:2rem 0 1rem">All ideas</h2>
+      <div class="ideas-list" id="ideasList">
+        <div class="ideas-empty">No ideas yet. Be the first!</div>
+      </div>
+    </div>
+
+    <div class="msg" id="errorMsg" hidden></div>
+
+    <nav class="nav-links">
+      <a href="/poll/join/">Join poll</a>
+      <a href="/poll/rules/">How it works</a>
+    </nav>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../../js/supabase-config.js"></script>
+<script src="../../js/auth.js"></script>
+<script src="../../js/poll.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  let poll = null;
+  let isSignedIn = false;
+  let isParticipant = false;
+  let myIdeaCount = 0;
+  let maxIdeas = 3;
+
+  function esc(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  async function init() {
+    await FeralAuth.renderHeader('headerMenu');
+
+    const user = await FeralAuth.getUser();
+    isSignedIn = !!user;
+
+    poll = await FeralPoll.getCurrentPoll();
+
+    document.getElementById('loading').hidden = true;
+    document.getElementById('content').hidden = false;
+
+    if (!poll) {
+      showError('No active poll right now.');
+      return;
+    }
+
+    if (poll.topic) {
+      document.getElementById('pollSubtitle').textContent = poll.topic;
+    }
+
+    maxIdeas = poll.settings?.ideas_per_member || 3;
+
+    // Check participation
+    if (isSignedIn) {
+      isParticipant = await FeralPoll.isParticipant(poll.id);
+    }
+
+    if (!isParticipant) {
+      document.getElementById('joinGate').hidden = false;
+    } else {
+      document.getElementById('mainContent').hidden = false;
+
+      // Check if ideas are still open
+      const ideasOpen = poll.status === 'ideas_open';
+      const ideasClosed = poll.ideas_close_at && new Date(poll.ideas_close_at) < new Date();
+
+      if (!ideasOpen || ideasClosed) {
+        document.getElementById('submitSection').hidden = true;
+        document.getElementById('closedSection').hidden = false;
+      }
+
+      setupForm();
+    }
+
+    await loadIdeas();
+  }
+
+  async function loadIdeas() {
+    const ideas = await FeralPoll.getIdeas(poll.id);
+    const list = document.getElementById('ideasList');
+
+    // Count my ideas
+    myIdeaCount = ideas.filter(i => i.is_own).length;
+    updateIdeaLimit();
+
+    if (ideas.length === 0) {
+      list.innerHTML = '<div class="ideas-empty">No ideas yet. Be the first!</div>';
+      return;
+    }
+
+    list.innerHTML = ideas.map(idea => {
+      let statusTag = '';
+      if (idea.status === 'accepted') {
+        statusTag = '<span class="idea-tag accepted">Accepted</span>';
+      } else if (idea.status === 'declined') {
+        statusTag = '<span class="idea-tag declined">Not used</span>';
+      } else if (idea.status === 'pending') {
+        statusTag = '<span class="idea-tag pending">Waiting</span>';
+      }
+
+      const ownTag = idea.is_own ? '<span class="idea-tag own">Yours</span>' : '';
+
+      return `
+        <div class="idea" data-id="${idea.id}">
+          <div class="idea-vote">
+            <button type="button" class="vote-btn ${idea.user_upvoted ? 'voted' : ''}" data-id="${idea.id}" ${!isParticipant || poll.status !== 'ideas_open' ? 'disabled' : ''}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+              </svg>
+            </button>
+            <span class="vote-count">${idea.upvote_count}</span>
+          </div>
+          <div class="idea-content">
+            <p class="idea-text">${esc(idea.text)}</p>
+            <div class="idea-meta">
+              ${statusTag}
+              ${ownTag}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Vote handlers
+    list.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const ideaId = btn.dataset.id;
+        btn.disabled = true;
+
+        const { data, error } = await FeralPoll.toggleUpvote(ideaId);
+
+        if (error) {
+          btn.disabled = false;
+          showError(FeralPoll.friendlyError(error));
+          return;
+        }
+
+        // Update UI
+        const countEl = btn.nextElementSibling;
+        const currentCount = parseInt(countEl.textContent) || 0;
+        if (data) {
+          btn.classList.add('voted');
+          countEl.textContent = currentCount + 1;
+        } else {
+          btn.classList.remove('voted');
+          countEl.textContent = Math.max(0, currentCount - 1);
+        }
+        btn.disabled = false;
+      });
+    });
+  }
+
+  function setupForm() {
+    const textarea = document.getElementById('ideaText');
+    const charCount = document.getElementById('charCount');
+    const warning = document.getElementById('nameWarning');
+    const form = document.getElementById('ideaForm');
+    const submitMsg = document.getElementById('submitMsg');
+
+    textarea.addEventListener('input', () => {
+      const len = textarea.value.length;
+      charCount.textContent = `${len} / 90`;
+      charCount.className = 'char-count' + (len > 80 ? ' warn' : '') + (len > 90 ? ' over' : '');
+
+      // Check for name pattern
+      warning.hidden = !FeralPoll.looksLikeItNamesSomeone(textarea.value);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitMsg.hidden = true;
+
+      const text = textarea.value.trim();
+      if (text.length < 10) {
+        submitMsg.textContent = 'Idea must be at least 10 characters.';
+        submitMsg.className = 'msg bad';
+        submitMsg.hidden = false;
+        return;
+      }
+
+      if (myIdeaCount >= maxIdeas) {
+        submitMsg.textContent = `You've submitted the maximum number of ideas (${maxIdeas}).`;
+        submitMsg.className = 'msg bad';
+        submitMsg.hidden = false;
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const { error } = await FeralPoll.submitIdea(poll.id, text);
+
+      btn.disabled = false;
+      btn.textContent = 'Submit idea';
+
+      if (error) {
+        submitMsg.textContent = FeralPoll.friendlyError(error);
+        submitMsg.className = 'msg bad';
+        submitMsg.hidden = false;
+        return;
+      }
+
+      // Success
+      submitMsg.textContent = 'Idea submitted!';
+      submitMsg.className = 'msg ok';
+      submitMsg.hidden = false;
+      textarea.value = '';
+      charCount.textContent = '0 / 90';
+      warning.hidden = true;
+
+      await loadIdeas();
+    });
+  }
+
+  function updateIdeaLimit() {
+    const remaining = maxIdeas - myIdeaCount;
+    const el = document.getElementById('ideaLimit');
+    if (remaining <= 0) {
+      el.textContent = `(${maxIdeas}/${maxIdeas} ideas used)`;
+      document.getElementById('submitBtn').disabled = true;
+    } else {
+      el.textContent = `(${myIdeaCount}/${maxIdeas} ideas used)`;
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.className = 'msg bad';
+    el.hidden = false;
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

@@ -1,61 +1,224 @@
 # Poll System
 
-This directory contains community polls for the Feral Collective.
+This directory contains the full monthly poll system for the Feral Collective.
+
+## Overview
+
+The poll system supports a complete cycle:
+1. **Join** - Members opt in to participate
+2. **Ideas** - Participants suggest award categories
+3. **Curate** - Admins review and accept ideas
+4. **Vote** - Participants vote anonymously
+5. **Close** - Admin closes voting and reviews results
+6. **Publish** - Results go live with share cards
 
 ## Structure
 
 ```
 poll/
-├── halloween-2026/          # Poll instance
-│   ├── index.html           # Responsive results page
-│   ├── data.json            # Source of truth for results
-│   ├── captions.json        # Share card captions
-│   ├── art/                 # Texture assets
-│   ├── icons/               # Hand-drawn digit images
-│   ├── share/               # Generated share cards (PNGs)
-│   │   ├── c-*.png          # Category winner cards
-│   │   ├── p-*.png          # Personal result cards
-│   │   ├── h-*.png          # Highlight cards
-│   │   └── manifest.json    # Generated card manifest
-│   ├── c/<slug>/index.html  # OG preview pages (generated)
-│   └── p/<slug>/index.html  # Personal OG pages (generated)
+├── index.html              # Poll landing page
+├── join/index.html         # Join the current poll
+├── ideas/index.html        # Submit and upvote ideas
+├── vote/index.html         # Voting interface
+├── rules/index.html        # How it works
+├── template/
+│   └── results.js          # Shared results rendering utilities
+├── halloween-2026/         # Example poll instance
+│   ├── index.html          # Responsive results page
+│   ├── data.json           # Source of truth for results
+│   ├── captions.json       # Share card captions
+│   ├── art/                # Texture assets
+│   ├── icons/              # Hand-drawn digit images
+│   ├── share/              # Generated share cards (PNGs)
+│   ├── c/<slug>/           # Category OG preview pages
+│   └── p/<slug>/           # Personal OG pages
 └── README.md
+
+admin/
+└── poll/
+    ├── curate/index.html   # Accept/decline ideas, open voting
+    └── close/index.html    # Close voting, preview & publish results
+
+js/
+├── poll.js                 # Poll frontend utilities
+
+scripts/
+├── lib/
+│   └── cap-algorithm.ts    # Gold cap algorithm
+├── validate-poll.mjs       # Validate data.json
+└── make-share-cards.mjs    # Generate share card PNGs
+
+supabase/
+└── migrations/
+    └── 20261030000000_polls.sql  # Database schema
 ```
 
-## Adding a New Poll
+## Database Tables
 
-1. **Copy the template**
-   ```bash
-   cp -r poll/halloween-2026 poll/your-poll-slug
-   ```
+- **polls** - Poll configuration and status
+- **poll_participants** - Who joined each poll
+- **ideas** - Submitted category suggestions
+- **idea_upvotes** - Community votes for ideas
+- **categories** - Final ballot categories
+- **ballots_cast** - Records that someone voted (not who they voted for)
+- **votes** - Anonymous votes (no user link)
+- **results** - Computed results after voting closes
+- **audit_log** - Admin action history
+- **share_opt_outs** - Members who opted out of share cards
 
-2. **Edit data.json**
-   - Update `poll.slug`, `poll.title`, `poll.year`
-   - Replace `categories` with your poll results
-   - Slug format: lowercase, no punctuation, hyphens for spaces
+## Three Hard Gates
 
-3. **Edit captions.json**
-   - Update `highlights` with your special mentions
-   - Add any category-specific captions
+The system enforces three critical gates:
 
-4. **Update index.html**
-   - Update embedded `DATA` constant (or load from data.json)
-   - Update `HIGHLIGHTS` array
-   - Update title, meta tags, canonical URL
+1. **Voting cannot start until joining is closed and locked**
+   - Prevents late joins during voting
 
-5. **Copy assets**
-   - Place textures in `art/`
-   - Place digit images in `icons/`
+2. **No results visible while voting is open**
+   - No tallies, no counts, nothing - true anonymity
 
-6. **Generate share cards**
-   ```bash
-   npm run share-cards
-   ```
+3. **Results public only after admin publishes**
+   - Admin reviews cap effects before going live
 
-7. **Validate data**
-   ```bash
-   npm run validate-poll poll/your-poll-slug/data.json
-   ```
+## Cap Algorithm
+
+To prevent one person from winning everything:
+
+- Each person can win at most N gold medals (default: 3)
+- Categories are processed by "margin" (biggest gap between 1st and 2nd)
+- If winner is at cap, runner-up wins instead
+- If no eligible runner-up, original winner is "kept" (marked specially)
+
+See `scripts/lib/cap-algorithm.ts` for the implementation.
+
+## Poll Lifecycle
+
+### 1. Create Poll (Admin)
+
+```sql
+SELECT create_poll('november-2026', 'November Awards', 'Topic description');
+```
+
+Or via admin dashboard.
+
+### 2. Open for Ideas
+
+Admin transitions: `draft` → `ideas_open`
+
+Members can:
+- Join at `/poll/join/`
+- Submit ideas at `/poll/ideas/`
+- Upvote other ideas
+
+### 3. Curate Ideas
+
+Admin transitions: `ideas_open` → `curating`
+
+At `/admin/poll/curate/`:
+- Review ideas sorted by upvotes
+- Accept, decline, or merge ideas
+- Set joining deadline
+- Categories are created from accepted ideas
+
+### 4. Open Voting
+
+Admin transitions: `curating` → `voting_open`
+
+Requirements:
+- Join window must be closed
+- Minimum categories met (default: 12)
+- Minimum participants met (default: 10)
+
+All participants are locked. At `/poll/vote/`:
+- Pick one person per category
+- Can't vote for yourself
+- Same person max N times (default: 3)
+- Votes are completely anonymous
+
+### 5. Close Voting
+
+Admin transitions: `voting_open` → `closed`
+
+At `/admin/poll/close/`:
+- View raw tallies (admin only)
+- See cap algorithm effects
+- Preview final results
+- Can reopen if needed
+
+### 6. Publish Results
+
+Admin transitions: `closed` → `published`
+
+- Results become visible to everyone
+- data.json is generated for the results page
+- Share cards can be generated
+
+## Settings
+
+Default poll settings (can be customized per poll):
+
+```json
+{
+  "votes_per_person_per_ballot": 3,
+  "gold_cap": 3,
+  "min_votes_for_award": 2,
+  "max_categories": 20,
+  "min_categories": 12,
+  "min_participants": 10,
+  "ideas_per_member": 3,
+  "cap_fallback": "keep_winner",
+  "tie_rule": "share_gold"
+}
+```
+
+## Anonymous Voting
+
+Votes are truly anonymous:
+
+- The `votes` table has `ballot_token` but no `member_id`
+- `ballots_cast` records THAT you voted, not HOW
+- No query can link a member to their votes
+- RLS blocks all direct access to votes table
+
+Members get a `ballot_token` to edit their vote. If they lose it, they can't edit.
+
+## Data Export & Delete
+
+The system supports GDPR/CCPA:
+
+**Export includes:**
+- Poll participation
+- Ideas submitted
+- Upvotes given
+- Dates ballots were cast (not content)
+
+**Delete removes:**
+- All ideas
+- All upvotes
+- Participation records
+- Ballot records
+- Published results: `nominee_id` becomes NULL ("a former member")
+
+## Scripts
+
+### Validate poll data
+
+```bash
+npm run validate-poll                    # Default: halloween-2026
+npm run validate-poll path/to/data.json  # Custom path
+```
+
+### Generate share cards
+
+```bash
+npm run share-cards                      # Default poll
+npm run share-cards --poll=november-2026 # Specific poll
+```
+
+Requires Playwright. Install with:
+```bash
+npm install
+npx playwright install chromium
+```
 
 ## Data Format
 
@@ -64,8 +227,8 @@ poll/
 ```json
 {
   "poll": {
-    "slug": "halloween-2026",
-    "title": "Halloween Horror Movie Poll",
+    "slug": "november-2026",
+    "title": "November Awards",
     "year": 2026
   },
   "categories": [
@@ -87,35 +250,9 @@ poll/
 - Everyone else: `"singles"` (everyone got 1 vote)
 - No result: `null`
 
-## Scripts
-
-### Validate poll data
-```bash
-npm run validate-poll                    # Default: poll/halloween-2026/data.json
-npm run validate-poll path/to/data.json  # Custom path
-```
-
-### Generate share cards
-```bash
-npm run share-cards
-```
-
-Requires Playwright. Install with:
-```bash
-npm install
-npx playwright install chromium
-```
-
-## Indexing
-
-The results page has `noindex` by default. To enable search indexing:
-
-1. Edit `index.html`
-2. Change `<meta name="robots" content="noindex,nofollow">` to `<meta name="robots" content="index,follow">`
-3. Optionally update the `NOINDEX` constant in the script
-
 ## Privacy Notes
 
 - Member names appear on results page and in share cards
 - Share cards are public images once posted to social media
-- Consider updating privacy policy when launching new polls
+- Members can opt out of share cards after results publish
+- Votes are anonymous - even admins can't see who voted for whom

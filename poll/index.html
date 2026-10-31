@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poll - The Feral Collective</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);padding:0;min-height:100dvh;display:flex;flex-direction:column}
+a{color:inherit}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent;cursor:pointer}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem}
+.content{text-align:center;max-width:480px}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,7vw,4rem);line-height:1;margin:0 0 1rem}
+p{font-size:1rem;color:var(--ink-soft);margin:0 0 2rem;font-family:var(--archivo)}
+.poll-card{border:2px solid var(--ink);padding:1.5rem;text-align:left;margin-bottom:1.5rem}
+.poll-card h2{font-family:var(--black);font-weight:400;font-size:1.5rem;margin:0 0 .5rem}
+.poll-card .status{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;border:1.5px solid var(--ink);display:inline-block;margin-bottom:.75rem}
+.poll-card .status.published{background:var(--green);color:#fff;border-color:var(--green)}
+.poll-card .status.voting{background:var(--ink);color:var(--paper)}
+.poll-card .status.ideas{background:var(--paper-2)}
+.poll-card p{font-size:.88rem;margin:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.8rem;padding:.6rem 1.5rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.88rem;letter-spacing:.04em;text-decoration:none}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.outline{background:transparent;color:var(--ink)}
+
+.archive{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--line)}
+.archive h3{font-family:var(--black);font-weight:400;font-size:1.2rem;margin:0 0 1rem}
+.archive-list{display:flex;flex-direction:column;gap:.5rem}
+.archive-list a{font-size:.88rem;text-decoration:none;display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--line)}
+.archive-list a:hover{color:var(--red)}
+.archive-list .year{color:var(--ink-soft);font-size:.8rem}
+
+.loading{padding:3rem;text-align:center;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<div class="main">
+  <div class="content">
+    <h1>Polls</h1>
+    <p>Community awards and fun votes.</p>
+
+    <div id="currentPoll"></div>
+
+    <div class="archive" id="archive" hidden>
+      <h3>Past polls</h3>
+      <div class="archive-list" id="archiveList">
+        <a href="/poll/halloween-2026/">
+          <span>Halloween Horror Movie Poll</span>
+          <span class="year">2026</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/poll.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  function esc(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  async function init() {
+    await FeralAuth.renderHeader('headerMenu');
+
+    // Show archive
+    document.getElementById('archive').hidden = false;
+
+    // Check for current poll
+    const poll = await FeralPoll.getCurrentPoll();
+    const currentEl = document.getElementById('currentPoll');
+
+    if (poll) {
+      let statusClass = '';
+      let statusText = FeralPoll.getPollPhaseLabel(poll);
+
+      if (poll.status === 'published') {
+        statusClass = 'published';
+      } else if (poll.status === 'voting_open') {
+        statusClass = 'voting';
+      } else if (poll.status === 'ideas_open') {
+        statusClass = 'ideas';
+      }
+
+      let actionHtml = '';
+      if (poll.status === 'ideas_open' || poll.status === 'curating') {
+        actionHtml = `<a href="/poll/join/" class="btn" style="margin-top:1rem">Join the poll</a>`;
+      } else if (poll.status === 'voting_open') {
+        actionHtml = `<a href="/poll/vote/" class="btn" style="margin-top:1rem">Vote now</a>`;
+      } else if (poll.status === 'published') {
+        actionHtml = `<a href="/poll/${esc(poll.slug)}/" class="btn" style="margin-top:1rem">See results</a>`;
+      }
+
+      currentEl.innerHTML = `
+        <div class="poll-card">
+          <span class="status ${statusClass}">${esc(statusText)}</span>
+          <h2>${esc(poll.title)}</h2>
+          ${poll.topic ? `<p>${esc(poll.topic)}</p>` : ''}
+          ${actionHtml}
+        </div>
+      `;
+    } else {
+      currentEl.innerHTML = `
+        <div class="poll-card">
+          <span class="status">Coming soon</span>
+          <h2>Next poll</h2>
+          <p>No active poll right now. Check back soon!</p>
+        </div>
+      `;
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
