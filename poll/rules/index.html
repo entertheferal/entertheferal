@@ -63,10 +63,11 @@ section{padding-top:clamp(2.6rem,6vw,4.4rem)}
 .dia{border:2px solid var(--ink);padding:16px;background:var(--paper)}
 .dia .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;display:block}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
-.aw{width:56px;height:56px;border:2px solid var(--ink);display:grid;place-items:center;font:400 1.5rem var(--bl);background:var(--ink);color:var(--paper)}
+.awards{display:flex;gap:6px;flex-wrap:nowrap}
+.aw{width:56px;height:56px;border:2px solid var(--ink);display:grid;place-items:center;font:400 1.5rem var(--bl);background:var(--ink);color:var(--paper);flex:none}
 .aw.out{background:transparent;color:var(--ink);border-style:dashed}
-.arrow{font-size:1.4rem;line-height:1;padding:0 4px}
-.who{font:600 .95rem var(--ar);min-width:7.5rem}.who small{display:block;font:400 .7rem var(--mo);color:var(--soft);letter-spacing:.06em}
+.arrow{font-size:1.4rem;line-height:1;padding:0 4px;flex:none}
+.who{font:600 .95rem var(--ar);min-width:7.5rem;flex:none}.who small{display:block;font:400 .7rem var(--mo);color:var(--soft);letter-spacing:.06em}
 .pass{margin-left:auto;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
 .tie{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;font:600 .95rem var(--ar)}
 /* join */
@@ -92,7 +93,7 @@ footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--
  .wrap{padding:0 16px}.bar{padding-left:16px;padding-right:16px;position:sticky;top:0;z-index:20}
  .hero .art{height:80%;right:-28%;opacity:.3}
  .two,.turn,.band .in{grid-template-columns:1fr}.fp>div{grid-template-columns:5.4rem 1fr;padding:14px 14px;gap:6px 14px}.fp .dg img{height:4.4rem}.band .art{opacity:.3}
- .row{gap:6px}.aw{width:46px;height:46px}.pass{margin-left:0;flex-basis:100%}
+ .row{gap:6px}.aw{width:38px;height:38px;font-size:1.1rem}.awards{gap:4px}.pass{margin-left:0;flex-basis:100%}.who{min-width:5rem;font-size:.85rem}
  .hero h1{font-size:clamp(3.2rem,12vw,4.2rem)}
  .hero .sub{font-size:1rem}
  .chips{gap:6px}.chips a{padding:5px 9px;font-size:.62rem}
@@ -198,16 +199,18 @@ footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--
   document.getElementById('diaNextSub').textContent = 'got the ' + extra + ' left over';
 
   // Build award boxes
-  var awards = '';
+  var awards = '<span class="awards">';
   for (var i = 1; i <= total; i++) {
     awards += '<span class="aw' + (i > cap ? ' out' : '') + '">' + i + '</span>';
   }
+  awards += '</span>';
   document.getElementById('diaAwards').innerHTML = awards;
 
-  var nextAwards = '';
+  var nextAwards = '<span class="awards">';
   for (var j = cap + 1; j <= total; j++) {
     nextAwards += '<span class="aw">' + j + '</span>';
   }
+  nextAwards += '</span>';
   document.getElementById('diaNext').innerHTML = nextAwards;
 
   // Update diagram aria-label
