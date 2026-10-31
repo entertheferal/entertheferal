@@ -1,0 +1,929 @@
+{
+  "generated": "2026-10-31T00:30:15.949Z",
+  "cards": [
+    {
+      "type": "winner",
+      "slug": "wait-i-just-realized-before-the-lights-go-out",
+      "size": "story",
+      "file": "c-wait-i-just-realized-before-the-lights-go-out-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "wait-i-just-realized-before-the-lights-go-out",
+      "size": "feed",
+      "file": "c-wait-i-just-realized-before-the-lights-go-out-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "wait-i-just-realized-before-the-lights-go-out",
+      "size": "og",
+      "file": "c-wait-i-just-realized-before-the-lights-go-out-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "name-the-zombies",
+      "size": "story",
+      "file": "c-name-the-zombies-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "name-the-zombies",
+      "size": "feed",
+      "file": "c-name-the-zombies-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "name-the-zombies",
+      "size": "og",
+      "file": "c-name-the-zombies-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "survives-but-trips-in-the-final-scene",
+      "size": "story",
+      "file": "c-survives-but-trips-in-the-final-scene-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "survives-but-trips-in-the-final-scene",
+      "size": "feed",
+      "file": "c-survives-but-trips-in-the-final-scene-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "survives-but-trips-in-the-final-scene",
+      "size": "og",
+      "file": "c-survives-but-trips-in-the-final-scene-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "i-think-its-gone-jinx",
+      "size": "story",
+      "file": "c-i-think-its-gone-jinx-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "i-think-its-gone-jinx",
+      "size": "feed",
+      "file": "c-i-think-its-gone-jinx-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "i-think-its-gone-jinx",
+      "size": "og",
+      "file": "c-i-think-its-gone-jinx-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-a-bite",
+      "size": "story",
+      "file": "c-hides-a-bite-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-a-bite",
+      "size": "feed",
+      "file": "c-hides-a-bite-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-a-bite",
+      "size": "og",
+      "file": "c-hides-a-bite-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "drops-the-keys",
+      "size": "story",
+      "file": "c-drops-the-keys-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "drops-the-keys",
+      "size": "feed",
+      "file": "c-drops-the-keys-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "drops-the-keys",
+      "size": "og",
+      "file": "c-drops-the-keys-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "distracted-by-an-abandoned-building",
+      "size": "story",
+      "file": "c-distracted-by-an-abandoned-building-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "distracted-by-an-abandoned-building",
+      "size": "feed",
+      "file": "c-distracted-by-an-abandoned-building-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "distracted-by-an-abandoned-building",
+      "size": "og",
+      "file": "c-distracted-by-an-abandoned-building-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "goes-back-to-save-someone-both-survive",
+      "size": "story",
+      "file": "c-goes-back-to-save-someone-both-survive-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "goes-back-to-save-someone-both-survive",
+      "size": "feed",
+      "file": "c-goes-back-to-save-someone-both-survive-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "goes-back-to-save-someone-both-survive",
+      "size": "og",
+      "file": "c-goes-back-to-save-someone-both-survive-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "takes-charge-in-a-panic",
+      "size": "story",
+      "file": "c-takes-charge-in-a-panic-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "takes-charge-in-a-panic",
+      "size": "feed",
+      "file": "c-takes-charge-in-a-panic-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "takes-charge-in-a-panic",
+      "size": "og",
+      "file": "c-takes-charge-in-a-panic-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "joke-at-the-worst-moment",
+      "size": "story",
+      "file": "c-joke-at-the-worst-moment-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "joke-at-the-worst-moment",
+      "size": "feed",
+      "file": "c-joke-at-the-worst-moment-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "joke-at-the-worst-moment",
+      "size": "og",
+      "file": "c-joke-at-the-worst-moment-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "silent-then-the-right-tool",
+      "size": "story",
+      "file": "c-silent-then-the-right-tool-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "silent-then-the-right-tool",
+      "size": "feed",
+      "file": "c-silent-then-the-right-tool-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "silent-then-the-right-tool",
+      "size": "og",
+      "file": "c-silent-then-the-right-tool-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "snacks-first-aid-charger",
+      "size": "story",
+      "file": "c-snacks-first-aid-charger-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "snacks-first-aid-charger",
+      "size": "feed",
+      "file": "c-snacks-first-aid-charger-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "snacks-first-aid-charger",
+      "size": "og",
+      "file": "c-snacks-first-aid-charger-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cool-jacket-vague-backstory",
+      "size": "story",
+      "file": "c-cool-jacket-vague-backstory-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cool-jacket-vague-backstory",
+      "size": "feed",
+      "file": "c-cool-jacket-vague-backstory-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cool-jacket-vague-backstory",
+      "size": "og",
+      "file": "c-cool-jacket-vague-backstory-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "bad-feeling-but-opens-the-door",
+      "size": "story",
+      "file": "c-bad-feeling-but-opens-the-door-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "bad-feeling-but-opens-the-door",
+      "size": "feed",
+      "file": "c-bad-feeling-but-opens-the-door-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "bad-feeling-but-opens-the-door",
+      "size": "og",
+      "file": "c-bad-feeling-but-opens-the-door-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ive-seen-this-before-has-a-plan",
+      "size": "story",
+      "file": "c-ive-seen-this-before-has-a-plan-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ive-seen-this-before-has-a-plan",
+      "size": "feed",
+      "file": "c-ive-seen-this-before-has-a-plan-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ive-seen-this-before-has-a-plan",
+      "size": "og",
+      "file": "c-ive-seen-this-before-has-a-plan-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "volunteers-to-go-first",
+      "size": "story",
+      "file": "c-volunteers-to-go-first-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "volunteers-to-go-first",
+      "size": "feed",
+      "file": "c-volunteers-to-go-first-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "volunteers-to-go-first",
+      "size": "og",
+      "file": "c-volunteers-to-go-first-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "insists-theres-a-logical-explanation",
+      "size": "story",
+      "file": "c-insists-theres-a-logical-explanation-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "insists-theres-a-logical-explanation",
+      "size": "feed",
+      "file": "c-insists-theres-a-logical-explanation-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "insists-theres-a-logical-explanation",
+      "size": "og",
+      "file": "c-insists-theres-a-logical-explanation-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "runs-fast-in-heels-or-one-sock",
+      "size": "story",
+      "file": "c-runs-fast-in-heels-or-one-sock-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "runs-fast-in-heels-or-one-sock",
+      "size": "feed",
+      "file": "c-runs-fast-in-heels-or-one-sock-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "runs-fast-in-heels-or-one-sock",
+      "size": "og",
+      "file": "c-runs-fast-in-heels-or-one-sock-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-be-fine-go-without-me",
+      "size": "story",
+      "file": "c-ill-be-fine-go-without-me-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-be-fine-go-without-me",
+      "size": "feed",
+      "file": "c-ill-be-fine-go-without-me-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-be-fine-go-without-me",
+      "size": "og",
+      "file": "c-ill-be-fine-go-without-me-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-in-the-most-obvious-spot",
+      "size": "story",
+      "file": "c-hides-in-the-most-obvious-spot-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-in-the-most-obvious-spot",
+      "size": "feed",
+      "file": "c-hides-in-the-most-obvious-spot-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "hides-in-the-most-obvious-spot",
+      "size": "og",
+      "file": "c-hides-in-the-most-obvious-spot-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "says-hello-into-the-dark",
+      "size": "story",
+      "file": "c-says-hello-into-the-dark-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "says-hello-into-the-dark",
+      "size": "feed",
+      "file": "c-says-hello-into-the-dark-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "says-hello-into-the-dark",
+      "size": "og",
+      "file": "c-says-hello-into-the-dark-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "falls-asleep-on-watch",
+      "size": "story",
+      "file": "c-falls-asleep-on-watch-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "falls-asleep-on-watch",
+      "size": "feed",
+      "file": "c-falls-asleep-on-watch-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "falls-asleep-on-watch",
+      "size": "og",
+      "file": "c-falls-asleep-on-watch-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "shortcut-through-the-abandoned-place",
+      "size": "story",
+      "file": "c-shortcut-through-the-abandoned-place-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "shortcut-through-the-abandoned-place",
+      "size": "feed",
+      "file": "c-shortcut-through-the-abandoned-place-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "shortcut-through-the-abandoned-place",
+      "size": "og",
+      "file": "c-shortcut-through-the-abandoned-place-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cant-trust-anyone-trusts-a-smiling-stranger",
+      "size": "story",
+      "file": "c-cant-trust-anyone-trusts-a-smiling-stranger-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cant-trust-anyone-trusts-a-smiling-stranger",
+      "size": "feed",
+      "file": "c-cant-trust-anyone-trusts-a-smiling-stranger-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "cant-trust-anyone-trusts-a-smiling-stranger",
+      "size": "og",
+      "file": "c-cant-trust-anyone-trusts-a-smiling-stranger-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "detailed-end-of-world-journal",
+      "size": "story",
+      "file": "c-detailed-end-of-world-journal-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "detailed-end-of-world-journal",
+      "size": "feed",
+      "file": "c-detailed-end-of-world-journal-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "detailed-end-of-world-journal",
+      "size": "og",
+      "file": "c-detailed-end-of-world-journal-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "adopts-every-stray",
+      "size": "story",
+      "file": "c-adopts-every-stray-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "adopts-every-stray",
+      "size": "feed",
+      "file": "c-adopts-every-stray-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "adopts-every-stray",
+      "size": "og",
+      "file": "c-adopts-every-stray-og.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-scout-ahead-returns-with-new-friends",
+      "size": "story",
+      "file": "c-ill-scout-ahead-returns-with-new-friends-story.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-scout-ahead-returns-with-new-friends",
+      "size": "feed",
+      "file": "c-ill-scout-ahead-returns-with-new-friends-feed.png"
+    },
+    {
+      "type": "winner",
+      "slug": "ill-scout-ahead-returns-with-new-friends",
+      "size": "og",
+      "file": "c-ill-scout-ahead-returns-with-new-friends-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "aurora",
+      "name": "Aurora",
+      "size": "story",
+      "file": "p-aurora-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "aurora",
+      "name": "Aurora",
+      "size": "feed",
+      "file": "p-aurora-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "aurora",
+      "name": "Aurora",
+      "size": "og",
+      "file": "p-aurora-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "ed-d-mame",
+      "name": "Ed D. Mame",
+      "size": "story",
+      "file": "p-ed-d-mame-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "ed-d-mame",
+      "name": "Ed D. Mame",
+      "size": "feed",
+      "file": "p-ed-d-mame-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "ed-d-mame",
+      "name": "Ed D. Mame",
+      "size": "og",
+      "file": "p-ed-d-mame-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "drakaina-mimosa",
+      "name": "Drakaina Mimosa",
+      "size": "story",
+      "file": "p-drakaina-mimosa-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "drakaina-mimosa",
+      "name": "Drakaina Mimosa",
+      "size": "feed",
+      "file": "p-drakaina-mimosa-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "drakaina-mimosa",
+      "name": "Drakaina Mimosa",
+      "size": "og",
+      "file": "p-drakaina-mimosa-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "andrada",
+      "name": "Andrada",
+      "size": "story",
+      "file": "p-andrada-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "andrada",
+      "name": "Andrada",
+      "size": "feed",
+      "file": "p-andrada-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "andrada",
+      "name": "Andrada",
+      "size": "og",
+      "file": "p-andrada-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "daria-f",
+      "name": "Daria.f",
+      "size": "story",
+      "file": "p-daria-f-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "daria-f",
+      "name": "Daria.f",
+      "size": "feed",
+      "file": "p-daria-f-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "daria-f",
+      "name": "Daria.f",
+      "size": "og",
+      "file": "p-daria-f-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "esti",
+      "name": "Esti",
+      "size": "story",
+      "file": "p-esti-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "esti",
+      "name": "Esti",
+      "size": "feed",
+      "file": "p-esti-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "esti",
+      "name": "Esti",
+      "size": "og",
+      "file": "p-esti-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "thewinternyx",
+      "name": "TheWinterNyx",
+      "size": "story",
+      "file": "p-thewinternyx-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "thewinternyx",
+      "name": "TheWinterNyx",
+      "size": "feed",
+      "file": "p-thewinternyx-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "thewinternyx",
+      "name": "TheWinterNyx",
+      "size": "og",
+      "file": "p-thewinternyx-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "heather",
+      "name": "Heather",
+      "size": "story",
+      "file": "p-heather-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "heather",
+      "name": "Heather",
+      "size": "feed",
+      "file": "p-heather-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "heather",
+      "name": "Heather",
+      "size": "og",
+      "file": "p-heather-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kasia",
+      "name": "Kasia",
+      "size": "story",
+      "file": "p-kasia-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kasia",
+      "name": "Kasia",
+      "size": "feed",
+      "file": "p-kasia-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kasia",
+      "name": "Kasia",
+      "size": "og",
+      "file": "p-kasia-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "pauline-kim",
+      "name": "Pauline Kim",
+      "size": "story",
+      "file": "p-pauline-kim-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "pauline-kim",
+      "name": "Pauline Kim",
+      "size": "feed",
+      "file": "p-pauline-kim-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "pauline-kim",
+      "name": "Pauline Kim",
+      "size": "og",
+      "file": "p-pauline-kim-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kyoko",
+      "name": "Kyoko",
+      "size": "story",
+      "file": "p-kyoko-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kyoko",
+      "name": "Kyoko",
+      "size": "feed",
+      "file": "p-kyoko-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "kyoko",
+      "name": "Kyoko",
+      "size": "og",
+      "file": "p-kyoko-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "emmi",
+      "name": "Emmi",
+      "size": "story",
+      "file": "p-emmi-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "emmi",
+      "name": "Emmi",
+      "size": "feed",
+      "file": "p-emmi-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "emmi",
+      "name": "Emmi",
+      "size": "og",
+      "file": "p-emmi-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cpt-sparky",
+      "name": "Cpt. Sparky",
+      "size": "story",
+      "file": "p-cpt-sparky-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cpt-sparky",
+      "name": "Cpt. Sparky",
+      "size": "feed",
+      "file": "p-cpt-sparky-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cpt-sparky",
+      "name": "Cpt. Sparky",
+      "size": "og",
+      "file": "p-cpt-sparky-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "henna",
+      "name": "Henna",
+      "size": "story",
+      "file": "p-henna-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "henna",
+      "name": "Henna",
+      "size": "feed",
+      "file": "p-henna-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "henna",
+      "name": "Henna",
+      "size": "og",
+      "file": "p-henna-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "victoriawhoa",
+      "name": "VictoriaWHOA",
+      "size": "story",
+      "file": "p-victoriawhoa-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "victoriawhoa",
+      "name": "VictoriaWHOA",
+      "size": "feed",
+      "file": "p-victoriawhoa-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "victoriawhoa",
+      "name": "VictoriaWHOA",
+      "size": "og",
+      "file": "p-victoriawhoa-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "lyana",
+      "name": "Lyana",
+      "size": "story",
+      "file": "p-lyana-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "lyana",
+      "name": "Lyana",
+      "size": "feed",
+      "file": "p-lyana-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "lyana",
+      "name": "Lyana",
+      "size": "og",
+      "file": "p-lyana-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "anna-i",
+      "name": "Anna I.",
+      "size": "story",
+      "file": "p-anna-i-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "anna-i",
+      "name": "Anna I.",
+      "size": "feed",
+      "file": "p-anna-i-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "anna-i",
+      "name": "Anna I.",
+      "size": "og",
+      "file": "p-anna-i-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cat-laura",
+      "name": "Cat/Laura",
+      "size": "story",
+      "file": "p-cat-laura-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cat-laura",
+      "name": "Cat/Laura",
+      "size": "feed",
+      "file": "p-cat-laura-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "cat-laura",
+      "name": "Cat/Laura",
+      "size": "og",
+      "file": "p-cat-laura-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "squeaky85-lori",
+      "name": "squeaky85 (Lori)",
+      "size": "story",
+      "file": "p-squeaky85-lori-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "squeaky85-lori",
+      "name": "squeaky85 (Lori)",
+      "size": "feed",
+      "file": "p-squeaky85-lori-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "squeaky85-lori",
+      "name": "squeaky85 (Lori)",
+      "size": "og",
+      "file": "p-squeaky85-lori-og.png"
+    },
+    {
+      "type": "personal",
+      "slug": "joules",
+      "name": "Joules",
+      "size": "story",
+      "file": "p-joules-story.png"
+    },
+    {
+      "type": "personal",
+      "slug": "joules",
+      "name": "Joules",
+      "size": "feed",
+      "file": "p-joules-feed.png"
+    },
+    {
+      "type": "personal",
+      "slug": "joules",
+      "name": "Joules",
+      "size": "og",
+      "file": "p-joules-og.png"
+    },
+    {
+      "type": "highlight",
+      "slug": "ed-d-mame",
+      "name": "Ed D. Mame",
+      "file": "h-ed-d-mame-story.png"
+    },
+    {
+      "type": "highlight",
+      "slug": "heather",
+      "name": "Heather",
+      "file": "h-heather-story.png"
+    },
+    {
+      "type": "highlight",
+      "slug": "emmi",
+      "name": "Emmi",
+      "file": "h-emmi-story.png"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "feral-collective",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate-poll": "node scripts/validate-poll.mjs",
+    "share-cards": "node scripts/make-share-cards.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "defaults": {
+    "winner": "The people have spoken.",
+    "personal": "In the movie, I am...",
+    "highlight": ""
+  },
+  "highlights": {
+    "ed-d-mame": {
+      "title": "Most golds won",
+      "caption": "Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed."
+    },
+    "heather": {
+      "title": "Biggest landslide",
+      "caption": "Thirteen of you saw the chaos and said \"her.\" Brave."
+    },
+    "emmi": {
+      "title": "Adopts every stray",
+      "caption": "Yes, including the one that is definitely the villain."
+    }
+  },
+  "categories": {}
+}

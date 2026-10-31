@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Halloween Horror Movie Poll | The Feral Collective</title>
+<meta name="description" content="You all voted and honestly, nobody's wrong. Here's who survives the horror movie and who gets us all killed.">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Halloween Horror Movie Poll">
+<meta property="og:description" content="The results are in. See who survives the horror movie.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://entertheferal.com/poll/halloween-2026/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://entertheferal.com/poll/halloween-2026/">
+<style>
+@font-face{font-family:'ED Fairville';src:url(/fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Archivo;src:url(/fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Archivo;src:url(/fonts/archivo-500.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Archivo;src:url(/fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Archivo;src:url(/fonts/archivo-700.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Archivo;src:url(/fonts/archivo-800.woff2) format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(/fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(/fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(/fonts/ibm-plex-mono-600.woff2) format('woff2');font-weight:600;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--red-on-ink:#ff7a6e;
+--black:'ED Fairville','UnifrakturCook',Georgia,serif;--archivo:Archivo,'Helvetica Neue',Arial,sans-serif;--mono:'IBM Plex Mono','Courier New',monospace;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);-webkit-tap-highlight-color:transparent}
+body::after{content:"";position:fixed;inset:0;background:url(art/grain.webp);mix-blend-mode:multiply;opacity:.55;pointer-events:none;z-index:60}
+button,select,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+img{display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* Hero - shared */
+.hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;padding:clamp(1.5rem,4vw,2.5rem) 0 0}
+.hero .art{position:absolute;filter:invert(1);pointer-events:none;mix-blend-mode:screen}
+.hero .a1{right:-6%;top:-10%;height:125%;opacity:.55;transform:rotate(8deg)}
+.hero .a2{left:-9%;bottom:-30%;height:110%;opacity:.3;transform:rotate(-12deg) scaleX(-1)}
+.hero .in{position:relative;display:flex;flex-direction:column;gap:1.1rem;padding-bottom:0}
+.eyebrow{display:flex;gap:.7rem;align-items:center;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow i{width:.62rem;height:.62rem;background:var(--red-on-ink);transform:rotate(45deg);flex:none}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(3.6rem,13vw,9.5rem);line-height:.88;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{display:flex;flex-direction:column;gap:.2rem;position:relative;width:max-content;max-width:100%}
+.sub b{font-family:var(--archivo);font-weight:800;font-size:clamp(1.3rem,3.6vw,2rem);letter-spacing:-.01em}
+.sub img{width:100%;max-width:19rem;filter:invert(1);mix-blend-mode:screen;margin-top:-.15rem}
+.tag{max-width:36rem;font-family:var(--archivo);font-size:1.1rem;color:#d8d6cf;margin:0}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid #5a5850;margin-top:1.2rem}
+.fact{padding:1rem 0 1.2rem;display:flex;align-items:center;gap:.8rem;border-right:1.5px solid #5a5850;padding-left:1rem}
+.fact:first-child{padding-left:0}.fact:last-child{border-right:0}
+.fact .n{display:flex;height:2.4rem}.fact .n img{height:2.4rem;filter:invert(1);mix-blend-mode:screen}
+.fact small{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#b9b7af;line-height:1.3}
+
+/* Section headers */
+section.wrap{padding-top:clamp(2.4rem,5vw,3.8rem);padding-bottom:0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;border-bottom:2px solid var(--ink);padding-bottom:.45rem;margin:0 0 1.3rem;flex-wrap:wrap}
+.sec-h h2{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,5vw,3rem);line-height:1;margin:0}
+.sec-h small{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* Highlights - desktop */
+.hl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.hc{border:2px solid var(--ink);padding:1.1rem;display:flex;flex-direction:column;gap:.5rem;background:var(--paper);position:relative;min-height:12.5rem}
+.hc .k{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:.5rem}
+.hc .nm{font-family:var(--archivo);font-weight:800;font-size:1.7rem;line-height:1.02;letter-spacing:-.02em}
+.hc p{margin:0;font-family:var(--archivo);color:var(--ink-soft);font-size:.95rem;line-height:1.35}
+.hc .big{margin-top:auto;display:flex;align-items:flex-end;gap:.5rem}.hc .big img{height:3rem;mix-blend-mode:multiply}.hc .big small{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding-bottom:.3rem}
+.hc:nth-child(2){transform:rotate(.4deg)}.hc:nth-child(3){transform:rotate(-.4deg)}
+.hc.feat{grid-column:span 2}.hc.feat .nm{font-size:clamp(2.2rem,5vw,3.4rem)}.hc.feat .big img{height:4rem}.hc .j{font-weight:600;color:var(--ink);font-size:1rem}.hc.red .j{color:var(--paper)}.hc.red{background:var(--ink);color:var(--paper)}.hc.red .k,.hc.red p{color:#c9c7bf}.hc.red p.j{color:var(--paper)}.hc.red .big img{filter:invert(1);mix-blend-mode:screen}
+.hc .sh{display:none}
+
+/* Find dropdown */
+.find{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin:0 0 1.2rem}
+.find label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.find select{background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem;min-height:2.9rem;font-size:16px;min-width:13rem}
+.find button{background:none;border:1.5px solid var(--ink);padding:.6rem 1rem;min-height:2.9rem;letter-spacing:.06em;font-size:.8rem}
+.me{flex-basis:100%;font-family:var(--archivo);font-size:1.05rem;margin:0}
+
+/* Awards grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));gap:1.1rem}
+.cat{border:1.5px solid var(--ink);background:var(--paper);padding:1.1rem 1.1rem 1rem;display:flex;flex-direction:column;gap:.8rem;position:relative;min-width:0;transition:opacity .2s,transform .2s,box-shadow .2s;cursor:pointer}
+.cat .no{display:flex;justify-content:space-between;align-items:center;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.cat h3{font-family:var(--archivo);font-weight:700;font-size:1.05rem;line-height:1.2;margin:0;max-width:92%;text-wrap:balance}
+.gold{background:var(--ink);color:var(--paper);padding:.9rem 1rem;display:flex;gap:1rem;align-items:flex-end;justify-content:space-between;position:relative;overflow:hidden}
+.gold .nms{display:flex;flex-direction:column;gap:.1rem;min-width:0;position:relative}
+.gold .lab{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#c9c7bf;display:flex;gap:.5rem;align-items:center}
+.gold .lab em{font-style:normal;background:var(--paper);color:var(--ink);padding:0 .35rem}
+.nm1{font-family:var(--archivo);font-weight:800;line-height:1.05;letter-spacing:-.02em;overflow-wrap:anywhere}
+.s1 .nm1{font-size:1.75rem}.s2 .nm1{font-size:1.3rem}.s3 .nm1{font-size:1.05rem}
+.gold .v{display:flex;flex-direction:column;align-items:flex-end;gap:.1rem;flex:none;position:relative}
+.gold .v .d{display:flex;height:2.5rem}.gold .v img{height:2.5rem;filter:invert(1);mix-blend-mode:screen}
+.gold .v small{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#c9c7bf}
+.place{display:grid;grid-template-columns:2.4rem 1fr;gap:.6rem;align-items:baseline;font-size:.88rem;line-height:1.35}
+.place .l{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.place b{font-family:var(--archivo);font-weight:700}
+.place .c{color:var(--ink-soft);white-space:nowrap}
+.place.note{color:var(--ink-soft);font-style:italic;font-family:var(--archivo)}
+.stamp{position:absolute;right:.7rem;top:.5rem;font-family:var(--black);font-size:1.6rem;color:var(--red);transform:rotate(-8deg);border:2px solid var(--red);padding:.05rem .5rem .1rem;line-height:1;background:var(--paper);z-index:2}
+.cat.none{background:var(--paper-2);border-style:dashed}
+.cat.none .e{display:flex;align-items:center;gap:1rem;color:var(--ink-soft);font-family:var(--archivo)}.cat.none .e img{width:4.6rem;mix-blend-mode:multiply;opacity:.8}
+.cat.dim{opacity:.3}
+.cat.hit{box-shadow:6px 6px 0 var(--ink);transform:translate(-2px,-2px)}
+.hit mark,.sheet mark{background:var(--red);color:var(--paper);padding:0 .2rem}
+.gold mark{background:var(--red-on-ink);color:var(--ink)}
+
+/* Footer */
+footer{margin-top:clamp(3rem,6vw,5rem);background:var(--ink);color:var(--paper);padding:2.2rem 0 2.6rem;position:relative;overflow:hidden}
+footer .art{position:absolute;right:-8%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.4;pointer-events:none}
+footer .in{position:relative;display:flex;flex-direction:column;gap:.5rem}
+footer b{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1}
+footer p{margin:0;color:#c9c7bf;font-family:var(--archivo);max-width:34rem}
+
+/* Sheet (mobile detail view) */
+.scrim{position:fixed;inset:0;background:rgba(11,11,11,.55);z-index:80;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:85;background:var(--paper);border-top:2px solid var(--ink);border-radius:20px 20px 0 0;max-height:90vh;overflow:auto;padding:.5rem 1.1rem calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;gap:.8rem;touch-action:pan-y}
+.sheet.open{transform:none}
+.grab{width:2.6rem;height:5px;border-radius:3px;background:var(--line);align-self:center;margin:.1rem 0 .3rem}
+.sheet .no{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between}
+.sheet h3{font-family:var(--archivo);font-weight:800;font-size:1.5rem;line-height:1.1;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sheet .gold{padding:1rem}
+.sheet .gold .lab{margin-bottom:.2rem}
+.sheet .nm1{font-size:1.7rem}
+.sheet .gold.many .nm1{font-size:1.25rem}
+.sheet .gold.lots .nm1{font-size:1.05rem}
+.sheet .gold .v .d{height:2.6rem}.sheet .gold .v img{height:2.6rem}
+.nav{display:flex;gap:.6rem;margin-top:.3rem}
+.nav button{flex:1;min-height:3rem;border:1.5px solid var(--ink);background:transparent;letter-spacing:.06em;font-size:.8rem}
+.nav button:disabled{opacity:.35}
+.nav button.pri{background:var(--ink);color:var(--paper)}
+.share-btns{display:flex;gap:.5rem;margin-top:.2rem}
+.share-btns button{flex:1;min-height:2.6rem;border:1.5px solid var(--ink);background:transparent;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+.share-btns button.active{background:var(--ink);color:var(--paper)}
+
+/* Person view in sheet */
+.person-view{padding:0}
+.person-view .back{background:none;border:0;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:.4rem;padding:.4rem 0;min-height:2.75rem}
+.person-view .back::before{content:"";width:.5rem;height:.5rem;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.person-view h2{font-family:var(--black);font-weight:400;font-size:2.4rem;line-height:.95;margin:.2rem 0 .8rem;overflow-wrap:anywhere}
+.med{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);margin-bottom:.8rem}
+.med div{padding:.7rem .3rem .5rem;text-align:center;border-right:1.5px solid var(--ink)}.med div:last-child{border-right:0}
+.med .n{display:flex;justify-content:center;height:2rem}.med .n img{height:2rem;mix-blend-mode:multiply}
+.med small{display:block;margin-top:.3rem;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.person-cats{display:flex;flex-direction:column;gap:.5rem}
+.person-cat{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line);cursor:pointer}
+.person-cat:last-child{border-bottom:0}
+.person-cat .t{font-family:var(--archivo);font-weight:600;font-size:.95rem}
+.chip{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.1rem .4rem;white-space:nowrap}
+.chip.g{background:var(--ink);color:var(--paper)}
+
+/* Mobile layout */
+@media (max-width:759px){
+  body{overflow:hidden}
+  .desktop{display:none!important}
+  .mobile{display:block}
+  .frame{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden}
+  .bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(.7rem + env(safe-area-inset-top,0px)) 1rem .7rem;border-bottom:1.5px solid var(--ink);background:var(--paper);z-index:5}
+  .bar .mark{font-family:var(--black);font-size:1.45rem;line-height:1}
+  .pill{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.15rem .5rem}
+  .screen{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;overscroll-behavior:contain;scrollbar-width:none;position:relative}
+  .screen::-webkit-scrollbar{display:none}
+  .tabbar{flex:none;display:flex;background:var(--ink);color:var(--paper);padding:.2rem .4rem calc(.2rem + env(safe-area-inset-bottom,0px));z-index:70}
+  .tab{flex:1;background:none;border:0;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;min-height:3.6rem;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;position:relative;opacity:.6}
+  .tab[aria-selected="true"]{opacity:1}
+  .tab[aria-selected="true"]::after{content:"";position:absolute;bottom:.15rem;width:2.4rem;height:.5rem;background:url(icons/underline.webp) center/100% 100% no-repeat;filter:invert(1)}
+  .mk{display:inline-block;width:.9rem;height:.9rem;background:currentColor;flex:none}
+  .m-c{border-radius:50%}.m-d{background:var(--red-on-ink);transform:rotate(45deg) scale(.85)}.m-r{background:transparent;border:2px solid currentColor;border-radius:50%}
+
+  /* Mobile hero */
+  .hero{padding:1.4rem 1rem 1.2rem}
+  .hero .art{right:-18%;top:-10%;height:120%;opacity:.35}
+  .hero .a2{display:none}
+  .hero .in{padding:0}
+  .eyebrow{font-size:.64rem}
+  h1{font-size:3.5rem;margin:.7rem 0 .5rem}
+  .sub{display:none}
+  .tag{font-size:1rem;color:#d8d6cf}
+  .facts{flex-direction:row;gap:1.4rem;border-top:1.5px solid #5a5850;padding-top:.8rem;display:flex;margin-top:1rem}
+  .fact{padding:0;border:0}.fact .n{height:1.8rem}.fact .n img{height:1.8rem}
+  .fact small{font-size:.6rem;max-width:5.5rem;line-height:1.25}
+  .hero .ul{width:11rem;filter:invert(1);mix-blend-mode:screen;margin:.3rem 0 .6rem;display:block}
+
+  /* Mobile sections */
+  .sec{padding:1.4rem 1rem 0}
+  .sec h2{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:0 0 .8rem;display:flex;justify-content:space-between;align-items:baseline}
+  .sec h2 small{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+  /* Mobile carousel */
+  .hl{display:flex;gap:.8rem;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -1rem;padding:.3rem 1rem 1rem;scrollbar-width:none}
+  .hl::-webkit-scrollbar{display:none}
+  .hc{flex:0 0 80%;scroll-snap-align:center;min-height:15rem;transform:none!important}
+  .hc.feat{grid-column:auto}
+  .hc .nm{font-size:2rem}
+  .hc.feat .nm{font-size:2rem}
+  .hc .big img{height:3.2rem}
+  .hc.feat .big img{height:3.2rem}
+  .dots{display:flex;gap:.4rem;justify-content:center;margin-top:-.2rem}
+  .dots i{width:.5rem;height:.5rem;border:1.5px solid var(--ink);border-radius:50%}
+  .dots i.on{background:var(--ink)}
+  .hc .sh{display:flex}
+
+  /* Mobile list rows */
+  .grid{display:flex;flex-direction:column;gap:0}
+  .cat{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.2rem .7rem;align-items:center;width:100%;text-align:left;border:0;border-radius:0;border-bottom:1px solid var(--line);padding:.9rem 1rem;min-height:4.4rem;cursor:pointer}
+  .cat:active{background:var(--paper-2)}
+  .cat .no{font-size:.66rem;letter-spacing:.08em;color:var(--ink-soft);align-self:start;padding-top:.15rem;display:block}
+  .cat h3{grid-column:2;font-size:1rem;max-width:none}
+  .cat .gold,.cat .place,.cat .stamp{display:none}
+  .cat .row-w{grid-column:2;font-size:.78rem;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+  .cat .row-w b{color:var(--ink);font-family:var(--archivo);font-weight:700}
+  .cat .row-v{grid-column:3;grid-row:1/span 2;display:flex;height:1.9rem;align-items:center}
+  .cat .row-v img{height:1.9rem;mix-blend-mode:multiply}
+  .tagl{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);border:1px solid var(--red);padding:0 .3rem;margin-left:.4rem;vertical-align:middle}
+  .cat.hit,.cat.dim{opacity:1;transform:none;box-shadow:none}
+  .find{position:sticky;top:0;z-index:4;background:var(--paper);padding:.7rem 1rem;border-bottom:1px solid var(--line);margin:0}
+  .find label{display:none}
+  .find select{display:none}
+  .find input{width:100%;background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.7rem .8rem;font-size:16px;min-height:2.9rem}
+  .find button{display:none}
+  .me{display:none}
+  .sec-h,.wrap.desktop-only{display:none}
+
+  /* Mobile go buttons */
+  .go{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:3.4rem;border:1.5px solid var(--ink);background:transparent;padding:.7rem 1rem;margin-bottom:.6rem;text-align:left;font-family:var(--archivo);font-weight:700;font-size:1.05rem}
+  .go::after{content:"";width:.55rem;height:.55rem;border-top:2px solid var(--ink);border-right:2px solid var(--ink);transform:rotate(45deg)}
+  .go:active{background:var(--ink);color:var(--paper)}
+  .go:active::after{border-color:var(--paper)}
+  .end{padding:1.4rem 1rem 1.6rem;display:flex;gap:.8rem;align-items:center;color:var(--ink-soft);font-family:var(--archivo)}
+  .end img{width:3.6rem;mix-blend-mode:multiply;opacity:.8}
+
+  /* Mobile find-me tab */
+  .names{display:flex;flex-wrap:wrap;gap:.5rem;padding:1rem}
+  .nb{border:1.5px solid var(--ink);background:transparent;padding:.55rem .8rem;min-height:2.75rem;font-family:var(--archivo);font-weight:600}
+  .nb:active{background:var(--ink);color:var(--paper)}
+  .empty{padding:2.5rem 1rem;text-align:center;color:var(--ink-soft);font-family:var(--archivo)}
+  .empty img{width:5rem;margin:0 auto .6rem;mix-blend-mode:multiply;opacity:.8}
+
+  footer{display:none}
+}
+
+/* Desktop layout */
+@media (min-width:760px){
+  .mobile{display:none!important}
+  .frame,.bar,.tabbar,.screen{display:contents}
+  .dots{display:none}
+  .cat .row-w,.cat .row-v,.cat .tagl{display:none}
+  .go,.end,.names,.nb,.empty{display:none}
+  .find input{display:none}
+  .find label,.find select,.find button{display:block}
+}
+
+@media (max-width:980px) and (min-width:760px){.hl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px) and (min-width:760px){
+  .wrap{padding:0 16px}
+  .hl{grid-template-columns:1fr}.hc.feat{grid-column:auto}.hc{min-height:0}.hc:nth-child(n){transform:none}
+  .grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1.5px solid #5a5850;padding:.8rem 0}.fact:last-child{border-bottom:0}
+  .hero .a1{height:80%;right:-20%;opacity:.28}.hero .a2{opacity:.18}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="frame mobile">
+<header class="bar"><span class="mark">the Feral Collective</span><span class="pill">Results</span></header>
+<main class="screen" id="screen"></main>
+<nav class="tabbar" id="tabs" role="tablist" aria-label="Sections">
+ <button class="tab" role="tab" data-t="m" aria-selected="true"><i class="mk m-c"></i>Moments</button>
+ <button class="tab" role="tab" data-t="c" aria-selected="false"><i class="mk m-d"></i>Categories</button>
+ <button class="tab" role="tab" data-t="p" aria-selected="false"><i class="mk m-r"></i>Find me</button>
+</nav>
+</div>
+
+<div class="desktop">
+<header class="hero"><img class="art a1" src="art/loop.webp" alt=""><img class="art a2" src="art/drip.webp" alt="">
+ <div class="wrap"><div class="in">
+  <div class="eyebrow"><i></i>Halloween 2026 &middot; Community poll</div>
+  <h1>Horror Movie Poll</h1>
+  <div class="sub"><b>The results are in.</b><img src="icons/underline.webp" alt=""></div>
+  <p class="tag">You all voted and honestly, nobody's wrong. Here's who survives the horror movie and who gets us all killed.</p>
+  <div class="facts" id="facts-desktop"></div>
+ </div></div>
+</header>
+<main>
+<section class="wrap" aria-labelledby="h-hl"><div class="sec-h"><h2 id="h-hl">Big moments</h2><small>The numbers behind the screams</small></div><div class="hl" id="hl-desktop"></div></section>
+<section class="wrap" aria-labelledby="h-aw"><div class="sec-h"><h2 id="h-aw">Every category</h2><small id="count-desktop"></small></div>
+ <div class="find"><label for="who">Find a name</label><select id="who"></select><button id="clr" type="button" hidden>Clear</button><p class="me" id="me-desktop" hidden aria-live="polite"></p></div>
+ <div class="grid" id="grid-desktop"></div></section>
+</main>
+<footer><img class="art" src="art/bold.webp" alt=""><div class="wrap"><div class="in"><b>Thanks for playing.</b><p>Every vote counted, even the ones for falling asleep on watch. A new poll is coming soon.</p></div></div></footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Category results"></section>
+
+<script>
+(function(){
+'use strict';
+const NOINDEX = true;
+const SITE_URL = 'entertheferal.com/poll';
+
+// Data embedded at build time (or loaded from data.json)
+const DATA = {"poll":{"slug":"halloween-2026","title":"Halloween Horror Movie Poll","year":2026},"categories":[{"slug":"wait-i-just-realized-before-the-lights-go-out","title":"Wait, I just realized... before the lights go out","gold":{"names":["Aurora","Ed D. Mame","Drakaina Mimosa"],"votes":3},"silver":{"names":["Andrada","Daria.f"],"votes":2},"bronze":{"tie":12,"votes":1}},{"slug":"name-the-zombies","title":"Name the zombies","gold":{"names":["Ed D. Mame"],"votes":7},"silver":{"names":["Francesca"],"votes":3},"bronze":{"names":["Aurora","Esti","Drakaina Mimosa","Stephanie","TheWinterNyx"],"votes":2}},{"slug":"survives-but-trips-in-the-final-scene","title":"Survives but trips in the final scene","gold":{"names":["Heather"],"votes":4},"silver":{"names":["Esti","Kasia"],"votes":3},"bronze":{"names":["Pauline Kim","Ed D. Mame","Kyoko"],"votes":2}},{"slug":"i-think-its-gone-jinx","title":"\"I think it's gone\" jinx","gold":{"names":["Pauline Kim"],"votes":5},"silver":{"names":["Andrada","Aurora","Daria.f","Stephanie","Esti","Emmi"],"votes":2},"bronze":"singles"},{"slug":"hides-a-bite","title":"Hides a bite","gold":{"names":["Heather","Cpt. Sparky"],"votes":3},"silver":{"tie":12,"votes":1},"bronze":null},{"slug":"drops-the-keys","title":"Drops the keys","gold":{"names":["Pauline Kim"],"votes":3},"silver":{"names":["Emmi","TheWinterNyx"],"votes":2},"bronze":"singles"},{"slug":"distracted-by-an-abandoned-building","title":"Distracted by an abandoned building","gold":{"names":["Ed D. Mame"],"votes":4},"silver":{"names":["Kasia","Heather","Esti"],"votes":3},"bronze":{"names":["Maha Naveed","Daria.f","Henna","Stephanie"],"votes":2}},{"slug":"goes-back-to-save-someone-both-survive","title":"Goes back to save someone, both survive","gold":{"names":["Kasia"],"votes":7},"silver":{"names":["Heather"],"votes":5},"bronze":{"names":["Cpt. Sparky","Maha Naveed"],"votes":3}},{"slug":"takes-charge-in-a-panic","title":"Takes charge in a panic","gold":{"names":["Heather"],"votes":13},"silver":{"names":["Cpt. Sparky","VictoriaWHOA","Lyana","Anna I."],"votes":2},"bronze":"singles"},{"slug":"joke-at-the-worst-moment","title":"Joke at the worst moment","gold":{"names":["Ed D. Mame"],"votes":8},"silver":{"names":["Stephanie"],"votes":5},"bronze":{"names":["VictoriaWHOA"],"votes":3}},{"slug":"silent-then-the-right-tool","title":"Silent, then the right tool","gold":{"names":["Andrada","Kasia"],"votes":3},"silver":{"names":["Sonia/Iris","Kyoko","TheWinterNyx","Aurora","Emmi"],"votes":2},"bronze":"singles"},{"slug":"snacks-first-aid-charger","title":"Snacks, first aid, charger","gold":{"names":["TheWinterNyx"],"votes":4},"silver":{"names":["Aurora"],"votes":3},"bronze":{"names":["Daria.f","Esti","Stephanie","Francesca","Henna"],"votes":2}},{"slug":"cool-jacket-vague-backstory","title":"Cool jacket, vague backstory","gold":{"names":["Daria.f"],"votes":5},"silver":{"names":["Andrada"],"votes":4},"bronze":{"names":["Cat/Laura","Henna","Kasia","Maha Naveed","Pandasjo"],"votes":2}},{"slug":"bad-feeling-but-opens-the-door","title":"\"Bad feeling\" but opens the door","gold":{"names":["squeaky85 (Lori)","Henna","Aurora","Andrada","Cpt. Sparky"],"votes":3},"silver":{"names":["Pauline Kim"],"votes":2},"bronze":"singles"},{"slug":"ive-seen-this-before-has-a-plan","title":"\"I've seen this before,\" has a plan","gold":{"names":["Heather"],"votes":4},"silver":{"names":["VictoriaWHOA"],"votes":3},"bronze":{"names":["Sonia/Iris","Kyoko","Francesca","SindyT","Cat/Laura","Aurora"],"votes":2}},{"slug":"volunteers-to-go-first","title":"Volunteers to go first","gold":{"names":["Ed D. Mame"],"votes":6},"silver":{"names":["Cpt. Sparky","VictoriaWHOA","Esti"],"votes":3},"bronze":{"names":["Maha Naveed","Lyana"],"votes":2}},{"slug":"insists-theres-a-logical-explanation","title":"Insists there's a logical explanation","gold":{"names":["squeaky85 (Lori)","Lyana"],"votes":3},"silver":{"names":["Kasia","Ed D. Mame","Holly","Anna I.","Pauline Kim","Esti","Joules"],"votes":2},"bronze":"singles"},{"slug":"runs-fast-in-heels-or-one-sock","title":"Runs fast in heels or one sock","gold":{"names":["VictoriaWHOA","Daria.f","Andrada"],"votes":3},"silver":{"names":["Henna","Kyoko","Holly","Esti","Heather"],"votes":2},"bronze":"singles"},{"slug":"ill-be-fine-go-without-me","title":"\"I'll be fine, go without me\"","gold":{"names":["Andrada"],"votes":4},"silver":{"names":["Cpt. Sparky","Heather"],"votes":3},"bronze":{"names":["Mai","Francesca","Joules","Emmi"],"votes":2}},{"slug":"hides-in-the-most-obvious-spot","title":"Hides in the most obvious spot","gold":{"names":["Joules","Kyoko"],"votes":3},"silver":{"names":["Stephanie","Sonia/Iris","SindyT","Maha Naveed","Aurora","Francesca"],"votes":2},"bronze":"singles"},{"slug":"says-hello-into-the-dark","title":"Says \"hello?\" into the dark","gold":{"names":["Esti"],"votes":4},"silver":{"names":["Sonia/Iris","Lyana","Pandasjo","Kyoko","Mai","Andrada"],"votes":2},"bronze":"singles"},{"slug":"falls-asleep-on-watch","title":"Falls asleep on watch","gold":{"names":["Pauline Kim"],"votes":3},"silver":{"names":["Andrada","Mai","Daria.f"],"votes":2},"bronze":"singles"},{"slug":"shortcut-through-the-abandoned-place","title":"Shortcut through the abandoned place","gold":{"names":["Kasia"],"votes":4},"silver":{"names":["Ed D. Mame","Drakaina Mimosa","Henna"],"votes":2},"bronze":"singles"},{"slug":"cant-trust-anyone-trusts-a-smiling-stranger","title":"\"Can't trust anyone,\" trusts a smiling stranger","gold":{"names":["Cat/Laura","VictoriaWHOA"],"votes":3},"silver":{"names":["Heather","Mai"],"votes":2},"bronze":"singles"},{"slug":"detailed-end-of-world-journal","title":"Detailed end-of-world journal","gold":{"names":["Anna I.","Henna"],"votes":3},"silver":{"names":["VictoriaWHOA","Lyana","Kasia","TheWinterNyx"],"votes":2},"bronze":"singles"},{"slug":"adopts-every-stray","title":"Adopts every stray","gold":{"names":["Emmi"],"votes":11},"silver":{"names":["Ed D. Mame","Maha Naveed"],"votes":2},"bronze":"singles"},{"slug":"ill-scout-ahead-returns-with-new-friends","title":"\"I'll scout ahead,\" returns with new friends","gold":{"names":["Ed D. Mame","Heather"],"votes":3},"silver":{"names":["Daria.f","Anna I.","Pauline Kim","Andrada","Aurora"],"votes":2},"bronze":"singles"}]};
+
+const HIGHLIGHTS = [
+  {k:'Most golds won',nm:'Ed D. Mame',j:'Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed.',red:true,feat:true},
+  {k:'Biggest landslide',nm:'Heather',j:'Thirteen of you saw the chaos and said "her." Brave.',red:false},
+  {k:'Adopts every stray',nm:'Emmi',j:'Yes, including the one that is definitely the villain.',red:false}
+];
+
+const D = DATA.categories;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const digs = n => `<span class="sr">${n}</span>${String(n).split('').map(d=>`<img src="icons/n${d}.webp" alt="" aria-hidden="true">`).join('')}`;
+const pad = i => (i<10?'0':'')+i;
+const slugify = s => s.toLowerCase().replace(/['']/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+// Build stats
+const S = {};
+const P = n => S[n] || (S[n] = {n,solo:0,shared:0,silver:0,bronze:0});
+D.forEach(r => {
+  if (!r.gold?.names) return;
+  r.gold.names.forEach(n => { const p=P(n); r.gold.names.length>1 ? p.shared++ : p.solo++ });
+  if (r.silver?.names) r.silver.names.forEach(n => P(n).silver++);
+  if (r.bronze?.names) r.bronze.names.forEach(n => P(n).bronze++);
+});
+const people = Object.keys(S).map(k => { const p=S[k]; p.gold=p.solo+p.shared; p.pod=p.gold+p.silver+p.bronze; return p });
+const byGold = people.slice().sort((a,b) => b.gold-a.gold||b.solo-a.solo||b.pod-a.pod||a.n.localeCompare(b.n));
+const winners = people.filter(p => p.gold>0).length;
+const top = byGold[0];
+const land = D.filter(r=>r.gold?.names).map(r=>({r,m:r.gold.names.length===1?r.gold.votes-(r.silver?.votes||0):0})).sort((a,b)=>b.r.gold.votes-a.r.gold.votes);
+const l1 = land[0]?.r, l2 = land[1]?.r;
+
+// Update highlight stats
+HIGHLIGHTS[0].p = `${top.solo} solo wins and ${top.shared} shared.`;
+HIGHLIGHTS[0].big = top.gold;
+HIGHLIGHTS[0].u = 'golds';
+HIGHLIGHTS[1].p = l1 ? `${l1.title}.` : '';
+HIGHLIGHTS[1].big = l1?.gold.votes || 0;
+HIGHLIGHTS[1].u = 'votes';
+HIGHLIGHTS[2].p = l2 ? `${l2.title}.` : '';
+HIGHLIGHTS[2].big = l2?.gold.votes || 0;
+HIGHLIGHTS[2].u = 'votes';
+
+// State
+let tab = 'm', person = null, curCat = 0, q = '';
+const isMobile = () => window.innerWidth < 760;
+
+// Elements
+const screen = document.getElementById('screen');
+const sheet = document.getElementById('sheet');
+const scrim = document.getElementById('scrim');
+const tabs = document.getElementById('tabs');
+
+// Render helpers
+function names(arr, hl) {
+  return arr.map(n => hl===n ? `<mark>${esc(n)}</mark>` : esc(n)).join(', ');
+}
+
+function placeHtml(l, x, sel) {
+  if (!x || x === 'none') return '';
+  if (x === 'singles') return `<div class="place note"><span class="l">${l}</span><span>Everyone else got 1 vote.</span></div>`;
+  if (x.tie) return `<div class="place"><span class="l">${l}</span><span><b>${x.tie}-way tie</b> <span class="c">&middot; ${x.v||x.votes} vote each</span></span></div>`;
+  if (x.names) return `<div class="place"><span class="l">${l}</span><span><b>${names(x.names,sel)}</b> <span class="c">&middot; ${x.votes}${x.names.length>1?' each':''}</span></span></div>`;
+  return '';
+}
+
+function cardDesktop(r, i, sel) {
+  const g = r.gold.names, sz = g.length===1?'s1':g.length<=3?'s2':'s3', tie = g.length>1;
+  const isLand = g.length===1 && r.gold.votes>=10;
+  const has = sel && (g.includes(sel)||(r.silver?.names?.includes(sel))||(r.bronze?.names?.includes(sel)));
+  return `<article class="cat${sel?(has?' hit':' dim'):''}" data-i="${i}" data-slug="${r.slug}">${isLand?'<span class="stamp" aria-hidden="true">landslide</span>':''}
+    <div class="no"><span>No. ${pad(i+1)}</span></div><h3>${esc(r.title)}</h3>
+    <div class="gold ${sz}"><div class="nms"><span class="lab">1st${tie?` <em>${g.length}-way tie</em>`:''}</span>${g.map(n=>`<span class="nm1">${sel===n?`<mark>${esc(n)}</mark>`:esc(n)}</span>`).join('')}</div><div class="v"><span class="d">${digs(r.gold.votes)}</span><small>${tie?'votes each':'votes'}</small></div></div>
+    ${placeHtml('2nd',r.silver,sel)}${placeHtml('3rd',r.bronze,sel)}</article>`;
+}
+
+function rowMobile(r, i) {
+  const isLand = r.gold.names.length===1 && r.gold.votes>=10;
+  const w = r.gold.names.join(', ');
+  return `<article class="cat" data-i="${i}" data-slug="${r.slug}">
+    <span class="no">${pad(i+1)}</span>
+    <h3>${esc(r.title)}${isLand?'<span class="tagl">landslide</span>':''}</h3>
+    <span class="row-v">${digs(r.gold.votes)}</span>
+    <span class="row-w">1st &middot; <b>${esc(w)}</b></span>
+  </article>`;
+}
+
+function hlCard(h, i) {
+  return `<article class="hc${h.red?' red':''}${h.feat?' feat':''}" data-hl="${i}">
+    <div class="k"><i style="display:inline-block;width:.6rem;height:.6rem;background:currentColor;transform:rotate(45deg)"></i>${h.k}</div>
+    <div class="nm">${esc(h.nm)}</div>
+    <p>${esc(h.p)}</p>
+    <p class="j">${esc(h.j)}</p>
+    <div class="big">${digs(h.big)}<small>${h.u}</small></div>
+    <button class="sh share-btns" type="button" style="margin-top:.5rem;padding:.4rem .6rem;font-size:.65rem;border:1.5px solid ${h.red?'var(--paper)':'var(--ink)'}">Share</button>
+  </article>`;
+}
+
+// Desktop rendering
+function renderDesktop() {
+  const factsEl = document.getElementById('facts-desktop');
+  const hlEl = document.getElementById('hl-desktop');
+  const countEl = document.getElementById('count-desktop');
+  const gridEl = document.getElementById('grid-desktop');
+  const whoEl = document.getElementById('who');
+  const meEl = document.getElementById('me-desktop');
+  const clrEl = document.getElementById('clr');
+
+  if (factsEl) {
+    factsEl.innerHTML = [
+      [D.length,'categories'],
+      [winners,'different people took a gold'],
+      [people.length,'people made the podium']
+    ].map(f => `<div class="fact"><span class="n">${digs(f[0])}</span><small>${f[1]}</small></div>`).join('');
+  }
+
+  if (hlEl) {
+    hlEl.innerHTML = HIGHLIGHTS.map((h,i) => hlCard(h,i)).join('');
+  }
+
+  if (countEl) countEl.textContent = D.length + ' categories';
+
+  if (whoEl && !whoEl.options.length) {
+    whoEl.innerHTML = '<option value="">Everyone</option>' +
+      people.slice().sort((a,b)=>a.n.localeCompare(b.n)).map(p=>`<option value="${esc(p.n)}">${esc(p.n)}</option>`).join('');
+  }
+
+  function paintGrid() {
+    const s = whoEl?.value || '';
+    if (gridEl) gridEl.innerHTML = D.map((r,i) => cardDesktop(r,i,s)).join('');
+    if (clrEl) clrEl.hidden = !s;
+    if (meEl) {
+      meEl.hidden = !s;
+      if (s) {
+        const p = S[s];
+        if (p) meEl.innerHTML = `<b>${esc(s)}</b>: ${p.gold} gold${p.gold===1?'':'s'}, ${p.silver} silver${p.silver===1?'':'s'}, ${p.bronze} bronze${p.bronze===1?'':'s'}. Highlighted below.`;
+      }
+    }
+  }
+
+  whoEl?.addEventListener('change', paintGrid);
+  clrEl?.addEventListener('click', () => { if(whoEl) whoEl.value=''; paintGrid(); });
+  paintGrid();
+
+  // Click handlers for desktop grid
+  gridEl?.addEventListener('click', e => {
+    const cat = e.target.closest('.cat');
+    if (cat) openSheet(+cat.dataset.i);
+  });
+
+  hlEl?.addEventListener('click', e => {
+    const btn = e.target.closest('.sh');
+    if (btn) {
+      const hc = btn.closest('.hc');
+      const idx = +hc.dataset.hl;
+      shareHighlight(idx);
+    }
+  });
+}
+
+// Mobile rendering
+function renderMobile() {
+  if (!screen) return;
+
+  function moments() {
+    return `
+      <section class="hero"><img class="art a1" src="art/loop.webp" alt="">
+        <div class="eyebrow"><i></i>Halloween 2026 &middot; Community poll</div>
+        <h1>Horror Movie Poll</h1>
+        <img class="ul" src="icons/underline.webp" alt="">
+        <p class="tag">You all voted and honestly, nobody's wrong. Here's who survives the horror movie and who gets us all killed.</p>
+        <div class="facts">
+          <div class="fact"><span class="n">${digs(D.length)}</span><small>categories</small></div>
+          <div class="fact"><span class="n">${digs(winners)}</span><small>different people took a gold</small></div>
+        </div>
+      </section>
+      <section class="sec"><h2>Big moments<small>Swipe</small></h2>
+        <div class="hl" id="car">${HIGHLIGHTS.map((h,i) => hlCard(h,i)).join('')}</div>
+        <div class="dots" id="dots">${HIGHLIGHTS.map((_,i) => `<i${i?'':' class="on"'}></i>`).join('')}</div>
+      </section>
+      <section class="sec">
+        <button class="go" data-go="c">Browse all ${D.length} categories</button>
+        <button class="go" data-go="p">Find your name</button>
+      </section>
+      <div class="end"><img src="icons/cloud.webp" alt=""><span>A new poll is coming soon.</span></div>`;
+  }
+
+  function cats() {
+    const f = q.trim().toLowerCase();
+    const rows = D.map((r,i) => ({r,i})).filter(x => {
+      if (!f) return true;
+      if (x.r.title.toLowerCase().includes(f)) return true;
+      const all = [...x.r.gold.names, ...(x.r.silver?.names||[]), ...(x.r.bronze?.names||[])];
+      return all.some(n => n.toLowerCase().includes(f));
+    });
+    return `<div class="find"><label class="sr" for="q">Search categories or names</label><input id="q" type="search" placeholder="Search a category or a name" value="${esc(q)}" autocomplete="off"></div>
+      <div class="grid" id="clist">${rows.length ? rows.map(x => rowMobile(x.r,x.i)).join('') : '<div class="empty"><img src="icons/cloud.webp" alt="">Nothing matches that.</div>'}</div>`;
+  }
+
+  function ppl() {
+    if (person) {
+      const p = S[person];
+      if (!p) { person = null; return ppl(); }
+      const rows = [];
+      D.forEach((r,i) => {
+        const pl = r.gold.names.includes(person) ? 'g' : (r.silver?.names?.includes(person)) ? 's' : (r.bronze?.names?.includes(person)) ? 'b' : null;
+        if (pl) rows.push([r,i,pl]);
+      });
+      const lab = {g:'1st',s:'2nd',b:'3rd'};
+      return `<div class="person-view">
+        <button class="back" id="pback">All names</button>
+        <h2>${esc(person)}</h2>
+        <div class="med">
+          <div><span class="n">${digs(p.gold)}</span><small>1st</small></div>
+          <div><span class="n">${digs(p.silver)}</span><small>2nd</small></div>
+          <div><span class="n">${digs(p.bronze)}</span><small>3rd</small></div>
+        </div>
+        <div class="share-btns" style="margin-bottom:1rem"><button type="button" id="share-person">Share my results</button></div>
+        <div class="person-cats">${rows.map(x => `<div class="person-cat" data-i="${x[1]}"><span class="t">${esc(x[0].title)}</span><span class="chip${x[2]==='g'?' g':''}">${lab[x[2]]}</span></div>`).join('')}</div>
+      </div>`;
+    }
+    const f = q.trim().toLowerCase();
+    const list = people.filter(p => !f || p.n.toLowerCase().includes(f)).sort((a,b) => a.n.localeCompare(b.n));
+    return `<div class="find"><label class="sr" for="q">Search names</label><input id="q" type="search" placeholder="Search your name" value="${esc(q)}" autocomplete="off"></div>
+      ${list.length ? `<div class="names" id="nlist">${list.map(p => `<button class="nb" data-n="${esc(p.n)}">${esc(p.n)}</button>`).join('')}</div>` : '<div class="empty"><img src="icons/cloud.webp" alt="">No one by that name.</div>'}`;
+  }
+
+  function render(keep) {
+    const y = screen.scrollTop;
+    screen.innerHTML = tab==='m' ? moments() : tab==='c' ? cats() : ppl();
+    screen.scrollTop = keep ? y : 0;
+
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === tab)));
+
+    const car = document.getElementById('car');
+    if (car) {
+      car.addEventListener('scroll', () => {
+        const i = Math.round(car.scrollLeft / (car.firstElementChild.offsetWidth + 12));
+        document.querySelectorAll('#dots i').forEach((d,k) => d.className = k===i ? 'on' : '');
+      }, {passive:true});
+    }
+  }
+
+  render();
+
+  // Event listeners
+  tabs?.addEventListener('click', e => {
+    const b = e.target.closest('.tab');
+    if (!b) return;
+    closeSheet();
+    tab = b.dataset.t;
+    q = '';
+    person = null;
+    render();
+  });
+
+  screen.addEventListener('input', e => {
+    if (e.target.id !== 'q') return;
+    q = e.target.value;
+    const pos = e.target.selectionStart;
+    render(true);
+    const n = document.getElementById('q');
+    if (n) { n.focus(); n.setSelectionRange(pos, pos); }
+  });
+
+  screen.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]');
+    if (g) { tab = g.dataset.go; q = ''; person = null; render(); return; }
+
+    const cat = e.target.closest('.cat');
+    if (cat) { openSheet(+cat.dataset.i); return; }
+
+    const pc = e.target.closest('.person-cat');
+    if (pc) { openSheet(+pc.dataset.i); return; }
+
+    const nb = e.target.closest('[data-n]');
+    if (nb) { person = nb.dataset.n; q = ''; render(); return; }
+
+    if (e.target.closest('#pback')) { person = null; render(); return; }
+
+    if (e.target.closest('#share-person') && person) { sharePerson(person); return; }
+
+    const sh = e.target.closest('.sh');
+    if (sh) {
+      const hc = sh.closest('.hc');
+      if (hc) shareHighlight(+hc.dataset.hl);
+    }
+  });
+}
+
+// Sheet
+function openSheet(i, sel) {
+  curCat = i;
+  const r = D[i];
+  const g = r.gold.names;
+  const sz = g.length>4 ? 'lots' : g.length>1 ? 'many' : '';
+  const p = sel || person;
+
+  sheet.innerHTML = `
+    <div class="grab"></div>
+    <div class="no"><span>No. ${pad(i+1)} of ${D.length}</span></div>
+    <h3>${esc(r.title)}</h3>
+    <div class="gold ${sz}">
+      <div class="nms">
+        <span class="lab">1st${g.length>1?` <em>${g.length}-way tie</em>`:''}</span>
+        ${g.map(n => `<span class="nm1">${n===p?`<mark>${esc(n)}</mark>`:esc(n)}</span>`).join('')}
+      </div>
+      <div class="v"><span class="d">${digs(r.gold.votes)}</span><small>${g.length>1?'votes each':'votes'}</small></div>
+    </div>
+    ${placeHtml('2nd',r.silver,p)}
+    ${placeHtml('3rd',r.bronze,p)}
+    <div class="share-btns">
+      <button type="button" id="share-cat">Share</button>
+    </div>
+    <div class="nav">
+      <button id="prev" ${i===0?'disabled':''}>Previous</button>
+      <button class="pri" id="next" ${i===D.length-1?'disabled':''}>Next</button>
+    </div>`;
+
+  scrim.classList.add('on');
+  requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('open')));
+  sheet.scrollTop = 0;
+
+  // Update URL hash
+  history.replaceState(null, '', `#c=${r.slug}`);
+}
+
+function closeSheet() {
+  sheet.classList.remove('open');
+  scrim.classList.remove('on');
+  if (location.hash.startsWith('#c=') || location.hash.startsWith('#p=')) {
+    history.replaceState(null, '', location.pathname);
+  }
+}
+
+// Sheet swipe-to-dismiss
+let y0 = null, dy = 0;
+sheet.addEventListener('touchstart', e => {
+  if (sheet.scrollTop <= 0) { y0 = e.touches[0].clientY; dy = 0; }
+}, {passive:true});
+sheet.addEventListener('touchmove', e => {
+  if (y0 === null) return;
+  dy = e.touches[0].clientY - y0;
+  if (dy > 0) { sheet.style.transition = 'none'; sheet.style.transform = `translateY(${dy}px)`; }
+}, {passive:true});
+sheet.addEventListener('touchend', () => {
+  if (y0 === null) return;
+  sheet.style.transition = '';
+  sheet.style.transform = '';
+  if (dy > 90) closeSheet();
+  y0 = null; dy = 0;
+});
+
+scrim.addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+sheet.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.id === 'prev' && curCat > 0) openSheet(curCat - 1);
+  if (b.id === 'next' && curCat < D.length - 1) openSheet(curCat + 1);
+  if (b.id === 'share-cat') shareCategory(curCat);
+});
+
+// Share functions
+function trackShare(type, slug) { /* no-op for future Plausible */ }
+
+async function shareCategory(i) {
+  const r = D[i];
+  const url = `https://${SITE_URL}/halloween-2026/c/${r.slug}/`;
+  const title = `${r.title} - ${r.gold.names.join(', ')} won with ${r.gold.votes} votes`;
+
+  trackShare('category', r.slug);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title, url });
+      return;
+    } catch (e) {
+      if (e.name !== 'AbortError') console.log('Share failed:', e);
+    }
+  }
+
+  // Fallback: copy link
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copied!');
+  } catch (e) {
+    showToast('Could not copy link');
+  }
+}
+
+async function sharePerson(name) {
+  const slug = slugify(name);
+  const url = `https://${SITE_URL}/halloween-2026/p/${slug}/`;
+  const p = S[name];
+  const title = `${name}'s Horror Movie Results - ${p.gold} gold${p.gold===1?'':'s'}`;
+
+  trackShare('person', slug);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title, url });
+      return;
+    } catch (e) {
+      if (e.name !== 'AbortError') console.log('Share failed:', e);
+    }
+  }
+
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copied!');
+  } catch (e) {
+    showToast('Could not copy link');
+  }
+}
+
+async function shareHighlight(i) {
+  const h = HIGHLIGHTS[i];
+  const slug = slugify(h.nm);
+  const url = `https://${SITE_URL}/halloween-2026/#h=${slug}`;
+
+  trackShare('highlight', slug);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: `${h.k}: ${h.nm}`, url });
+      return;
+    } catch (e) {
+      if (e.name !== 'AbortError') console.log('Share failed:', e);
+    }
+  }
+
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copied!');
+  } catch (e) {
+    showToast('Could not copy link');
+  }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:.6rem 1rem;font-size:.8rem;z-index:100;border-radius:4px';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+// Deep links
+function handleHash() {
+  const h = location.hash;
+  if (h.startsWith('#c=')) {
+    const slug = h.slice(3);
+    const i = D.findIndex(r => r.slug === slug);
+    if (i >= 0) {
+      if (isMobile()) { tab = 'c'; renderMobile(); }
+      openSheet(i);
+    }
+  } else if (h.startsWith('#p=')) {
+    const slug = h.slice(3);
+    const p = people.find(x => slugify(x.n) === slug);
+    if (p && isMobile()) {
+      tab = 'p';
+      person = p.n;
+      renderMobile();
+    }
+  }
+}
+
+// Init
+if (isMobile()) {
+  renderMobile();
+} else {
+  renderDesktop();
+}
+handleHash();
+window.addEventListener('hashchange', handleHash);
+
+// Handle resize
+let wasMobile = isMobile();
+window.addEventListener('resize', () => {
+  const nowMobile = isMobile();
+  if (wasMobile !== nowMobile) {
+    wasMobile = nowMobile;
+    if (nowMobile) renderMobile();
+    else renderDesktop();
+  }
+});
+})();
+</script>
+</body>
+</html>

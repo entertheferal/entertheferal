@@ -1,0 +1,31 @@
+{
+  "rewrites": [
+    { "source": "/u/:handle", "destination": "/u/index.html" },
+    { "source": "/u/:handle/", "destination": "/u/index.html" },
+    { "source": "/poll/halloween-2026/c/:slug", "destination": "/poll/halloween-2026/c/:slug/index.html" },
+    { "source": "/poll/halloween-2026/p/:slug", "destination": "/poll/halloween-2026/p/:slug/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://nsxyiehkiktmzldqpoww.supabase.co wss://nsxyiehkiktmzldqpoww.supabase.co; img-src 'self' data: blob: https://nsxyiehkiktmzldqpoww.supabase.co; font-src 'self'; style-src 'self' 'unsafe-inline'; frame-src https://open.spotify.com"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ]
+}

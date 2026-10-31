@@ -1,0 +1,198 @@
+{
+  "poll": {
+    "slug": "halloween-2026",
+    "title": "Halloween Horror Movie Poll",
+    "year": 2026
+  },
+  "categories": [
+    {
+      "slug": "wait-i-just-realized-before-the-lights-go-out",
+      "title": "Wait, I just realized... before the lights go out",
+      "gold": { "names": ["Aurora", "Ed D. Mame", "Drakaina Mimosa"], "votes": 3 },
+      "silver": { "names": ["Andrada", "Daria.f"], "votes": 2 },
+      "bronze": { "tie": 12, "votes": 1 }
+    },
+    {
+      "slug": "name-the-zombies",
+      "title": "Name the zombies",
+      "gold": { "names": ["Ed D. Mame"], "votes": 7 },
+      "silver": { "names": ["Francesca"], "votes": 3 },
+      "bronze": { "names": ["Aurora", "Esti", "Drakaina Mimosa", "Stephanie", "TheWinterNyx"], "votes": 2 }
+    },
+    {
+      "slug": "survives-but-trips-in-the-final-scene",
+      "title": "Survives but trips in the final scene",
+      "gold": { "names": ["Heather"], "votes": 4 },
+      "silver": { "names": ["Esti", "Kasia"], "votes": 3 },
+      "bronze": { "names": ["Pauline Kim", "Ed D. Mame", "Kyoko"], "votes": 2 }
+    },
+    {
+      "slug": "i-think-its-gone-jinx",
+      "title": "\"I think it's gone\" jinx",
+      "gold": { "names": ["Pauline Kim"], "votes": 5 },
+      "silver": { "names": ["Andrada", "Aurora", "Daria.f", "Stephanie", "Esti", "Emmi"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "hides-a-bite",
+      "title": "Hides a bite",
+      "gold": { "names": ["Heather", "Cpt. Sparky"], "votes": 3 },
+      "silver": { "tie": 12, "votes": 1 },
+      "bronze": null
+    },
+    {
+      "slug": "drops-the-keys",
+      "title": "Drops the keys",
+      "gold": { "names": ["Pauline Kim"], "votes": 3 },
+      "silver": { "names": ["Emmi", "TheWinterNyx"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "distracted-by-an-abandoned-building",
+      "title": "Distracted by an abandoned building",
+      "gold": { "names": ["Ed D. Mame"], "votes": 4 },
+      "silver": { "names": ["Kasia", "Heather", "Esti"], "votes": 3 },
+      "bronze": { "names": ["Maha Naveed", "Daria.f", "Henna", "Stephanie"], "votes": 2 }
+    },
+    {
+      "slug": "goes-back-to-save-someone-both-survive",
+      "title": "Goes back to save someone, both survive",
+      "gold": { "names": ["Kasia"], "votes": 7 },
+      "silver": { "names": ["Heather"], "votes": 5 },
+      "bronze": { "names": ["Cpt. Sparky", "Maha Naveed"], "votes": 3 }
+    },
+    {
+      "slug": "takes-charge-in-a-panic",
+      "title": "Takes charge in a panic",
+      "gold": { "names": ["Heather"], "votes": 13 },
+      "silver": { "names": ["Cpt. Sparky", "VictoriaWHOA", "Lyana", "Anna I."], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "joke-at-the-worst-moment",
+      "title": "Joke at the worst moment",
+      "gold": { "names": ["Ed D. Mame"], "votes": 8 },
+      "silver": { "names": ["Stephanie"], "votes": 5 },
+      "bronze": { "names": ["VictoriaWHOA"], "votes": 3 }
+    },
+    {
+      "slug": "silent-then-the-right-tool",
+      "title": "Silent, then the right tool",
+      "gold": { "names": ["Andrada", "Kasia"], "votes": 3 },
+      "silver": { "names": ["Sonia/Iris", "Kyoko", "TheWinterNyx", "Aurora", "Emmi"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "snacks-first-aid-charger",
+      "title": "Snacks, first aid, charger",
+      "gold": { "names": ["TheWinterNyx"], "votes": 4 },
+      "silver": { "names": ["Aurora"], "votes": 3 },
+      "bronze": { "names": ["Daria.f", "Esti", "Stephanie", "Francesca", "Henna"], "votes": 2 }
+    },
+    {
+      "slug": "cool-jacket-vague-backstory",
+      "title": "Cool jacket, vague backstory",
+      "gold": { "names": ["Daria.f"], "votes": 5 },
+      "silver": { "names": ["Andrada"], "votes": 4 },
+      "bronze": { "names": ["Cat/Laura", "Henna", "Kasia", "Maha Naveed", "Pandasjo"], "votes": 2 }
+    },
+    {
+      "slug": "bad-feeling-but-opens-the-door",
+      "title": "\"Bad feeling\" but opens the door",
+      "gold": { "names": ["squeaky85 (Lori)", "Henna", "Aurora", "Andrada", "Cpt. Sparky"], "votes": 3 },
+      "silver": { "names": ["Pauline Kim"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "ive-seen-this-before-has-a-plan",
+      "title": "\"I've seen this before,\" has a plan",
+      "gold": { "names": ["Heather"], "votes": 4 },
+      "silver": { "names": ["VictoriaWHOA"], "votes": 3 },
+      "bronze": { "names": ["Sonia/Iris", "Kyoko", "Francesca", "SindyT", "Cat/Laura", "Aurora"], "votes": 2 }
+    },
+    {
+      "slug": "volunteers-to-go-first",
+      "title": "Volunteers to go first",
+      "gold": { "names": ["Ed D. Mame"], "votes": 6 },
+      "silver": { "names": ["Cpt. Sparky", "VictoriaWHOA", "Esti"], "votes": 3 },
+      "bronze": { "names": ["Maha Naveed", "Lyana"], "votes": 2 }
+    },
+    {
+      "slug": "insists-theres-a-logical-explanation",
+      "title": "Insists there's a logical explanation",
+      "gold": { "names": ["squeaky85 (Lori)", "Lyana"], "votes": 3 },
+      "silver": { "names": ["Kasia", "Ed D. Mame", "Holly", "Anna I.", "Pauline Kim", "Esti", "Joules"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "runs-fast-in-heels-or-one-sock",
+      "title": "Runs fast in heels or one sock",
+      "gold": { "names": ["VictoriaWHOA", "Daria.f", "Andrada"], "votes": 3 },
+      "silver": { "names": ["Henna", "Kyoko", "Holly", "Esti", "Heather"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "ill-be-fine-go-without-me",
+      "title": "\"I'll be fine, go without me\"",
+      "gold": { "names": ["Andrada"], "votes": 4 },
+      "silver": { "names": ["Cpt. Sparky", "Heather"], "votes": 3 },
+      "bronze": { "names": ["Mai", "Francesca", "Joules", "Emmi"], "votes": 2 }
+    },
+    {
+      "slug": "hides-in-the-most-obvious-spot",
+      "title": "Hides in the most obvious spot",
+      "gold": { "names": ["Joules", "Kyoko"], "votes": 3 },
+      "silver": { "names": ["Stephanie", "Sonia/Iris", "SindyT", "Maha Naveed", "Aurora", "Francesca"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "says-hello-into-the-dark",
+      "title": "Says \"hello?\" into the dark",
+      "gold": { "names": ["Esti"], "votes": 4 },
+      "silver": { "names": ["Sonia/Iris", "Lyana", "Pandasjo", "Kyoko", "Mai", "Andrada"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "falls-asleep-on-watch",
+      "title": "Falls asleep on watch",
+      "gold": { "names": ["Pauline Kim"], "votes": 3 },
+      "silver": { "names": ["Andrada", "Mai", "Daria.f"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "shortcut-through-the-abandoned-place",
+      "title": "Shortcut through the abandoned place",
+      "gold": { "names": ["Kasia"], "votes": 4 },
+      "silver": { "names": ["Ed D. Mame", "Drakaina Mimosa", "Henna"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "cant-trust-anyone-trusts-a-smiling-stranger",
+      "title": "\"Can't trust anyone,\" trusts a smiling stranger",
+      "gold": { "names": ["Cat/Laura", "VictoriaWHOA"], "votes": 3 },
+      "silver": { "names": ["Heather", "Mai"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "detailed-end-of-world-journal",
+      "title": "Detailed end-of-world journal",
+      "gold": { "names": ["Anna I.", "Henna"], "votes": 3 },
+      "silver": { "names": ["VictoriaWHOA", "Lyana", "Kasia", "TheWinterNyx"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "adopts-every-stray",
+      "title": "Adopts every stray",
+      "gold": { "names": ["Emmi"], "votes": 11 },
+      "silver": { "names": ["Ed D. Mame", "Maha Naveed"], "votes": 2 },
+      "bronze": "singles"
+    },
+    {
+      "slug": "ill-scout-ahead-returns-with-new-friends",
+      "title": "\"I'll scout ahead,\" returns with new friends",
+      "gold": { "names": ["Ed D. Mame", "Heather"], "votes": 3 },
+      "silver": { "names": ["Daria.f", "Anna I.", "Pauline Kim", "Andrada", "Aurora"], "votes": 2 },
+      "bronze": "singles"
+    }
+  ]
+}
