@@ -169,7 +169,7 @@ var POLLS_DATA = {"current":null,"polls":[{"slug":"halloween-2026","title":"Hall
     var state = poll ? getPhaseKey(poll.status) : 'none';
     var c = S[state];
     var title = poll ? poll.title : 'Next poll soon';
-    var sub = poll ? (poll.topic || 'join in, send ideas, vote.') : "we'll announce when the next one opens.";
+    var sub = poll ? (poll.topic || 'send ideas, vote, see who wins.') : "we'll announce when the next one opens.";
 
     var cta = '';
     var mk = '';
@@ -195,7 +195,7 @@ var POLLS_DATA = {"current":null,"polls":[{"slug":"halloween-2026","title":"Hall
         cta = btn('joining opens soon', 'red', null, true) + btn('read the rules', 'line', '/poll/rules/');
         mk = 'your status';
         mh = 'not in yet';
-        mp = 'joining opens soon. you have to join to suggest ideas and vote.';
+        mp = 'joining opens soon. join to suggest ideas and be on the ballot.';
       } else {
         cta = btn('suggest an idea', 'red', '/poll/ideas/') + btn('read the rules', 'line', '/poll/rules/');
         mk = 'your status';
