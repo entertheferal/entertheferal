@@ -666,78 +666,86 @@ sheet.addEventListener('click', e => {
 // Share functions
 function trackShare(type, slug) { /* no-op for future Plausible */ }
 
-async function shareCategory(i) {
-  const r = D[i];
-  const url = `https://${SITE_URL}/halloween-2026/c/${r.slug}/`;
-  const title = `${r.title} - ${r.gold.names.join(', ')} won with ${r.gold.votes} votes`;
+const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-  trackShare('category', r.slug);
+async function fetchImageAsFile(url, filename) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return new File([blob], filename, { type: blob.type });
+}
 
-  if (navigator.share) {
+function downloadImage(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+async function shareWithImage(imageUrl, filename, title, fallbackUrl) {
+  // Try Web Share API with file (mobile Safari/Chrome)
+  if (navigator.share && navigator.canShare) {
     try {
-      await navigator.share({ title, url });
-      return;
+      const file = await fetchImageAsFile(imageUrl, filename);
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title });
+        return;
+      }
     } catch (e) {
-      if (e.name !== 'AbortError') console.log('Share failed:', e);
+      console.log('File share failed, trying download:', e);
     }
   }
 
-  // Fallback: copy link
+  // Fallback: download image
   try {
-    await navigator.clipboard.writeText(url);
-    showToast('Link copied!');
+    downloadImage(imageUrl, filename);
+    showToast(isMobileDevice() ? 'Image saved! Share from your gallery.' : 'Image downloaded!');
   } catch (e) {
-    showToast('Could not copy link');
+    // Final fallback: copy link
+    try {
+      await navigator.clipboard.writeText(fallbackUrl);
+      showToast('Link copied!');
+    } catch (e2) {
+      showToast('Could not share');
+    }
   }
+}
+
+async function shareCategory(i) {
+  const r = D[i];
+  const size = isMobileDevice() ? 'story' : 'feed';
+  const imageUrl = `share/c-${r.slug}-${size}.png`;
+  const filename = `${r.slug}-${size}.png`;
+  const url = `https://${SITE_URL}/halloween-2026/c/${r.slug}/`;
+  const title = `${r.title} - ${r.gold.names.join(', ')} won`;
+
+  trackShare('category', r.slug);
+  await shareWithImage(imageUrl, filename, title, url);
 }
 
 async function sharePerson(name) {
   const slug = slugify(name);
+  const size = isMobileDevice() ? 'story' : 'feed';
+  const imageUrl = `share/p-${slug}-${size}.png`;
+  const filename = `${slug}-${size}.png`;
   const url = `https://${SITE_URL}/halloween-2026/p/${slug}/`;
-  const p = S[name];
-  const title = `${name}'s Horror Movie Results - ${p.gold} gold${p.gold===1?'':'s'}`;
+  const title = `${name}'s Horror Movie Results`;
 
   trackShare('person', slug);
-
-  if (navigator.share) {
-    try {
-      await navigator.share({ title, url });
-      return;
-    } catch (e) {
-      if (e.name !== 'AbortError') console.log('Share failed:', e);
-    }
-  }
-
-  try {
-    await navigator.clipboard.writeText(url);
-    showToast('Link copied!');
-  } catch (e) {
-    showToast('Could not copy link');
-  }
+  await shareWithImage(imageUrl, filename, title, url);
 }
 
 async function shareHighlight(i) {
   const h = HIGHLIGHTS[i];
   const slug = slugify(h.nm);
-  const url = `https://${SITE_URL}/halloween-2026/#h=${slug}`;
+  const imageUrl = `share/h-${slug}-story.png`;
+  const filename = `${slug}-highlight.png`;
+  const url = `https://${SITE_URL}/halloween-2026/`;
+  const title = `${h.k}: ${h.nm}`;
 
   trackShare('highlight', slug);
-
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: `${h.k}: ${h.nm}`, url });
-      return;
-    } catch (e) {
-      if (e.name !== 'AbortError') console.log('Share failed:', e);
-    }
-  }
-
-  try {
-    await navigator.clipboard.writeText(url);
-    showToast('Link copied!');
-  } catch (e) {
-    showToast('Could not copy link');
-  }
+  await shareWithImage(imageUrl, filename, title, url);
 }
 
 function showToast(msg) {
