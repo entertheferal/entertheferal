@@ -169,7 +169,7 @@ var POLLS_DATA = {"current":null,"polls":[{"slug":"halloween-2026","title":"Hall
     var state = poll ? getPhaseKey(poll.status) : 'none';
     var c = S[state];
     var title = poll ? poll.title : 'Next poll soon';
-    var sub = poll ? (poll.topic || 'join in, send ideas, vote.') : "we'll email you when joining opens.";
+    var sub = poll ? (poll.topic || 'join in, send ideas, vote.') : "we'll announce when the next one opens.";
 
     var cta = '';
     var mk = '';
