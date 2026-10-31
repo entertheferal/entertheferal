@@ -125,26 +125,36 @@ document.getElementById('playBtn').addEventListener('click', function() {
 (function() {
   if (window.location.hash && window.location.hash.includes('access_token')) {
     var sb = window.supabase.createClient(window.FERAL.SUPABASE_URL, window.FERAL.SUPABASE_ANON_KEY);
-    // Wait for auth state change to ensure session is persisted
-    sb.auth.onAuthStateChange(function(event, session) {
-      if (event === 'SIGNED_IN' && session) {
-        // Clear the hash
-        history.replaceState(null, '', window.location.pathname);
-        // Check for saved redirect URL
-        var savedRedirect = localStorage.getItem('feral_redirect');
-        if (savedRedirect && savedRedirect.startsWith('/')) {
-          localStorage.removeItem('feral_redirect');
-          window.location.href = savedRedirect;
-          return;
+    var handled = false;
+
+    function doRedirect(session) {
+      if (handled) return;
+      handled = true;
+      history.replaceState(null, '', window.location.pathname);
+      var savedRedirect = localStorage.getItem('feral_redirect');
+      if (savedRedirect && savedRedirect.startsWith('/')) {
+        localStorage.removeItem('feral_redirect');
+        window.location.href = savedRedirect;
+        return;
+      }
+      sb.from('profiles').select('handle').eq('id', session.user.id).single().then(function(p) {
+        if (p.data && p.data.handle) {
+          window.location.href = '/u/' + p.data.handle;
         }
-        // Get profile and redirect to profile page
-        sb.from('profiles').select('handle').eq('id', session.user.id).single().then(function(p) {
-          if (p.data && p.data.handle) {
-            window.location.href = '/u/' + p.data.handle;
-          } else {
-            window.location.href = '/';
-          }
-        });
+      });
+    }
+
+    // Listen for auth state changes
+    sb.auth.onAuthStateChange(function(event, session) {
+      if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+        doRedirect(session);
+      }
+    });
+
+    // Also try getSession as fallback
+    sb.auth.getSession().then(function(result) {
+      if (result.data.session) {
+        doRedirect(result.data.session);
       }
     });
   }
