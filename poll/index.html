@@ -117,6 +117,17 @@ var POLLS_DATA = {"current":null,"polls":[{"slug":"halloween-2026","title":"Hall
 
   function $(s) { return document.querySelector(s); }
 
+  function getPhaseKey(status) {
+    var keys = {
+      'ideas_open': 'open',
+      'curating': 'curating',
+      'voting_open': 'voting',
+      'closed': 'closed',
+      'published': 'results'
+    };
+    return keys[status] || 'none';
+  }
+
   var STEPS = [
     ['Join', 'closes soon'],
     ['Ideas', 'close soon'],
@@ -159,7 +170,7 @@ var POLLS_DATA = {"current":null,"polls":[{"slug":"halloween-2026","title":"Hall
   }
 
   function renderHero(poll, user) {
-    var state = poll ? FeralPollHub.getPhaseKey(poll.status) : 'none';
+    var state = poll ? getPhaseKey(poll.status) : 'none';
     var c = S[state];
     var title = poll ? poll.title : 'Next poll soon';
     var sub = poll ? (poll.topic || 'join in, send ideas, vote.') : "we'll email you when joining opens.";
