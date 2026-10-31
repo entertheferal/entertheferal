@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rules Page</title>
+<style>:root{--paper:#f6f5f1;--ink:#0b0b0b}*{box-sizing:border-box}body{margin:0;background:#dcdad2;font:13px/1.5 monospace;padding:14px 14px 40px}
+.ctl{max-width:1180px;margin:0 auto 12px;display:flex;gap:6px;align-items:center}.ctl b{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#4a4944;font-weight:500;margin-right:6px}
+button{border:2px solid var(--ink);background:var(--paper);padding:5px 9px;font:inherit;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.fr{margin:0 auto;border:2px solid var(--ink);background:var(--paper);box-shadow:0 14px 40px rgba(0,0,0,.25);overflow:hidden}.fr.ph{width:390px;max-width:100%;border-radius:30px}.fr.dk{width:100%;max-width:1180px}
+iframe{display:block;width:100%;height:780px;border:0}.fr.dk iframe{height:900px}.note{max-width:1180px;margin:12px auto 0;color:#4a4944;font-size:.74rem}</style></head><body>
+<div class="ctl"><b>device</b><button data-d="ph" aria-pressed="false">phone</button><button data-d="dk" aria-pressed="true">desktop</button></div>
+<div class="fr dk" id="fr"><iframe src="page.html" title="Rules page preview"></iframe></div>
+<p class="note">The device buttons are only for previewing. The numbers (3, 3, 2) and dates would come from the poll settings. "alex" is an example, not a real member.</p>
+<script>[].forEach.call(document.querySelectorAll('button'),function(b){b.onclick=function(){document.getElementById('fr').className='fr '+b.dataset.d;[].forEach.call(document.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b)})}})</script></body></html>

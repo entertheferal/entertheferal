@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);min-height:100vh;display:flex;flex-direction:column}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+.wrap{max-width:640px;margin:0 auto;padding:2rem 1rem;flex:1}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);line-height:1;margin:0 0 1.5rem}
+
+.section{border:2px solid var(--ink);padding:1.25rem;margin-bottom:1.5rem}
+.section h2{font-family:var(--black);font-weight:400;font-size:1.6rem;margin:0 0 .8rem}
+.section p{margin:0 0 1rem;color:var(--ink-soft);font-size:.9rem;line-height:1.5}
+.section p:last-child{margin-bottom:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.5rem 1.2rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.85rem;letter-spacing:.04em;text-decoration:none}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--paper)}
+.btn.warn{border-color:var(--red);background:var(--red)}
+.btn.warn:hover{background:var(--paper);color:var(--red)}
+
+.info-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.info-row:last-child{border-bottom:0}
+.info-row label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.info-row span{font-size:.9rem}
+
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.field input{background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;font-size:.9rem}
+.field .hint{font-size:.72rem;color:var(--ink-soft)}
+
+.msg{padding:.6rem;border:1.5px solid var(--line);font-size:.82rem;margin-bottom:1rem}
+.msg.bad{border-color:var(--red);color:var(--red)}
+.msg.ok{border-color:var(--green);color:var(--green)}
+
+.btns{display:flex;flex-wrap:wrap;gap:.6rem}
+
+/* Delete confirmation modal */
+.modal{position:fixed;inset:0;background:rgba(11,11,11,.6);display:flex;align-items:center;justify-content:center;padding:1rem;z-index:100}
+.modal-card{background:var(--paper);border:2px solid var(--ink);padding:1.5rem;max-width:420px;width:100%}
+.modal-card h3{font-family:var(--black);font-weight:400;font-size:1.8rem;margin:0 0 .8rem}
+.modal-card p{margin:0 0 1rem;font-size:.9rem;line-height:1.5}
+.modal-card .field{margin-top:1rem}
+
+.code-inputs{display:flex;gap:.4rem;justify-content:flex-start}
+.code-inputs input{width:2.4rem;height:2.8rem;text-align:center;font-size:1.2rem;font-family:var(--mono);border:1.5px solid var(--ink);background:var(--paper);padding:0}
+.code-inputs input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+
+.loading{padding:3rem;text-align:center;color:var(--ink-soft)}
+
+.footer{padding:1.5rem 1rem;text-align:center;font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.footer a{color:inherit;margin:0 .5rem}
+.footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<div class="wrap" id="content">
+  <div class="loading">Loading...</div>
+</div>
+
+<footer class="footer">
+  <a href="/privacy">Privacy</a>
+  <a href="/guidelines">Guidelines</a>
+  <a href="/terms">Terms</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  let currentUser, currentProfile, sb;
+
+  async function init() {
+    sb = FeralAuth.getSupabase();
+    currentUser = await FeralAuth.getUser();
+    currentProfile = currentUser ? await FeralAuth.getProfile() : null;
+
+    if (!currentUser || !currentProfile) {
+      window.location.href = '/login?redirect=/settings';
+      return;
+    }
+
+    // Render header
+    const headerMenu = document.getElementById('headerMenu');
+    headerMenu.innerHTML = `
+      <a href="/u/${FeralAuth.esc(currentProfile.handle)}">My profile</a>
+      <a href="/calendar">Calendar</a>
+      <button type="button" id="signOutBtn">Sign out</button>
+    `;
+    document.getElementById('signOutBtn').addEventListener('click', async () => {
+      await FeralAuth.signOut();
+      window.location.href = '/';
+    });
+
+    renderContent();
+  }
+
+  function renderContent() {
+    const content = document.getElementById('content');
+    content.innerHTML = `
+      <h1>Settings</h1>
+
+      <section class="section">
+        <h2>Profile</h2>
+        <p>Edit your display name, bio, socials, avatar, and cover image.</p>
+        <a href="/settings/profile" class="btn">Edit profile</a>
+      </section>
+
+      <section class="section">
+        <h2>Account</h2>
+        <div class="info-row">
+          <label>Email</label>
+          <span id="userEmail">${FeralAuth.esc(currentUser.email)}</span>
+        </div>
+        <div class="info-row">
+          <label>Handle</label>
+          <span>@${FeralAuth.esc(currentProfile.handle)}</span>
+        </div>
+        <div class="info-row">
+          <label>Member since</label>
+          <span>${FeralAuth.formatJoined(currentProfile.joined_at)}</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Your data</h2>
+        <p>Download a copy of all your data, including your profile, email, and any content you've created.</p>
+        <div class="btns">
+          <button type="button" class="btn outline" id="exportBtn">Download my data</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Delete account</h2>
+        <p>Permanently delete your account and all associated data. This cannot be undone.</p>
+        <p style="font-size:.8rem">When you delete your account, your profile, bio, and social links are removed immediately. Your handle becomes available again. Any audit logs are anonymized but retained for security.</p>
+        <button type="button" class="btn warn" id="deleteBtn">Delete my account</button>
+      </section>
+    `;
+
+    // Export handler
+    document.getElementById('exportBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('exportBtn');
+      btn.disabled = true;
+      btn.textContent = 'Exporting...';
+
+      const { data, error } = await FeralAuth.exportMyData();
+
+      btn.disabled = false;
+      btn.textContent = 'Download my data';
+
+      if (error) {
+        alert('Export failed: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+
+      // Download as JSON file
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `feral-data-${currentProfile.handle}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // Delete handler
+    document.getElementById('deleteBtn').addEventListener('click', showDeleteModal);
+  }
+
+  function showDeleteModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'deleteModal';
+    modal.innerHTML = `
+      <div class="modal-card">
+        <h3>Delete your account?</h3>
+        <p>This will permanently delete your profile, bio, social links, and avatar. Your handle (@${FeralAuth.esc(currentProfile.handle)}) will become available again.</p>
+        <p>To confirm, we'll send a code to <strong>${FeralAuth.esc(currentUser.email)}</strong>. Then type your handle below.</p>
+
+        <div class="field">
+          <label>Step 1: Verify your email</label>
+          <button type="button" class="btn outline" id="sendCodeBtn">Send verification code</button>
+        </div>
+
+        <div id="codeStep" hidden>
+          <div class="field">
+            <label>Enter 6-digit code</label>
+            <div class="code-inputs" id="codeInputs">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Step 2: Type your handle to confirm</label>
+            <input type="text" id="confirmHandle" placeholder="${FeralAuth.esc(currentProfile.handle)}" autocomplete="off">
+            <span class="hint">Type exactly: ${FeralAuth.esc(currentProfile.handle)}</span>
+          </div>
+
+          <div class="msg" id="deleteMsg" hidden></div>
+
+          <div class="btns" style="margin-top:1rem">
+            <button type="button" class="btn warn" id="confirmDeleteBtn" disabled>Delete forever</button>
+            <button type="button" class="btn outline" id="cancelDeleteBtn">Cancel</button>
+          </div>
+        </div>
+
+        <div id="initialBtns" style="margin-top:1rem">
+          <button type="button" class="btn outline" id="cancelBtn">Cancel</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Close handlers
+    const close = () => modal.remove();
+    document.getElementById('cancelBtn').addEventListener('click', close);
+    document.getElementById('cancelDeleteBtn')?.addEventListener('click', close);
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+    // Send code
+    document.getElementById('sendCodeBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('sendCodeBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      // Sign in again to get fresh session
+      const { error } = await FeralAuth.signIn(currentUser.email);
+
+      if (error) {
+        btn.disabled = false;
+        btn.textContent = 'Send verification code';
+        alert('Failed to send code: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+
+      btn.textContent = 'Code sent!';
+      document.getElementById('codeStep').hidden = false;
+      document.getElementById('initialBtns').hidden = true;
+      document.querySelector('#codeInputs input').focus();
+    });
+
+    // Code inputs
+    const codeInputs = modal.querySelectorAll('#codeInputs input');
+    const confirmHandle = document.getElementById('confirmHandle');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    const deleteMsg = document.getElementById('deleteMsg');
+
+    function checkReady() {
+      const code = Array.from(codeInputs).map(i => i.value).join('');
+      const handle = confirmHandle.value.trim().toLowerCase();
+      confirmBtn.disabled = !(code.length === 6 && handle === currentProfile.handle);
+    }
+
+    codeInputs.forEach((input, i) => {
+      input.addEventListener('input', function() {
+        const val = this.value.replace(/[^0-9]/g, '');
+        this.value = val;
+        if (val && i < codeInputs.length - 1) codeInputs[i + 1].focus();
+        checkReady();
+      });
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && !this.value && i > 0) codeInputs[i - 1].focus();
+      });
+    });
+    confirmHandle.addEventListener('input', checkReady);
+
+    // Confirm delete
+    confirmBtn.addEventListener('click', async () => {
+      deleteMsg.hidden = true;
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'Deleting...';
+
+      // Verify the code first to get fresh session
+      const code = Array.from(codeInputs).map(i => i.value).join('');
+      const { error: verifyError } = await FeralAuth.verifyOtp(currentUser.email, code);
+
+      if (verifyError) {
+        deleteMsg.className = 'msg bad';
+        deleteMsg.textContent = 'Invalid code. Please try again.';
+        deleteMsg.hidden = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Delete forever';
+        codeInputs.forEach(i => i.value = '');
+        codeInputs[0].focus();
+        return;
+      }
+
+      // Remove avatar from storage first
+      try {
+        await sb.storage.from('avatars').remove([`${currentUser.id}/avatar.webp`]);
+      } catch (e) {
+        // May not exist
+      }
+
+      // Now delete account
+      const { error } = await FeralAuth.deleteMyAccount();
+
+      if (error) {
+        deleteMsg.className = 'msg bad';
+        deleteMsg.textContent = FeralAuth.friendlyError(error);
+        deleteMsg.hidden = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Delete forever';
+        return;
+      }
+
+      // Success - sign out and redirect
+      localStorage.clear();
+      modal.remove();
+      document.getElementById('content').innerHTML = `
+        <div style="text-align:center;padding:4rem 1rem">
+          <h1 style="font-size:2.5rem;margin-bottom:1rem">Account deleted</h1>
+          <p style="color:var(--ink-soft);margin-bottom:2rem">Your account has been permanently deleted.</p>
+          <a href="/" class="btn">Go home</a>
+        </div>
+      `;
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

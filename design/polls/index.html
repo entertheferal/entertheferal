@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Polls Page</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f5f1;--ink:#0b0b0b;--red:#b3201a;--soft:#4a4944}
+*{box-sizing:border-box}body{margin:0;background:#dcdad2;font:13px/1.5 'IBM Plex Mono',monospace;color:var(--ink);padding:14px 14px 40px}
+.ctl{max-width:1180px;margin:0 auto 12px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.ctl b{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:500}
+.grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.grp button{border:2px solid var(--ink);background:var(--paper);padding:5px 9px;font:inherit;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.grp button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.fr{margin:0 auto;border:2px solid var(--ink);background:var(--paper);box-shadow:0 14px 40px rgba(0,0,0,.25);overflow:hidden;transition:width .2s}
+.fr.ph{width:390px;max-width:100%;border-radius:30px}.fr.dk{width:100%;max-width:1180px}
+iframe{display:block;width:100%;height:760px;border:0}.fr.dk iframe{height:900px}
+.note{max-width:1180px;margin:12px auto 0;color:var(--soft);font-size:.74rem}
+</style></head><body>
+<div class="ctl"><div class="grp"><b>device</b><button data-d="ph" aria-pressed="true">phone</button><button data-d="dk" aria-pressed="false">desktop</button></div>
+<div class="grp"><b>this month's poll</b><button data-s="open" aria-pressed="true">joining + ideas</button><button data-s="curating" aria-pressed="false">picking list</button><button data-s="voting" aria-pressed="false">voting</button><button data-s="closed" aria-pressed="false">closed</button><button data-s="results" aria-pressed="false">results up</button><button data-s="none" aria-pressed="false">between polls</button></div>
+<div class="grp"><b>you</b><button data-y="out" aria-pressed="false">not joined</button><button data-y="in" aria-pressed="true">joined</button><button data-y="voted" aria-pressed="false">voted</button></div>
+<div class="grp"><b>history</b><button data-n="1" aria-pressed="false">1 poll</button><button data-n="3" aria-pressed="true">3 polls</button></div></div>
+<div class="fr ph" id="fr"><iframe id="f" src="page.html#open.in.3" title="Polls page preview"></iframe></div>
+<p class="note">The controls above are only for previewing. The page itself is the real design. Halloween is your real poll. The two "sample" cards are made up so you can see a longer history. "Holiday Chaos" is a made-up theme.</p>
+<script>
+var st={s:'open',y:'in',n:3,d:'ph'};
+function go(){document.getElementById('f').contentWindow.location.hash=st.s+'.'+st.y+'.'+st.n;document.getElementById('fr').className='fr '+st.d}
+[].forEach.call(document.querySelectorAll('button'),function(b){b.onclick=function(){var k=Object.keys(b.dataset)[0];st[k]=b.dataset[k];[].forEach.call(b.parentNode.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b)});go()}});
+</script></body></html>

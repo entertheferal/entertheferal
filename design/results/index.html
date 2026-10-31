@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Horror Movie Poll Results</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Archivo:wght@400;500;600;700;800&display=swap">
+<style>
+@font-face{font-family:'ED Fairville';src:url(../../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--red-on-ink:#ff7a6e;
+--black:'ED Fairville','UnifrakturCook',Georgia,serif;--archivo:'Archivo','Helvetica Neue',Arial,sans-serif;--mono:'IBM Plex Mono','Courier New',monospace;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono)}
+body::after{content:"";position:fixed;inset:0;background:url(art/grain.webp);mix-blend-mode:multiply;opacity:.55;pointer-events:none;z-index:60}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+img{display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* hero */
+.hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;padding:clamp(1.5rem,4vw,2.5rem) 0 0}
+.hero .art{position:absolute;filter:invert(1);pointer-events:none;mix-blend-mode:screen}
+.hero .a1{right:-6%;top:-10%;height:125%;opacity:.55;transform:rotate(8deg)}
+.hero .a2{left:-9%;bottom:-30%;height:110%;opacity:.3;transform:rotate(-12deg) scaleX(-1)}
+.hero .in{position:relative;display:flex;flex-direction:column;gap:1.1rem;padding-bottom:0}
+.eyebrow{display:flex;gap:.7rem;align-items:center;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow i{width:.62rem;height:.62rem;background:var(--red-on-ink);transform:rotate(45deg);flex:none}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(3.6rem,13vw,9.5rem);line-height:.88;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{display:flex;flex-direction:column;gap:.2rem;position:relative;width:max-content;max-width:100%}
+.sub b{font-family:var(--archivo);font-weight:800;font-size:clamp(1.3rem,3.6vw,2rem);letter-spacing:-.01em}
+.sub img{width:100%;max-width:19rem;filter:invert(1);mix-blend-mode:screen;margin-top:-.15rem}
+.tag{max-width:36rem;font-family:var(--archivo);font-size:1.1rem;color:#d8d6cf;margin:0}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid #5a5850;margin-top:1.2rem}
+.fact{padding:1rem 0 1.2rem;display:flex;align-items:center;gap:.8rem;border-right:1.5px solid #5a5850;padding-left:1rem}
+.fact:first-child{padding-left:0}.fact:last-child{border-right:0}
+.fact .n{display:flex;height:2.4rem}.fact .n img{height:2.4rem;filter:invert(1);mix-blend-mode:screen}
+.fact small{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#b9b7af;line-height:1.3}
+
+/* section heads */
+section.wrap{padding-top:clamp(2.4rem,5vw,3.8rem);padding-bottom:0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;border-bottom:2px solid var(--ink);padding-bottom:.45rem;margin:0 0 1.3rem;flex-wrap:wrap}
+.sec-h h2{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,5vw,3rem);line-height:1;margin:0}
+.sec-h small{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* highlights */
+.hl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.hc{border:2px solid var(--ink);padding:1.1rem;display:flex;flex-direction:column;gap:.5rem;background:var(--paper);position:relative;min-height:12.5rem}
+.hc .k{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:.5rem}
+.hc .nm{font-family:var(--archivo);font-weight:800;font-size:1.7rem;line-height:1.02;letter-spacing:-.02em}
+.hc p{margin:0;font-family:var(--archivo);color:var(--ink-soft);font-size:.95rem;line-height:1.35}
+.hc .big{margin-top:auto;display:flex;align-items:flex-end;gap:.5rem}.hc .big img{height:3rem;mix-blend-mode:multiply}.hc .big small{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding-bottom:.3rem}
+.hc:nth-child(2){transform:rotate(.4deg)}.hc:nth-child(3){transform:rotate(-.4deg)}
+.hc.feat{grid-column:span 2}.hc.feat .nm{font-size:clamp(2.2rem,5vw,3.4rem)}.hc.feat .big img{height:4rem}.hc .j{font-weight:600;color:var(--ink);font-size:1rem}.hc.red .j{color:var(--paper)}.hc.red{background:var(--ink);color:var(--paper)}.hc.red .k,.hc.red p{color:#c9c7bf}.hc.red p.j{color:var(--paper)}.hc.red .big img{filter:invert(1);mix-blend-mode:screen}
+
+/* leaderboard */
+.lb{display:flex;flex-direction:column;position:relative}
+.lb::before{content:"";position:absolute;right:6rem;top:-7.5rem;width:11rem;height:13rem;background:url(art/red.webp) center/contain no-repeat;mix-blend-mode:multiply;opacity:.5;pointer-events:none;transform:rotate(14deg)}
+.lr{display:grid;grid-template-columns:2.6rem minmax(0,1fr) auto;gap:.2rem 1rem;align-items:center;padding:.85rem 0;border-bottom:1px solid var(--line);position:relative}
+.lr .rk{font-family:var(--black);font-size:2.3rem;line-height:1;text-align:center}
+.lr .who b{font-family:var(--archivo);font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.lr .who small{display:block;font-size:.72rem;color:var(--ink-soft);letter-spacing:.04em}
+.lr .gc{display:flex;align-items:center;gap:.5rem}.lr .gc img{height:2.2rem;mix-blend-mode:multiply}
+.lr .gc small{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.lr:first-child .who b{font-size:1.6rem}.lr:first-child .gc img{height:2.8rem}
+
+/* find */
+.find{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin:0 0 1.2rem}
+.find label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.find select{background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem;min-height:2.9rem;font-size:16px;min-width:13rem}
+.find button{background:none;border:1.5px solid var(--ink);padding:.6rem 1rem;min-height:2.9rem;letter-spacing:.06em;font-size:.8rem}
+.find button[hidden]{display:none}
+.me{flex-basis:100%;font-family:var(--archivo);font-size:1.05rem;margin:0}
+.me[hidden]{display:none}
+
+/* awards grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));gap:1.1rem}
+.cat{border:1.5px solid var(--ink);background:var(--paper);padding:1.1rem 1.1rem 1rem;display:flex;flex-direction:column;gap:.8rem;position:relative;min-width:0;transition:opacity .2s,transform .2s,box-shadow .2s}
+.cat .no{display:flex;justify-content:space-between;align-items:center;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.cat h3{font-family:var(--archivo);font-weight:700;font-size:1.05rem;line-height:1.2;margin:0;max-width:92%;text-wrap:balance}
+.gold{background:var(--ink);color:var(--paper);padding:.9rem 1rem;display:flex;gap:1rem;align-items:flex-end;justify-content:space-between;position:relative;overflow:hidden}
+.gold .nms{display:flex;flex-direction:column;gap:.1rem;min-width:0;position:relative}
+.gold .lab{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#c9c7bf;display:flex;gap:.5rem;align-items:center}
+.gold .lab em{font-style:normal;background:var(--paper);color:var(--ink);padding:0 .35rem}
+.nm1{font-family:var(--archivo);font-weight:800;line-height:1.05;letter-spacing:-.02em;overflow-wrap:anywhere}
+.s1 .nm1{font-size:1.75rem}.s2 .nm1{font-size:1.3rem}.s3 .nm1{font-size:1.05rem}
+.gold .v{display:flex;flex-direction:column;align-items:flex-end;gap:.1rem;flex:none;position:relative}
+.gold .v .d{display:flex;height:2.5rem}.gold .v img{height:2.5rem;filter:invert(1);mix-blend-mode:screen}
+.gold .v small{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#c9c7bf}
+.place{display:grid;grid-template-columns:2.4rem 1fr;gap:.6rem;align-items:baseline;font-size:.88rem;line-height:1.35}
+.place .l{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.place b{font-family:var(--archivo);font-weight:700}
+.place .c{color:var(--ink-soft);white-space:nowrap}
+.place.note{color:var(--ink-soft);font-style:italic;font-family:var(--archivo)}
+.stamp{position:absolute;right:.7rem;top:.5rem;font-family:var(--black);font-size:1.6rem;color:var(--red);transform:rotate(-8deg);border:2px solid var(--red);padding:.05rem .5rem .1rem;line-height:1;background:var(--paper);z-index:2}
+.cat.none{background:var(--paper-2);border-style:dashed}
+.cat.none .e{display:flex;align-items:center;gap:1rem;color:var(--ink-soft);font-family:var(--archivo)}.cat.none .e img{width:4.6rem;mix-blend-mode:multiply;opacity:.8}
+.cat.dim{opacity:.3}
+.cat.hit{box-shadow:6px 6px 0 var(--ink);transform:translate(-2px,-2px)}
+.hit mark{background:var(--red);color:var(--paper);padding:0 .2rem}
+.gold mark{background:var(--red-on-ink);color:var(--ink)}
+
+footer{margin-top:clamp(3rem,6vw,5rem);background:var(--ink);color:var(--paper);padding:2.2rem 0 2.6rem;position:relative;overflow:hidden}
+footer .art{position:absolute;right:-8%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.4;pointer-events:none}
+footer .in{position:relative;display:flex;flex-direction:column;gap:.5rem}
+footer b{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1}
+footer p{margin:0;color:#c9c7bf;font-family:var(--archivo);max-width:34rem}
+
+@media (max-width:980px){.hl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .hl{grid-template-columns:1fr}.hc.feat{grid-column:auto}.hc{min-height:0}.hc:nth-child(n){transform:none}
+  .grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1.5px solid #5a5850;padding:.8rem 0}.fact:last-child{border-bottom:0}
+  .lb::before{display:none}
+  .lr{grid-template-columns:2rem minmax(0,1fr) auto}.lr .rk{font-size:1.9rem}
+  .find select{width:100%}
+  .hero .a1{height:80%;right:-20%;opacity:.28}.hero .a2{opacity:.18}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style></head>
+<body>
+<header class="hero"><img class="art a1" src="art/loop.webp" alt=""><img class="art a2" src="art/drip.webp" alt="">
+ <div class="wrap"><div class="in">
+  <div class="eyebrow"><i></i>Halloween 2026 &middot; Community poll</div>
+  <h1>Horror Movie Poll</h1>
+  <div class="sub"><b>The results are in.</b><img src="icons/underline.webp" alt=""></div>
+  <p class="tag">You all voted and honestly, nobody's wrong. Here's who survives the horror movie and who gets us all killed.</p>
+  <div class="facts" id="facts"></div>
+ </div></div>
+</header>
+<main>
+<section class="wrap" aria-labelledby="h-hl"><div class="sec-h"><h2 id="h-hl">Big moments</h2><small>The numbers behind the screams</small></div><div class="hl" id="hl"></div></section>
+<section class="wrap" aria-labelledby="h-aw"><div class="sec-h"><h2 id="h-aw">Every category</h2><small id="count"></small></div>
+ <div class="find"><label for="who">Find a name</label><select id="who"></select><button id="clr" type="button" hidden>Clear</button><p class="me" id="me" hidden aria-live="polite"></p></div>
+ <div class="grid" id="grid"></div></section>
+</main>
+<footer><img class="art" src="art/bold.webp" alt=""><div class="wrap"><div class="in"><b>Thanks for playing.</b><p>Every vote counted, even the ones for falling asleep on watch. A new poll is coming soon.</p></div></div></footer>
+<script>
+(function(){
+function T(n){return {tie:n}}
+var N='singles';
+// [title, gold names, gold votes, silver, bronze] ; silver/bronze = {n:[names],v} | {tie:12,v:1} | 'singles' | 'none'
+var D=[
+['Wait, I just realized… before the lights go out',['Aurora','Ed D. Mame','Drakaina Mimosa'],3,{n:['Andrada','Daria.f'],v:2},{tie:12,v:1}],
+['Name the zombies',['Ed D. Mame'],7,{n:['Francesca'],v:3},{n:['Aurora','Esti','Drakaina Mimosa','Stephanie','TheWinterNyx'],v:2}],
+['Survives but trips in the final scene',['Heather'],4,{n:['Esti','Kasia'],v:3},{n:['Pauline Kim','Ed D. Mame','Kyoko'],v:2}],
+['“I think it’s gone” jinx',['Pauline Kim'],5,{n:['Andrada','Aurora','Daria.f','Stephanie','Esti','Emmi'],v:2},N],
+['Hides a bite',['Heather','Cpt. Sparky'],3,{tie:12,v:1},'none'],
+['Drops the keys',['Pauline Kim'],3,{n:['Emmi','TheWinterNyx'],v:2},N],
+['Distracted by an abandoned building',['Ed D. Mame'],4,{n:['Kasia','Heather','Esti'],v:3},{n:['Maha Naveed','Daria.f','Henna','Stephanie'],v:2}],
+['Goes back to save someone, both survive',['Kasia'],7,{n:['Heather'],v:5},{n:['Cpt. Sparky','Maha Naveed'],v:3}],
+['Takes charge in a panic',['Heather'],13,{n:['Cpt. Sparky','VictoriaWHOA','Lyana','Anna I.'],v:2},N],
+['Joke at the worst moment',['Ed D. Mame'],8,{n:['Stephanie'],v:5},{n:['VictoriaWHOA'],v:3}],
+['Silent, then the right tool',['Andrada','Kasia'],3,{n:['Sonia/Iris','Kyoko','TheWinterNyx','Aurora','Emmi'],v:2},N],
+['Snacks, first aid, charger',['TheWinterNyx'],4,{n:['Aurora'],v:3},{n:['Daria.f','Esti','Stephanie','Francesca','Henna'],v:2}],
+['Cool jacket, vague backstory',['Daria.f'],5,{n:['Andrada'],v:4},{n:['Cat/Laura','Henna','Kasia','Maha Naveed','Pandasjo'],v:2}],
+['“Bad feeling” but opens the door',['squeaky85 (Lori)','Henna','Aurora','Andrada','Cpt. Sparky'],3,{n:['Pauline Kim'],v:2},N],
+['“I’ve seen this before,” has a plan',['Heather'],4,{n:['VictoriaWHOA'],v:3},{n:['Sonia/Iris','Kyoko','Francesca','SindyT','Cat/Laura','Aurora'],v:2}],
+['Volunteers to go first',['Ed D. Mame'],6,{n:['Cpt. Sparky','VictoriaWHOA','Esti'],v:3},{n:['Maha Naveed','Lyana'],v:2}],
+['Insists there’s a logical explanation',['squeaky85 (Lori)','Lyana'],3,{n:['Kasia','Ed D. Mame','Holly','Anna I.','Pauline Kim','Esti','Joules'],v:2},N],
+['Runs fast in heels or one sock',['VictoriaWHOA','Daria.f','Andrada'],3,{n:['Henna','Kyoko','Holly','Esti','Heather'],v:2},N],
+['“I’ll be fine, go without me”',['Andrada'],4,{n:['Cpt. Sparky','Heather'],v:3},{n:['Mai','Francesca','Joules','Emmi'],v:2}],
+['Hides in the most obvious spot',['Joules','Kyoko'],3,{n:['Stephanie','Sonia/Iris','SindyT','Maha Naveed','Aurora','Francesca'],v:2},N],
+['Says “hello?” into the dark',['Esti'],4,{n:['Sonia/Iris','Lyana','Pandasjo','Kyoko','Mai','Andrada'],v:2},N],
+['Falls asleep on watch',['Pauline Kim'],3,{n:['Andrada','Mai','Daria.f'],v:2},N],
+['Shortcut through the abandoned place',['Kasia'],4,{n:['Ed D. Mame','Drakaina Mimosa','Henna'],v:2},N],
+['“Can’t trust anyone,” trusts a smiling stranger',['Cat/Laura','VictoriaWHOA'],3,{n:['Heather','Mai'],v:2},N],
+['Detailed end-of-world journal',['Anna I.','Henna'],3,{n:['VictoriaWHOA','Lyana','Kasia','TheWinterNyx'],v:2},N],
+['Adopts every stray',['Emmi'],11,{n:['Ed D. Mame','Maha Naveed'],v:2},N],
+['“I’ll scout ahead,” returns with new friends',['Ed D. Mame','Heather'],3,{n:['Daria.f','Anna I.','Pauline Kim','Andrada','Aurora'],v:2},N]
+];
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function digs(n){return '<span class="sr">'+n+'</span>'+String(n).split('').map(function(d){return '<img src="icons/n'+d+'.webp" alt="" aria-hidden="true">'}).join('')}
+function pad(i){return (i<10?'0':'')+i}
+// stats
+var S={};function P(n){return S[n]||(S[n]={n:n,solo:0,shared:0,silver:0,bronze:0})}
+D.forEach(function(r){if(!r[1])return;
+ r[1].forEach(function(n){var p=P(n);if(r[1].length>1)p.shared++;else p.solo++});
+ if(r[3]&&r[3].n)r[3].n.forEach(function(n){P(n).silver++});
+ if(r[4]&&r[4].n)r[4].n.forEach(function(n){P(n).bronze++})});
+var people=Object.keys(S).map(function(k){var p=S[k];p.gold=p.solo+p.shared;p.pod=p.gold+p.silver+p.bronze;return p});
+var byGold=people.slice().sort(function(a,b){return b.gold-a.gold||b.solo-a.solo||b.pod-a.pod||a.n.localeCompare(b.n)});
+var byPod=people.slice().sort(function(a,b){return b.pod-a.pod||b.gold-a.gold});
+var voted=D.filter(function(r){return r[1]}).length;
+var winners=people.filter(function(p){return p.gold>0}).length;
+// facts
+document.getElementById('facts').innerHTML=
+ [[D.length,'categories'],[winners,'different people took a gold'],[people.length,'people made the podium']].map(function(f){return '<div class="fact"><span class="n">'+digs(f[0])+'</span><small>'+f[1]+'</small></div>'}).join('');
+// highlights
+var land=D.filter(function(r){return r[1]}).map(function(r){var m=r[1].length===1?r[2]-(r[3]&&r[3].v||0):0;return {r:r,m:m}}).sort(function(a,b){return b.r[2]-a.r[2]});
+var l1=land[0].r,l2=land[1].r;
+var top=byGold[0],tp=byPod[0];
+var hl=[
+ {k:'Biggest landslide',nm:l1[1][0],p:l1[0]+'.',big:l1[2],u:'votes',red:true},
+ {k:'Runaway #2',nm:l2[1][0],p:l2[0]+'.',big:l2[2],u:'votes'},
+ {k:'Most golds',nm:top.n,p:top.solo+' solo wins and '+top.shared+' shared.',big:top.gold,u:'golds'},
+ {k:'On the podium most',nm:tp.n,p:tp.gold+(tp.gold===1?' gold, ':' golds, ')+tp.silver+(tp.silver===1?' silver and ':' silvers and ')+tp.bronze+(tp.bronze===1?' bronze':' bronzes')+'. Always in the mix.',big:tp.pod,u:'podiums'}];
+hl=[hl[2],hl[0],hl[1]];hl[0].k='Most golds won';hl[0].red=true;hl[0].feat=true;hl[1].red=false;
+hl[0].j='Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed.';hl[1].j='Thirteen of you saw the chaos and said "her." Brave.';hl[2].j='Yes, including the one that is definitely the villain.';
+document.getElementById('hl').innerHTML=hl.map(function(h){return '<article class="hc'+(h.red?' red':'')+(h.feat?' feat':'')+'"><div class="k"><i style="display:inline-block;width:.6rem;height:.6rem;background:currentColor;transform:rotate(45deg)"></i>'+h.k+'</div><div class="nm">'+esc(h.nm)+'</div><p>'+esc(h.p)+'</p><p class="j">'+esc(h.j)+'</p><div class="big">'+digs(h.big)+'<small>'+h.u+'</small></div></article>'}).join('');
+// grid
+document.getElementById('count').textContent=D.length+' categories';
+function names(a,hl){return a.map(function(n){return hl===n?'<mark>'+esc(n)+'</mark>':esc(n)}).join(', ')}
+function place(l,x,sel){
+ if(x==='none')return '';
+ if(x==='singles')return '<div class="place note"><span class="l">'+l+'</span><span>Everyone else got 1 vote.</span></div>';
+ if(x.tie)return '<div class="place"><span class="l">'+l+'</span><span><b>'+x.tie+'-way tie</b> <span class="c">· '+x.v+' vote each</span></span></div>';
+ return '<div class="place"><span class="l">'+l+'</span><span><b>'+names(x.n,sel)+'</b> <span class="c">· '+x.v+(x.n.length>1?' each':'')+'</span></span></div>'}
+function card(r,i,sel){
+ if(!r[1])return '<article class="cat none"><div class="no"><span>No. '+pad(i+1)+'</span></div><h3>'+esc(r[0])+'</h3><div class="e"><img src="icons/cloud.webp" alt=""><span>No votes. Nobody claimed this one.</span></div></article>';
+ var g=r[1],sz=g.length===1?'s1':g.length<=3?'s2':'s3',tie=g.length>1;
+ var land=g.length===1&&r[2]>=10;
+ var has=sel&&(g.indexOf(sel)>-1||(r[3]&&r[3].n&&r[3].n.indexOf(sel)>-1)||(r[4]&&r[4].n&&r[4].n.indexOf(sel)>-1));
+ return '<article class="cat'+(sel?(has?' hit':' dim'):'')+'" data-i="'+i+'">'+(land?'<span class="stamp" aria-hidden="true">landslide</span>':'')+
+  '<div class="no"><span>No. '+pad(i+1)+'</span></div><h3>'+esc(r[0])+'</h3>'+
+  '<div class="gold '+sz+'"><div class="nms"><span class="lab">1st'+(tie?' <em>'+g.length+'-way tie</em>':'')+'</span>'+g.map(function(n){return '<span class="nm1">'+(sel===n?'<mark>'+esc(n)+'</mark>':esc(n))+'</span>'}).join('')+'</div><div class="v"><span class="d">'+digs(r[2])+'</span><small>'+(tie?'votes each':'votes')+'</small></div></div>'+
+  place('2nd',r[3],sel)+place('3rd',r[4],sel)+'</article>'}
+var grid=document.getElementById('grid'),sel0=document.getElementById('who'),me=document.getElementById('me'),clr=document.getElementById('clr');
+sel0.innerHTML='<option value="">Everyone</option>'+people.slice().sort(function(a,b){return a.n.localeCompare(b.n)}).map(function(p){return '<option value="'+esc(p.n)+'">'+esc(p.n)+'</option>'}).join('');
+function paint(){var s=sel0.value;grid.innerHTML=D.map(function(r,i){return card(r,i,s)}).join('');clr.hidden=!s;me.hidden=!s;
+ if(s){var p=S[s];me.innerHTML='<b>'+esc(s)+'</b>: '+p.gold+' gold'+(p.gold===1?'':'s')+', '+p.silver+' silver'+(p.silver===1?'':'s')+', '+p.bronze+' bronze'+(p.bronze===1?'':'s')+'. Highlighted below.'}}
+sel0.addEventListener('change',paint);clr.addEventListener('click',function(){sel0.value='';paint()});
+paint();
+})();
+</script></body></html>

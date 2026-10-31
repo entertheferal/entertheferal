@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit Profile - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../../fonts/archivo-700.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);min-height:100vh;display:flex;flex-direction:column}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.back{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:.4rem}
+.back::before{content:"";width:.5rem;height:.5rem;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+
+.layout{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);min-height:calc(100vh - 60px)}
+@media (max-width:900px){.layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}}
+
+.form-col{padding:1.5rem;overflow-y:auto;border-right:1.5px solid var(--ink)}
+@media (max-width:900px){.form-col{border-right:0;border-bottom:1.5px solid var(--ink);order:2}}
+
+.preview-col{background:var(--paper-2);overflow-y:auto;display:flex;flex-direction:column}
+@media (max-width:900px){.preview-col{max-height:380px;order:1}}
+
+h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:0 0 1.25rem}
+
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between}
+.field input,.field textarea{background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;font-size:16px;width:100%}
+.field textarea{min-height:6rem;resize:vertical;font-family:var(--archivo);line-height:1.5}
+.field .hint{font-size:.72rem;color:var(--ink-soft)}
+.field .hint.ok{color:var(--green)}
+.field .hint.bad{color:var(--red)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media (max-width:480px){.field-row{grid-template-columns:1fr}}
+
+.section{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line)}
+.section:last-child{border-bottom:0}
+.section h2{font-family:var(--black);font-weight:400;font-size:1.4rem;margin:0 0 .8rem}
+
+/* Avatar picker */
+.avatar-tabs{display:flex;gap:0;margin-bottom:.8rem}
+.avatar-tab{flex:1;padding:.6rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);border-right:0;background:transparent}
+.avatar-tab:last-child{border-right:1.5px solid var(--ink)}
+.avatar-tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.avatar-panel{display:none;padding:.8rem 0}
+.avatar-panel.active{display:block}
+
+.bg-picker{display:flex;gap:.5rem;margin-bottom:.8rem}
+.bg-picker label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-right:.5rem;display:flex;align-items:center}
+.bg-opt{width:2rem;height:2rem;border:2px solid var(--ink);cursor:pointer}
+.bg-opt.bg-ink{background:var(--ink)}
+.bg-opt.bg-paper{background:var(--paper)}
+.bg-opt.bg-red{background:var(--red)}
+.bg-opt[aria-checked="true"]{outline:2px solid var(--ink);outline-offset:2px}
+
+.icon-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+.icon-opt{aspect-ratio:1;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:.4rem;background:var(--paper-2)}
+.icon-opt img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.icon-opt[aria-checked="true"]{border-color:var(--ink);background:var(--paper)}
+
+.photo-upload{display:flex;flex-direction:column;gap:.6rem}
+.photo-preview{width:8rem;height:8rem;border:2px solid var(--ink);background:var(--paper-2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.photo-btns{display:flex;flex-wrap:wrap;gap:.5rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.4rem;padding:.45rem 1rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.8rem;letter-spacing:.04em}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--paper)}
+.btn.small{min-height:2rem;padding:.3rem .7rem;font-size:.72rem}
+
+/* Cover picker */
+.cover-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+@media (max-width:480px){.cover-grid{grid-template-columns:repeat(3,1fr)}}
+.cover-opt{aspect-ratio:16/9;border:2px solid var(--line);overflow:hidden;cursor:pointer;position:relative}
+.cover-opt img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
+.cover-opt[aria-checked="true"]{border-color:var(--ink);border-width:3px}
+
+/* Save bar */
+.save-bar{position:sticky;bottom:0;background:var(--paper);border-top:1.5px solid var(--ink);padding:.8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.save-status{font-size:.82rem;color:var(--ink-soft)}
+.save-status.ok{color:var(--green)}
+.save-status.bad{color:var(--red)}
+
+/* Preview */
+.preview{background:var(--paper);flex:1}
+.preview .cover{height:8rem;position:relative;overflow:hidden;background:var(--paper-2);border-bottom:2px solid var(--ink)}
+.preview .cover-img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;opacity:.95}
+.preview .head{display:flex;gap:1rem;align-items:flex-end;padding:0 1rem;margin-top:-2.5rem}
+.preview .avatar{width:5.5rem;height:5.5rem;background:var(--ink);color:var(--paper);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--black);font-size:3.5rem;line-height:1;flex:none;overflow:hidden}
+.preview .avatar.bg-ink{background:var(--ink);color:var(--paper)}
+.preview .avatar.bg-paper{background:var(--paper);color:var(--ink)}
+.preview .avatar.bg-red{background:var(--red);color:var(--paper)}
+.preview .avatar img.icon{width:65%;height:65%;object-fit:contain}
+.preview .avatar.bg-ink img.icon{filter:invert(1)}
+.preview .avatar.bg-paper img.icon{mix-blend-mode:multiply}
+.preview .avatar.bg-red img.icon{filter:invert(1)}
+.preview .avatar img.photo{width:100%;height:100%;object-fit:cover}
+.preview .id{padding:2.5rem 0 .3rem;min-width:0}
+.preview .name{font-family:var(--black);font-weight:400;font-size:2.2rem;line-height:1;margin:0;overflow-wrap:anywhere}
+.preview .handle{font-size:.78rem;color:var(--ink-soft);margin-top:.2rem}
+
+.loading{padding:3rem;text-align:center;color:var(--ink-soft)}
+
+/* Cropper modal */
+.crop-modal{position:fixed;inset:0;background:rgba(11,11,11,.8);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.crop-card{background:var(--paper);border:2px solid var(--ink);padding:1.25rem;max-width:400px;width:100%}
+.crop-card h3{font-family:var(--black);font-weight:400;font-size:1.5rem;margin:0 0 .8rem}
+.crop-area{width:100%;aspect-ratio:1;background:#000;position:relative;overflow:hidden;margin-bottom:1rem}
+.crop-area img{position:absolute;transform-origin:0 0}
+.crop-controls{display:flex;gap:.5rem;margin-bottom:1rem}
+.crop-controls input[type="range"]{flex:1}
+.crop-btns{display:flex;gap:.5rem}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/settings" class="back">Settings</a>
+  <a href="/" class="mark">the Feral Collective</a>
+</header>
+
+<div class="layout" id="layout">
+  <div class="loading" style="grid-column:1/-1">Loading...</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../../js/supabase-config.js"></script>
+<script src="../../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  const ICONS = window.FERAL.AVATAR_ICONS;
+  const COVERS = window.FERAL.COVER_KEYS;
+  const SOCIALS = window.FERAL.SOCIALS;
+
+  let currentUser, profile, sb;
+  let isDirty = false;
+  let photoFile = null;
+  let photoPreviewUrl = null;
+
+  async function init() {
+    sb = FeralAuth.getSupabase();
+    currentUser = await FeralAuth.getUser();
+    profile = currentUser ? await FeralAuth.getProfile() : null;
+
+    if (!currentUser || !profile) {
+      window.location.href = '/login?redirect=/settings/profile';
+      return;
+    }
+
+    renderEditor();
+    updatePreview();
+  }
+
+  function getFormData() {
+    return {
+      display_name: document.getElementById('displayName')?.value.trim() || null,
+      bio: document.getElementById('bio')?.value.trim() || null,
+      handle: document.getElementById('handle')?.value.toLowerCase().trim() || profile.handle,
+      socials: {
+        instagram: document.getElementById('instagram')?.value.trim().replace(/^@/, '') || null,
+        tiktok: document.getElementById('tiktok')?.value.trim().replace(/^@/, '') || null,
+        youtube: document.getElementById('youtube')?.value.trim().replace(/^@/, '') || null,
+        discord: document.getElementById('discord')?.value.trim() || null,
+        site: document.getElementById('site')?.value.trim() || null
+      },
+      avatar_type: document.querySelector('.avatar-tab[aria-selected="true"]')?.dataset.type || 'initial',
+      avatar_bg: document.querySelector('.bg-opt[aria-checked="true"]')?.dataset.bg || 'ink',
+      avatar_icon: document.querySelector('.icon-opt[aria-checked="true"]')?.dataset.icon || null,
+      cover_key: document.querySelector('.cover-opt[aria-checked="true"]')?.dataset.cover || 'loop'
+    };
+  }
+
+  function updatePreview() {
+    const data = getFormData();
+    const initial = (data.display_name || profile.handle || '?')[0].toUpperCase();
+
+    // Cover
+    const coverImg = document.getElementById('previewCover');
+    if (coverImg) coverImg.src = `../../images/covers/${data.cover_key}.webp`;
+
+    // Avatar
+    const avatar = document.getElementById('previewAvatar');
+    if (avatar) {
+      avatar.className = 'avatar bg-' + data.avatar_bg;
+      if (data.avatar_type === 'photo' && photoPreviewUrl) {
+        avatar.innerHTML = `<img class="photo" src="${photoPreviewUrl}" alt="">`;
+      } else if (data.avatar_type === 'photo' && profile.avatar_path) {
+        FeralAuth.getAvatarUrl(profile.id, profile.avatar_updated_at).then(url => {
+          if (url) avatar.innerHTML = `<img class="photo" src="${url}" alt="">`;
+        });
+      } else if (data.avatar_type === 'icon' && data.avatar_icon) {
+        avatar.innerHTML = `<img class="icon" src="../../images/avatars/${data.avatar_icon}.webp" alt="">`;
+      } else {
+        avatar.innerHTML = `<span>${FeralAuth.esc(initial)}</span>`;
+      }
+    }
+
+    // Name
+    const nameEl = document.getElementById('previewName');
+    if (nameEl) nameEl.textContent = data.display_name || profile.handle;
+
+    // Handle
+    const handleEl = document.getElementById('previewHandle');
+    if (handleEl) handleEl.textContent = '@' + data.handle;
+  }
+
+  function markDirty() {
+    isDirty = true;
+    const status = document.getElementById('saveStatus');
+    if (status) {
+      status.textContent = 'Unsaved changes';
+      status.className = 'save-status';
+    }
+  }
+
+  function renderEditor() {
+    const layout = document.getElementById('layout');
+    const socials = profile.socials || {};
+
+    // Check if handle can be changed
+    const canChangeHandle = !profile.handle_changed_at ||
+      new Date(profile.handle_changed_at) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+
+    layout.innerHTML = `
+      <div class="form-col">
+        <h1>Edit profile</h1>
+
+        <div class="section">
+          <div class="field">
+            <label for="displayName">Display name <span id="nameCount"></span></label>
+            <input type="text" id="displayName" maxlength="24" value="${FeralAuth.esc(profile.display_name || '')}">
+          </div>
+
+          <div class="field">
+            <label for="handle">Handle</label>
+            <input type="text" id="handle" value="${FeralAuth.esc(profile.handle)}" ${canChangeHandle ? '' : 'disabled'} pattern="[a-z0-9_.]{3,20}">
+            <span class="hint" id="handleHint">${canChangeHandle ? 'You can change this once every 30 days' : 'You changed this recently. Try again later.'}</span>
+          </div>
+
+          <div class="field">
+            <label for="bio">Bio <span id="bioCount"></span></label>
+            <textarea id="bio" maxlength="280">${FeralAuth.esc(profile.bio || '')}</textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Avatar</h2>
+          <div class="avatar-tabs" role="tablist">
+            <button class="avatar-tab" role="tab" data-type="initial" aria-selected="${profile.avatar_type === 'initial' || !profile.avatar_type ? 'true' : 'false'}">Initial</button>
+            <button class="avatar-tab" role="tab" data-type="icon" aria-selected="${profile.avatar_type === 'icon' ? 'true' : 'false'}">Icon</button>
+            <button class="avatar-tab" role="tab" data-type="photo" aria-selected="${profile.avatar_type === 'photo' ? 'true' : 'false'}">Photo</button>
+          </div>
+
+          <div class="bg-picker">
+            <label>Background:</label>
+            <button type="button" class="bg-opt bg-ink" data-bg="ink" aria-checked="${profile.avatar_bg === 'ink' || !profile.avatar_bg ? 'true' : 'false'}" aria-label="Ink background"></button>
+            <button type="button" class="bg-opt bg-paper" data-bg="paper" aria-checked="${profile.avatar_bg === 'paper' ? 'true' : 'false'}" aria-label="Paper background"></button>
+            <button type="button" class="bg-opt bg-red" data-bg="red" aria-checked="${profile.avatar_bg === 'red' ? 'true' : 'false'}" aria-label="Red background"></button>
+          </div>
+
+          <div class="avatar-panel ${profile.avatar_type === 'initial' || !profile.avatar_type ? 'active' : ''}" id="panelInitial">
+            <p style="font-size:.85rem;color:var(--ink-soft);margin:0">Your initial will be shown on the selected background.</p>
+          </div>
+
+          <div class="avatar-panel ${profile.avatar_type === 'icon' ? 'active' : ''}" id="panelIcon">
+            <div class="icon-grid">
+              ${ICONS.map(icon => `
+                <button type="button" class="icon-opt" data-icon="${icon}" aria-checked="${profile.avatar_icon === icon ? 'true' : 'false'}" aria-label="${icon}">
+                  <img src="../../images/avatars/${icon}.webp" alt="">
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="avatar-panel ${profile.avatar_type === 'photo' ? 'active' : ''}" id="panelPhoto">
+            <div class="photo-upload">
+              <div class="photo-preview" id="photoPreview">
+                ${profile.avatar_type === 'photo' && profile.avatar_path ? '<img id="currentPhoto" src="" alt="">' : '<span style="color:var(--ink-soft);font-size:.8rem">No photo</span>'}
+              </div>
+              <div class="photo-btns">
+                <label class="btn outline small" style="cursor:pointer">
+                  Choose photo
+                  <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/heic" hidden>
+                </label>
+                <button type="button" class="btn outline small" id="removePhotoBtn">Remove</button>
+              </div>
+              <p class="hint">Square crop, max 150KB. We remove location data from your photo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Cover</h2>
+          <div class="cover-grid">
+            ${COVERS.map(key => `
+              <button type="button" class="cover-opt" data-cover="${key}" aria-checked="${profile.cover_key === key || (!profile.cover_key && key === 'loop') ? 'true' : 'false'}" aria-label="${key}">
+                <img src="../../images/covers/${key}.webp" alt="">
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Find me</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="instagram">Instagram</label>
+              <input type="text" id="instagram" value="${FeralAuth.esc(socials.instagram || '')}" placeholder="username">
+            </div>
+            <div class="field">
+              <label for="tiktok">TikTok</label>
+              <input type="text" id="tiktok" value="${FeralAuth.esc(socials.tiktok || '')}" placeholder="username">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="youtube">YouTube</label>
+              <input type="text" id="youtube" value="${FeralAuth.esc(socials.youtube || '')}" placeholder="channel">
+            </div>
+            <div class="field">
+              <label for="discord">Discord</label>
+              <input type="text" id="discord" value="${FeralAuth.esc(socials.discord || '')}" placeholder="username">
+            </div>
+          </div>
+          <div class="field">
+            <label for="site">Website</label>
+            <input type="url" id="site" value="${FeralAuth.esc(socials.site || '')}" placeholder="https://yoursite.com">
+            <span class="hint" id="siteHint">Must start with https://</span>
+          </div>
+        </div>
+
+        <div class="save-bar">
+          <span class="save-status" id="saveStatus">No changes</span>
+          <button type="button" class="btn" id="saveBtn">Save changes</button>
+        </div>
+      </div>
+
+      <div class="preview-col">
+        <div class="preview">
+          <div class="cover">
+            <img class="cover-img" id="previewCover" src="../../images/covers/${profile.cover_key || 'loop'}.webp" alt="">
+          </div>
+          <div class="head">
+            <div class="avatar bg-${profile.avatar_bg || 'ink'}" id="previewAvatar">
+              <span>${((profile.display_name || profile.handle || '?')[0]).toUpperCase()}</span>
+            </div>
+            <div class="id">
+              <h2 class="name" id="previewName">${FeralAuth.esc(profile.display_name || profile.handle)}</h2>
+              <div class="handle" id="previewHandle">@${FeralAuth.esc(profile.handle)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Load current photo if exists
+    if (profile.avatar_type === 'photo' && profile.avatar_path) {
+      FeralAuth.getAvatarUrl(profile.id, profile.avatar_updated_at).then(url => {
+        const img = document.getElementById('currentPhoto');
+        if (img && url) img.src = url;
+      });
+    }
+
+    // Event handlers
+    setupEventHandlers();
+    updatePreview();
+  }
+
+  function setupEventHandlers() {
+    // Text inputs - update preview and mark dirty
+    ['displayName', 'handle', 'bio', 'instagram', 'tiktok', 'youtube', 'discord', 'site'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', () => {
+          markDirty();
+          updatePreview();
+        });
+      }
+    });
+
+    // Character counters
+    const nameInput = document.getElementById('displayName');
+    const nameCount = document.getElementById('nameCount');
+    if (nameInput && nameCount) {
+      const updateNameCount = () => { nameCount.textContent = nameInput.value.length + '/24'; };
+      nameInput.addEventListener('input', updateNameCount);
+      updateNameCount();
+    }
+
+    const bioInput = document.getElementById('bio');
+    const bioCount = document.getElementById('bioCount');
+    if (bioInput && bioCount) {
+      const updateBioCount = () => { bioCount.textContent = bioInput.value.length + '/280'; };
+      bioInput.addEventListener('input', updateBioCount);
+      updateBioCount();
+    }
+
+    // Avatar tabs
+    document.querySelectorAll('.avatar-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+        document.querySelectorAll('.avatar-panel').forEach(p => p.classList.remove('active'));
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById('panel' + tab.dataset.type.charAt(0).toUpperCase() + tab.dataset.type.slice(1)).classList.add('active');
+        markDirty();
+        updatePreview();
+      });
+    });
+
+    // Background picker
+    document.querySelectorAll('.bg-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.bg-opt').forEach(o => o.setAttribute('aria-checked', 'false'));
+        opt.setAttribute('aria-checked', 'true');
+        markDirty();
+        updatePreview();
+      });
+    });
+
+    // Icon picker
+    document.querySelectorAll('.icon-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.icon-opt').forEach(o => o.setAttribute('aria-checked', 'false'));
+        opt.setAttribute('aria-checked', 'true');
+        markDirty();
+        updatePreview();
+      });
+    });
+
+    // Cover picker
+    document.querySelectorAll('.cover-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.cover-opt').forEach(o => o.setAttribute('aria-checked', 'false'));
+        opt.setAttribute('aria-checked', 'true');
+        markDirty();
+        updatePreview();
+      });
+    });
+
+    // Photo input
+    const photoInput = document.getElementById('photoInput');
+    if (photoInput) {
+      photoInput.addEventListener('change', handlePhotoSelect);
+    }
+
+    // Remove photo
+    document.getElementById('removePhotoBtn')?.addEventListener('click', () => {
+      photoFile = null;
+      photoPreviewUrl = null;
+      document.getElementById('photoPreview').innerHTML = '<span style="color:var(--ink-soft);font-size:.8rem">No photo</span>';
+      // Switch to initial tab
+      document.querySelectorAll('.avatar-tab').forEach(t => t.setAttribute('aria-selected', t.dataset.type === 'initial' ? 'true' : 'false'));
+      document.querySelectorAll('.avatar-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panelInitial').classList.add('active');
+      markDirty();
+      updatePreview();
+    });
+
+    // Save button
+    document.getElementById('saveBtn').addEventListener('click', save);
+
+    // Unsaved changes warning
+    window.addEventListener('beforeunload', (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  }
+
+  async function handlePhotoSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate type
+    if (!['image/jpeg', 'image/png', 'image/webp', 'image/heic'].includes(file.type)) {
+      alert('Please select a JPEG, PNG, WebP, or HEIC image.');
+      return;
+    }
+
+    // Show cropper modal
+    showCropper(file);
+  }
+
+  function showCropper(file) {
+    const modal = document.createElement('div');
+    modal.className = 'crop-modal';
+    modal.innerHTML = `
+      <div class="crop-card">
+        <h3>Crop your photo</h3>
+        <div class="crop-area" id="cropArea">
+          <img id="cropImg" alt="">
+        </div>
+        <div class="crop-controls">
+          <label style="font-size:.75rem;color:var(--ink-soft)">Zoom:</label>
+          <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1">
+        </div>
+        <div class="crop-btns">
+          <button type="button" class="btn" id="cropSaveBtn">Use this crop</button>
+          <button type="button" class="btn outline" id="cropCancelBtn">Cancel</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const img = document.getElementById('cropImg');
+    const area = document.getElementById('cropArea');
+    const zoom = document.getElementById('cropZoom');
+
+    let scale = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let imgWidth, imgHeight;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.onload = () => {
+        imgWidth = img.naturalWidth;
+        imgHeight = img.naturalHeight;
+        const areaSize = area.offsetWidth;
+        const minDim = Math.min(imgWidth, imgHeight);
+        scale = areaSize / minDim;
+        zoom.value = 1;
+        zoom.min = scale;
+        zoom.max = scale * 3;
+        zoom.value = scale;
+        updateCrop();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    function updateCrop() {
+      const areaSize = area.offsetWidth;
+      img.style.width = imgWidth * scale + 'px';
+      img.style.height = imgHeight * scale + 'px';
+
+      // Center if needed
+      const maxX = Math.max(0, imgWidth * scale - areaSize);
+      const maxY = Math.max(0, imgHeight * scale - areaSize);
+      offsetX = Math.min(Math.max(0, offsetX), maxX);
+      offsetY = Math.min(Math.max(0, offsetY), maxY);
+
+      img.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
+    }
+
+    zoom.addEventListener('input', () => {
+      const areaSize = area.offsetWidth;
+      const centerX = offsetX + areaSize / 2;
+      const centerY = offsetY + areaSize / 2;
+      const oldScale = scale;
+      scale = parseFloat(zoom.value);
+      offsetX = centerX * scale / oldScale - areaSize / 2;
+      offsetY = centerY * scale / oldScale - areaSize / 2;
+      updateCrop();
+    });
+
+    // Drag to pan
+    let dragging = false;
+    let startX, startY, startOffsetX, startOffsetY;
+
+    area.addEventListener('mousedown', (e) => {
+      dragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startOffsetX = offsetX;
+      startOffsetY = offsetY;
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      offsetX = startOffsetX - (e.clientX - startX);
+      offsetY = startOffsetY - (e.clientY - startY);
+      updateCrop();
+    });
+
+    document.addEventListener('mouseup', () => { dragging = false; });
+
+    // Touch support
+    area.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        dragging = true;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        startOffsetX = offsetX;
+        startOffsetY = offsetY;
+      }
+    }, { passive: true });
+
+    area.addEventListener('touchmove', (e) => {
+      if (!dragging || e.touches.length !== 1) return;
+      offsetX = startOffsetX - (e.touches[0].clientX - startX);
+      offsetY = startOffsetY - (e.touches[0].clientY - startY);
+      updateCrop();
+    }, { passive: true });
+
+    area.addEventListener('touchend', () => { dragging = false; });
+
+    // Cancel
+    document.getElementById('cropCancelBtn').addEventListener('click', () => modal.remove());
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+    // Save crop
+    document.getElementById('cropSaveBtn').addEventListener('click', async () => {
+      const areaSize = area.offsetWidth;
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      // Draw cropped region
+      const srcX = offsetX / scale;
+      const srcY = offsetY / scale;
+      const srcSize = areaSize / scale;
+
+      ctx.drawImage(img, srcX, srcY, srcSize, srcSize, 0, 0, 512, 512);
+
+      // Convert to WebP blob
+      canvas.toBlob((blob) => {
+        if (blob.size > 150000) {
+          // Try lower quality
+          canvas.toBlob((blob2) => {
+            if (blob2.size > 300000) {
+              alert('Image too large. Please try a smaller image.');
+              return;
+            }
+            finishCrop(blob2);
+          }, 'image/webp', 0.7);
+        } else {
+          finishCrop(blob);
+        }
+      }, 'image/webp', 0.85);
+
+      function finishCrop(blob) {
+        photoFile = new File([blob], 'avatar.webp', { type: 'image/webp' });
+        photoPreviewUrl = URL.createObjectURL(blob);
+        document.getElementById('photoPreview').innerHTML = `<img src="${photoPreviewUrl}" alt="">`;
+        modal.remove();
+        markDirty();
+        updatePreview();
+      }
+    });
+  }
+
+  async function save() {
+    const saveBtn = document.getElementById('saveBtn');
+    const status = document.getElementById('saveStatus');
+    const data = getFormData();
+
+    // Validate
+    if (data.handle.length < 3 || !/^[a-z0-9_.]{3,20}$/.test(data.handle)) {
+      status.textContent = 'Invalid handle format';
+      status.className = 'save-status bad';
+      return;
+    }
+
+    if (data.socials.site && !data.socials.site.startsWith('https://')) {
+      status.textContent = 'Website must start with https://';
+      status.className = 'save-status bad';
+      return;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+    status.textContent = 'Saving...';
+    status.className = 'save-status';
+
+    // Upload photo if changed
+    if (photoFile && data.avatar_type === 'photo') {
+      const { error: uploadError } = await FeralAuth.uploadAvatar(photoFile);
+      if (uploadError) {
+        status.textContent = 'Photo upload failed: ' + FeralAuth.friendlyError(uploadError);
+        status.className = 'save-status bad';
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save changes';
+        return;
+      }
+      data.avatar_path = `${currentUser.id}/avatar.webp`;
+      data.avatar_updated_at = new Date().toISOString();
+    }
+
+    // If switching away from photo, clear avatar_path
+    if (data.avatar_type !== 'photo') {
+      data.avatar_path = null;
+    }
+
+    // Update profile
+    const updates = {
+      display_name: data.display_name,
+      bio: data.bio,
+      socials: data.socials,
+      avatar_type: data.avatar_type,
+      avatar_bg: data.avatar_bg,
+      avatar_icon: data.avatar_type === 'icon' ? data.avatar_icon : null,
+      cover_key: data.cover_key
+    };
+
+    // Only include handle if changed
+    if (data.handle !== profile.handle) {
+      updates.handle = data.handle;
+    }
+
+    const { error } = await FeralAuth.updateProfile(updates);
+
+    if (error) {
+      status.textContent = FeralAuth.friendlyError(error);
+      status.className = 'save-status bad';
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save changes';
+      return;
+    }
+
+    // Update local profile
+    Object.assign(profile, updates);
+    if (updates.handle) profile.handle = updates.handle;
+
+    isDirty = false;
+    photoFile = null;
+    status.textContent = 'Saved!';
+    status.className = 'save-status ok';
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save changes';
+
+    setTimeout(() => {
+      if (!isDirty) {
+        status.textContent = 'No changes';
+        status.className = 'save-status';
+      }
+    }, 2000);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

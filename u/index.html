@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-500.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-700.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-800.woff2) format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono);padding:0}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Header */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-menu{display:flex;align-items:center;gap:1rem}
+.header-menu a,.header-menu button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.header-menu a:hover,.header-menu button:hover{border-bottom-color:var(--ink)}
+
+/* Cover */
+.cover{height:11rem;position:relative;overflow:hidden;background:var(--paper-2);border-bottom:2px solid var(--ink)}
+.cover-img{position:absolute;width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;opacity:.95}
+.cover-img.cv-bold{object-position:50% 40%}
+.cover-img.cv-drip{object-position:50% 60%}
+.cover-img.cv-loop{object-position:50% 50%}
+.cover-img.cv-orange{object-position:50% 45%}
+.cover-img.cv-red{object-position:50% 55%}
+
+/* Profile header */
+.head{display:grid;grid-template-columns:auto 1fr auto;gap:0 1.5rem;align-items:end;padding:0 1.5rem;margin-top:-3.6rem;position:relative}
+.avatar{width:8rem;height:8rem;background:var(--ink);color:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--black);font-size:5.6rem;line-height:1;position:relative;overflow:hidden}
+.avatar.bg-ink{background:var(--ink);color:var(--paper)}
+.avatar.bg-paper{background:var(--paper);color:var(--ink);border-color:var(--ink)}
+.avatar.bg-red{background:var(--red);color:var(--paper);border-color:var(--red)}
+.avatar span{transform:translateY(-.1rem)}
+.avatar img.icon{width:65%;height:65%;object-fit:contain}
+.avatar.bg-ink img.icon{filter:invert(1)}
+.avatar.bg-paper img.icon{mix-blend-mode:multiply}
+.avatar.bg-red img.icon{filter:invert(1)}
+.avatar img.photo{width:100%;height:100%;object-fit:cover}
+.id{padding:3.9rem 0 .3rem;min-width:0}
+.avatar{align-self:start}
+.actions{align-self:end}
+.name{font-family:var(--black);font-weight:400;font-size:clamp(3rem,7vw,4.6rem);line-height:.95;margin:0;overflow-wrap:anywhere}
+.handle{font-size:.82rem;color:var(--ink-soft);display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.3rem}
+.actions{padding-bottom:.4rem;display:flex;gap:.5rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:2.75rem;padding:.55rem 1.1rem;border:1.5px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;font-size:.8rem;letter-spacing:.06em}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.solid:hover{background:var(--paper);color:var(--ink)}
+
+/* Roles */
+.roles{display:flex;flex-wrap:wrap;gap:.45rem;padding:1.1rem 1.5rem 0}
+.role{display:inline-flex;align-items:center;gap:.45rem;border:1.5px solid var(--ink);padding:.28rem .65rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+.mk{display:inline-block;width:.62rem;height:.62rem;flex:none;background:currentColor}
+.mk-event{border-radius:50%}
+.mk-challenge{background:transparent;border:2px solid currentColor;border-radius:50%}
+
+/* Layout */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,21rem);gap:2rem 2.5rem;padding:1.5rem}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin:0 0 1rem}
+.sec-h h2{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:0}
+.bio{font-family:var(--archivo);font-size:1.12rem;line-height:1.6;margin:0;white-space:pre-line;text-wrap:pretty}
+.empty{display:flex;align-items:center;gap:1rem;color:var(--ink-soft);font-family:var(--archivo);padding:.5rem 0}
+.empty img{width:5rem;flex:none;mix-blend-mode:multiply;opacity:.8}
+
+/* Side */
+.side{display:flex;flex-direction:column;gap:2rem;min-width:0}
+.links{display:flex;flex-direction:column;border:2px solid var(--ink)}
+.lk{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem .9rem;border-bottom:1.5px solid var(--ink);color:var(--ink);text-decoration:none;min-height:3rem}
+.lk:last-child{border-bottom:0}
+.lk:hover{background:var(--ink);color:var(--paper)}
+.lk b{font-weight:500;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.lk span{font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lk::after{content:"↗";margin-left:.4rem;flex:none}
+.lk div{display:flex;align-items:center;gap:.9rem;min-width:0;justify-content:space-between;flex:1}
+
+/* Phone layout */
+@media (max-width:700px){
+  .topbar{padding:.7rem 1rem}
+  .cover{height:8.5rem}
+  .head{grid-template-columns:1fr;padding:0 1.1rem;margin-top:-3.1rem;gap:.9rem}
+  .id{padding:0}
+  .avatar{width:6.6rem;height:6.6rem;font-size:4.6rem}
+  .name{font-size:3.4rem}
+  .actions{padding:0}
+  .actions .btn{flex:1}
+  .roles{padding:.9rem 1.1rem 0}
+  .cols{grid-template-columns:1fr;padding:1.25rem 1.1rem 0;gap:1.75rem}
+  .side{display:contents}
+  .s-links{order:-1}
+  .links{display:grid;grid-template-columns:1fr 1fr}
+  .lk{border-right:1.5px solid var(--ink);padding:.6rem .8rem}
+  .lk:nth-child(2n){border-right:0}
+  .lk:nth-last-child(-n+2):nth-child(odd):last-child{grid-column:1/-1;border-right:0}
+  .lk div{flex-direction:column;align-items:flex-start;gap:.1rem}
+  .lk::after{position:absolute;right:.6rem}
+  .lk{position:relative}
+  .lk span{max-width:100%;font-size:.78rem}
+  .sec-h h2{font-size:1.75rem}
+}
+
+/* Footer */
+.foot{padding:2rem 1.5rem;border-top:1px solid var(--line);margin-top:2rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font-size:.72rem}
+.foot-links a{color:var(--ink-soft);text-decoration:none}
+.foot-links a:hover{color:var(--ink)}
+
+/* Loading / Not found */
+.loading,.notfound{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;text-align:center}
+.loading h2,.notfound h2{font-family:var(--black);font-weight:400;font-size:2.5rem;margin:0}
+.notfound p{color:var(--ink-soft);margin:0}
+
+@media (prefers-reduced-motion:no-preference){.btn,.lk{transition:background .15s,color .15s}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="mark">the Feral Collective</a>
+  <nav class="header-menu" id="headerMenu"></nav>
+</header>
+
+<main id="main">
+  <div class="loading" id="loading">
+    <h2>Loading...</h2>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  const SOCIALS = window.FERAL.SOCIALS;
+
+  // Get handle from URL path
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
+  const handle = pathParts[1] || '';
+
+  async function init() {
+    // Check auth
+    const currentUser = await FeralAuth.getUser();
+    const currentProfile = currentUser ? await FeralAuth.getProfile() : null;
+
+    // Render header
+    const headerMenu = document.getElementById('headerMenu');
+    if (currentProfile) {
+      headerMenu.innerHTML = `
+        <a href="/u/${FeralAuth.esc(currentProfile.handle)}">My profile</a>
+        <a href="/calendar">Calendar</a>
+        <a href="/settings">Settings</a>
+        <button type="button" id="signOutBtn">Sign out</button>
+      `;
+      document.getElementById('signOutBtn').addEventListener('click', async () => {
+        await FeralAuth.signOut();
+        window.location.href = '/';
+      });
+    } else {
+      // Not signed in - redirect to login
+      window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+      return;
+    }
+
+    // Fetch profile by handle
+    if (!handle) {
+      showNotFound();
+      return;
+    }
+
+    const sb = FeralAuth.getSupabase();
+    const { data: profile, error } = await sb
+      .from('profiles')
+      .select('*')
+      .eq('handle', handle.toLowerCase())
+      .single();
+
+    if (error || !profile) {
+      showNotFound();
+      return;
+    }
+
+    // Update page title
+    document.title = (profile.display_name || '@' + profile.handle) + ' - The Feral Collective';
+
+    // Render profile
+    const isOwner = currentUser && currentUser.id === profile.id;
+    const main = document.getElementById('main');
+
+    // Build avatar HTML
+    let avatarHtml = '';
+    const initial = (profile.display_name || profile.handle || '?')[0].toUpperCase();
+    const bgClass = 'bg-' + (profile.avatar_bg || 'ink');
+
+    if (profile.avatar_type === 'photo' && profile.avatar_path) {
+      const avatarUrl = await FeralAuth.getAvatarUrl(profile.id, profile.avatar_updated_at);
+      if (avatarUrl) {
+        avatarHtml = `<div class="avatar ${bgClass}"><img class="photo" src="${FeralAuth.esc(avatarUrl)}" alt="${FeralAuth.esc(profile.display_name || profile.handle)}" loading="lazy" onerror="this.parentElement.innerHTML='<span>${FeralAuth.esc(initial)}</span>'"></div>`;
+      } else {
+        avatarHtml = `<div class="avatar ${bgClass}"><span>${FeralAuth.esc(initial)}</span></div>`;
+      }
+    } else if (profile.avatar_type === 'icon' && profile.avatar_icon) {
+      avatarHtml = `<div class="avatar ${bgClass}"><img class="icon" src="../images/avatars/${FeralAuth.esc(profile.avatar_icon)}.webp" alt="" loading="lazy"></div>`;
+    } else {
+      avatarHtml = `<div class="avatar ${bgClass}"><span>${FeralAuth.esc(initial)}</span></div>`;
+    }
+
+    // Build cover
+    const coverKey = profile.cover_key || 'loop';
+    const coverHtml = `<div class="cover"><img class="cover-img cv-${FeralAuth.esc(coverKey)}" src="../images/covers/${FeralAuth.esc(coverKey)}.webp" alt="" loading="lazy"></div>`;
+
+    // Build socials
+    const socials = profile.socials || {};
+    let linksHtml = '';
+    for (const [key, config] of Object.entries(SOCIALS)) {
+      const value = socials[key];
+      if (!value) continue;
+      let href = '#';
+      let display = value;
+      if (key === 'site') {
+        href = value.startsWith('http') ? value : 'https://' + value;
+        display = value.replace(/^https?:\/\//, '');
+      } else if (key === 'discord') {
+        href = '#';
+        display = value;
+      } else if (config.url) {
+        href = config.url + value;
+        display = '@' + value;
+      }
+      linksHtml += `<a class="lk" href="${FeralAuth.esc(href)}" target="_blank" rel="noopener"><div><b>${FeralAuth.esc(config.label)}</b><span>${FeralAuth.esc(display)}</span></div></a>`;
+    }
+
+    // Build roles
+    let rolesHtml = '';
+    const roles = profile.roles || [];
+    for (const role of roles) {
+      rolesHtml += `<span class="role"><i class="mk mk-challenge"></i>${FeralAuth.esc(role)}</span>`;
+    }
+
+    // Build bio
+    const bioHtml = profile.bio
+      ? `<p class="bio">${FeralAuth.esc(profile.bio)}</p>`
+      : `<div class="empty"><img src="../images/deco/vb-drip.webp" alt=""><span>${isOwner ? "Nothing here yet. Tell the community who you are." : (profile.display_name || profile.handle) + " hasn't written a bio yet."}</span></div>`;
+
+    // Actions
+    const actionsHtml = isOwner
+      ? `<a href="/settings/profile" class="btn solid">Edit profile</a>`
+      : '';
+
+    main.innerHTML = `
+      ${coverHtml}
+      <div class="head">
+        ${avatarHtml}
+        <div class="id">
+          <h1 class="name">${FeralAuth.esc(profile.display_name || profile.handle)}</h1>
+          <div class="handle">
+            <span>@${FeralAuth.esc(profile.handle)}</span>
+            <span>Joined ${FeralAuth.formatJoined(profile.joined_at)}</span>
+          </div>
+        </div>
+        <div class="actions">${actionsHtml}</div>
+      </div>
+      ${rolesHtml ? `<div class="roles">${rolesHtml}</div>` : ''}
+      <div class="cols">
+        <main>
+          <div class="sec-h"><h2>About</h2></div>
+          ${bioHtml}
+          <!-- Awards section will go here -->
+        </main>
+        <aside class="side">
+          <section class="s-links">
+            <div class="sec-h"><h2>Find me</h2></div>
+            ${linksHtml ? `<nav class="links" aria-label="Social links">${linksHtml}</nav>` : `<div class="empty"><img src="../images/deco/vb-drip.webp" alt=""><span>No links added.</span></div>`}
+          </section>
+        </aside>
+      </div>
+      <footer class="foot">
+        <nav class="foot-links">
+          <a href="/privacy">Privacy</a>
+          <a href="/guidelines">Guidelines</a>
+          <a href="/terms">Terms</a>
+        </nav>
+      </footer>
+    `;
+  }
+
+  function showNotFound() {
+    const main = document.getElementById('main');
+    main.innerHTML = `
+      <div class="notfound">
+        <h2>Not found</h2>
+        <p>We couldn't find a member with that handle.</p>
+        <a href="/" class="btn">Go home</a>
+      </div>
+    `;
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

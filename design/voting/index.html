@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Voting System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'ED Fairville';src:url(ED.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--paper2:#ebeae3;--ink:#0b0b0b;--soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--redi:#ff7a6e;--ok:#1d5c2e;
+--bl:'ED Fairville','UnifrakturCook',Georgia,serif;--ar:'Archivo','Helvetica Neue',Arial,sans-serif;--mo:'IBM Plex Mono','Courier New',monospace;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#dcdad2;color:var(--ink);font:14px/1.5 var(--mo);padding-bottom:60px}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.top{background:var(--ink);color:var(--paper);padding:18px 16px 14px}
+.top h1{font:400 2.4rem/1 var(--bl);margin:0}.top p{margin:.3rem 0 0;color:#c9c7bf;font-size:.8rem;max-width:62ch}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+.phases{display:flex;gap:0;margin:14px 0 0;overflow-x:auto;scrollbar-width:none}
+.phases li{list-style:none;flex:1 0 auto;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;border-top:3px solid #3a3a37;padding:8px 14px 0 0;color:#8f8d86;min-width:112px}
+.phases li.on{border-color:var(--redi);color:var(--paper)}.phases li.done{border-color:var(--paper);color:#c9c7bf}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0}
+.tabs button{border:2px solid var(--ink);padding:7px 11px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;background:var(--paper)}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--paper)}
+.tabs .sep{align-self:center;font-size:.66rem;color:var(--soft);padding:0 4px;letter-spacing:.1em}
+.stage{display:flex;justify-content:center}
+.phone{width:390px;max-width:100%;height:780px;background:var(--paper);border:2px solid var(--ink);border-radius:34px;position:relative;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.28);display:flex;flex-direction:column}
+.desk{width:100%;background:var(--paper);border:2px solid var(--ink);box-shadow:0 14px 40px rgba(0,0,0,.2)}
+.scr{display:none}.scr.on{display:flex;flex-direction:column;min-height:0;flex:1}.desk .scr.on{display:block}
+.sb{display:flex;justify-content:space-between;padding:12px 22px 4px;font-size:.7rem;color:var(--soft)}
+.hd{padding:8px 18px 12px;border-bottom:2px solid var(--ink)}
+.hd .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;gap:8px}
+.hd .k i{width:9px;height:9px;background:var(--red);transform:rotate(45deg)}
+.hd h2{font:400 2rem/1.05 var(--bl);margin:.25rem 0 0}
+.hd p{margin:.3rem 0 0;font-family:var(--ar);font-size:.86rem;color:var(--soft)}
+.body{flex:1;overflow-y:auto;padding:14px 18px 20px;min-height:0}
+.lab{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin:0 0 6px;display:block}
+textarea,input[type=text],input[type=search],select{width:100%;border:2px solid var(--ink);background:#fff;padding:10px 11px;font:500 .95rem var(--ar);border-radius:0;color:var(--ink)}
+textarea{min-height:76px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:var(--paper);padding:12px 16px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}.btn.red{background:var(--red);border-color:var(--red)}.btn.sm{padding:6px 10px;font-size:.66rem}.btn[disabled]{opacity:.35;cursor:not-allowed}
+.warn{font-family:var(--ar);font-size:.8rem;color:var(--red);margin:.4rem 0 0;display:none;font-weight:600}.warn.on{display:block}
+.hint{font-family:var(--ar);font-size:.8rem;color:var(--soft);margin:.35rem 0 0}
+.card{border:2px solid var(--ink);background:var(--paper);padding:11px 12px;margin:0 0 9px}
+.idea{display:flex;gap:10px;align-items:flex-start}.idea .t{font:600 .95rem/1.25 var(--ar);flex:1}
+.up{border:2px solid var(--ink);min-width:44px;text-align:center;padding:4px 6px;font-size:.75rem;line-height:1.2}.up[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.chip{display:inline-block;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 6px;margin-top:5px}
+.chip.ok{border-color:var(--ok);color:var(--ok)}.chip.no{border-color:var(--red);color:var(--red)}.chip.wait{color:var(--soft);border-color:var(--soft)}
+.prog{padding:9px 18px;border-bottom:2px solid var(--ink);background:var(--paper2)}
+.prog .row{display:flex;justify-content:space-between;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+.bar{height:8px;background:var(--line);margin-top:6px;position:relative}.bar b{position:absolute;inset:0 auto 0 0;background:var(--ink);transition:width .35s}
+.rule{font-family:var(--ar);font-size:.78rem;color:var(--soft);padding:8px 18px;background:#fff;border-bottom:1px solid var(--line)}
+.cat{width:100%;text-align:left;display:block;border:2px solid var(--ink);background:var(--paper);padding:10px 12px;margin:0 0 9px;position:relative}
+.cat .n{font-size:.62rem;letter-spacing:.12em;color:var(--soft)}
+.cat .t{font:600 .95rem/1.25 var(--ar);display:block;margin:2px 0 4px}
+.cat .pick{font:400 1.7rem/1 var(--bl);display:block}.cat .pick img{display:block;height:8px;width:120px;margin-top:2px;mix-blend-mode:multiply}
+.cat .empty{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.cat.done{background:#fff}.cat.skip{opacity:.6}
+.tick{position:absolute;right:10px;top:10px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.foot{border-top:2px solid var(--ink);padding:10px 18px 16px;background:var(--paper);display:flex;gap:10px;align-items:center;justify-content:space-between}
+.sheetbg{position:absolute;inset:0;background:rgba(11,11,11,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}.sheetbg.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:86%;background:var(--paper);border-top:2px solid var(--ink);transform:translateY(105%);transition:transform .28s;z-index:6;display:flex;flex-direction:column;border-radius:22px 22px 0 0}
+.sheet.on{transform:none}.grab{width:44px;height:4px;background:var(--ink);margin:9px auto 4px}
+.sh{padding:4px 18px 10px}.sh .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}.sh h3{font:600 1.05rem/1.25 var(--ar);margin:.1rem 0 .6rem}
+.list{flex:1;overflow-y:auto;padding:0 18px 18px;min-height:0}
+.p{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:10px 4px;border-bottom:1px solid var(--line)}
+.p .av{width:34px;height:34px;border:2px solid var(--ink);display:grid;place-items:center;font:400 1.1rem var(--bl);flex:none;background:#fff}
+.p .nm{font:600 .95rem var(--ar);flex:1}.p small{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.p[disabled]{opacity:.42;cursor:not-allowed}.p.sel{background:#fff}.p.sel .nm::after{content:" ✓"}
+.use{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.use span{border:1.5px solid var(--ink);padding:2px 8px;font-size:.7rem}.use span.max{background:var(--ink);color:var(--paper)}
+.done-box{text-align:center;padding:28px 18px}.done-box h3{font:400 3.6rem/1 var(--bl);margin:.2rem 0}.done-box img{width:200px;margin:0 auto;display:block;mix-blend-mode:multiply}
+.toast{position:absolute;left:18px;right:18px;bottom:78px;background:var(--ink);color:var(--paper);padding:10px 12px;font-size:.78rem;opacity:0;transform:translateY(8px);transition:.25s;z-index:9;pointer-events:none}.toast.on{opacity:1;transform:none}
+/* desktop admin */
+.dh{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;padding:18px 22px 12px;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+.dh h2{font:400 2.4rem/1 var(--bl);margin:0}.dh p{margin:.2rem 0 0;font-family:var(--ar);color:var(--soft);font-size:.9rem}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:0}.grid>div{padding:16px 22px}.grid>div+div{border-left:2px solid var(--ink);background:var(--paper2)}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.grid>div+div{border-left:0;border-top:2px solid var(--ink)}}
+.arow{display:grid;grid-template-columns:1fr auto;gap:8px 12px;border:2px solid var(--ink);padding:10px 12px;margin:0 0 9px;background:var(--paper)}
+.arow .t{font:600 1rem/1.25 var(--ar)}.arow .m{font-size:.72rem;color:var(--soft)}.acts{display:flex;gap:6px;flex-wrap:wrap;grid-column:1/-1}
+.flag{font-family:var(--ar);font-size:.8rem;color:var(--red);font-weight:600;grid-column:1/-1}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:.82rem;margin:0 0 10px}.kv b{font-weight:500}
+.set{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:8px 0;font-size:.82rem;gap:10px}
+.set select,.set input{width:84px;padding:5px 7px;font:500 .85rem var(--mo)}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}.tbl th{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;text-align:left;color:var(--soft);padding:6px 8px;border-bottom:2px solid var(--ink)}.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-family:var(--ar)}
+.tbl .chg{background:#fff7e0}.tbl s{color:var(--soft)}.tbl b.b{font-family:var(--bl);font-weight:400;font-size:1.15rem}
+.pill{display:inline-block;background:var(--ink);color:var(--paper);padding:0 7px;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;margin-left:4px}
+.check{display:flex;gap:9px;align-items:flex-start;font-family:var(--ar);font-size:.86rem;margin:7px 0}.check input{width:18px;height:18px;accent-color:var(--ink);margin-top:2px}
+.rules h3{font:400 1.7rem/1 var(--bl);margin:1.2rem 0 .3rem}.rules p,.rules li{font-family:var(--ar);font-size:.92rem;line-height:1.45;margin:.3rem 0}.rules ol{padding-left:1.2rem}
+.cat.cur{box-shadow:0 0 0 3px var(--red)}.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;max-height:430px;overflow-y:auto;padding-right:4px}
+.vt{display:flex;gap:6px;margin-left:auto}.vt button{border:2px solid var(--ink);padding:7px 11px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;background:var(--paper)}.vt button[aria-pressed=true]{background:var(--red);border-color:var(--red);color:var(--paper)}
+.rules2{columns:2;column-gap:44px}.rules2>div{break-inside:avoid;margin-bottom:6px}
+@media(max-width:860px){.dgrid,.rules2{grid-template-columns:1fr;columns:1}}
+.note{max-width:1100px;margin:22px auto 0;padding:0 16px;font-size:.78rem;color:var(--soft)}
+</style></head><body>
+<header class="top"><div class="wrap" style="padding:0">
+<h1>Monthly Poll</h1><p>Mockup of the whole voting cycle for 50+ members. Tap through the screens. Everything is fake data except the cap preview, which uses the real Halloween results.</p>
+<ul class="phases" id="phases" style="padding:0;margin:14px 0 0"></ul></div></header>
+<main class="wrap">
+<div class="tabs" role="tablist" id="tabs"></div>
+<div class="stage" id="stage"></div>
+<p class="note">Signed in as <b>Andrada</b> (demo member). Max votes per person on one ballot: <b>3</b>. Gold cap: <b>3</b> per person. Both numbers are admin settings.</p>
+</main>
+<script src="data.js"></script>
+<script>
+var PHASES=['1 Topic','2 Ideas open','3 Admin curates','4 Voting','5 Close and publish','6 Results'];
+var ME='Andrada',LIMIT=3,CAP=3;
+var MEMBERS=['Andrada','Anna I.','Aurora','Cat/Laura','Cpt. Sparky','Daria.f','Drakaina Mimosa','Ed D. Mame','Emmi','Esti','Francesca','Heather','Henna','Holly','Joules','Kasia','Kyoko','Lyana','Maha Naveed','Mai','Pandasjo','Pauline Kim','SindyT','Sonia/Iris','Stephanie','TheWinterNyx','VictoriaWHOA','squeaky85 (Lori)'];
+var SCREENS=[
+ {id:'join',lab:'Join the poll',who:'m',ph:1},{id:'ideas',lab:'Submit ideas',who:'m',ph:1},{id:'ballot',lab:'Ballot',who:'m',ph:3},{id:'review',lab:'Review and submit',who:'m',ph:3},
+ {id:'curate',lab:'Curate ideas',who:'a',ph:2},{id:'close',lab:'Close and publish',who:'a',ph:4},{id:'rules',lab:'Rules page',who:'m',ph:3}];
+var CATS=RAW.slice(0,18).map(function(r){return r[0]});
+var picks={0:'Heather',1:'Kasia',2:'Heather',3:'Esti',4:'Heather',5:null,6:'skip'};
+var ideas=[{t:'Opens the door anyway, even after the radio said don’t',v:14,me:false,s:'ok'},{t:'Brings snacks to the haunted house',v:11,me:true,s:'ok'},{t:'Says “let’s split up” with total confidence',v:9,me:false,s:'wait'},{t:'Gets a ghost to like them',v:6,me:false,s:'wait'},{t:'Heather would definitely hide a bite',v:4,me:false,s:'no'}];
+var cur=0,openCat=null,JOINED=false,VIEW='phone',dsel=5;
+function $(s,r){return (r||document).querySelector(s)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+/* ---------- chrome ---------- */
+function drawTabs(){var h='',lastWho='';SCREENS.forEach(function(s,i){if(s.who!==lastWho){h+='<span class="sep">'+(s.who==='m'?'MEMBER':'ADMIN')+'</span>';lastWho=s.who}h+='<button role="tab" aria-selected="'+(i===cur)+'" data-i="'+i+'">'+s.lab+'</button>'});
+ var isMem=['join','ideas','ballot','review','rules'].indexOf(SCREENS[cur].id)>-1;h+='<span class="vt" '+(isMem?'':'style="display:none"')+'><button data-v="phone" aria-pressed="'+(VIEW==='phone')+'">phone</button><button data-v="desk" aria-pressed="'+(VIEW==='desk')+'">desktop</button></span>';$('#tabs').innerHTML=h;[].forEach.call(document.querySelectorAll('.vt button'),function(b){b.onclick=function(){VIEW=b.dataset.v;render()}});
+ [].forEach.call(document.querySelectorAll('#tabs > button'),function(b){b.onclick=function(){cur=+b.dataset.i;render()}});
+ var p='';PHASES.forEach(function(n,i){p+='<li class="'+(i<SCREENS[cur].ph?'done':i===SCREENS[cur].ph?'on':'')+'">'+n+'</li>'});$('#phases').innerHTML=p}
+function toast(m){var t=$('.toast');if(!t)return;t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},2200)}
+/* ---------- member screens ---------- */
+function gate(what){return phone('<div class="hd"><div class="k"><i></i>not in this poll</div><h2>join to '+what+'</h2><p>polls are opt in. you have to join to take part.</p></div><div class="body"><p class="hint" style="font-size:.9rem">you haven\'t joined this month\'s poll yet.</p><p style="margin-top:14px"><button class="btn" id="gojoin">go to join</button></p></div>')}
+function joinScr(){var n=JOINED?35:34;return phone('<div class="hd"><div class="k"><i></i>october · horror movie · join by nov 7</div><h2>join the poll</h2><p>polls are opt in. nobody is added automatically.</p></div><div class="body"><div class="card"><span class="lab">if you join</span><p class="hint" style="margin:.2rem 0 0;color:var(--ink)">you can suggest ideas and vote.<br>other members can vote for you.<br>your name can show up in the results and on shared images.</p></div><div class="card"><span class="lab">if you don\'t</span><p class="hint" style="margin:.2rem 0 0;color:var(--ink)">you stay off the list and out of the results. you can still read the results page when it\'s up.</p></div>'+(JOINED?'<div class="done-box" style="padding:10px 0"><h3 style="font-size:2.6rem">you\'re in.</h3></div><p class="hint">you can leave any time before voting opens on nov 7. after that your name is locked in for this poll.</p><p style="margin-top:12px"><button class="btn ghost" id="leaveB">leave the poll</button></p>':'<p style="margin:14px 0"><button class="btn red" id="joinB">i\'m in</button></p><p class="hint">you can change your mind until voting opens.</p>')+'<p class="hint" style="margin-top:16px"><b>'+n+'</b> of 54 members are in so far.</p></div>')}
+function phone(inner){return '<div class="phone"><div class="sb"><span>9:41</span><span>Feral</span></div>'+inner+'<div class="toast" role="status"></div></div>'}
+function ideasScr(){if(!JOINED)return gate('suggest ideas');
+ var li=ideas.map(function(x,i){return '<div class="card idea"><div><div class="t">'+esc(x.t)+'</div><span class="chip '+(x.s==='ok'?'ok':x.s==='no'?'no':'wait')+'">'+(x.s==='ok'?'Accepted':x.s==='no'?'Not used: names a person':'Waiting for admin')+'</span>'+(x.me?' <span class="chip">Yours</span>':'')+'</div><button class="up" data-up="'+i+'" aria-pressed="'+(!!x.up)+'" aria-label="Upvote, '+x.v+' so far">▲<br>'+(x.v+(x.up?1:0))+'</button></div>'}).join('');
+ return phone('<div class="hd"><div class="k"><i></i>October · Horror movie · closes Nov 6</div><h2>suggest an award</h2><p>finish the sentence. describe a moment, not a person.</p></div>'+
+ '<div class="body"><label class="lab" for="idea">Most likely to…</label><textarea id="idea" maxlength="90" placeholder="…say “I’ll be right back” and mean it"></textarea>'+
+ '<p class="warn" id="warn">that looks like it names someone. make it a moment anyone could have.</p>'+
+ '<p class="hint"><span id="cnt">0</span>/90 · 3 ideas each. you’ve used 1.</p>'+
+ '<div style="margin:12px 0 18px"><button class="btn" id="send">Send idea</button></div>'+
+ '<span class="lab">ideas so far · upvote the ones you want</span>'+li+
+ '<p class="hint">ideas about one person, looks, or anything that could sting get declined. only admins see who sent what.</p></div>')}
+function ballotScr(){if(!JOINED)return gate('vote');
+ var n=Object.keys(picks).filter(function(k){return picks[k]}).length;
+ var rows=CATS.map(function(t,i){var p=picks[i];var inner;
+  if(p==='skip')inner='<span class="empty" style="color:var(--soft)">Skipped</span>';
+  else if(p)inner='<span class="pick">'+esc(p)+'<img src="icons/underline.webp" alt=""></span>';
+  else inner='<span class="empty">Pick someone</span>';
+  return '<button class="cat '+(p&&p!=='skip'?'done':'')+(p==='skip'?' skip':'')+'" data-c="'+i+'"><span class="n">'+String(i+1).padStart(2,'0')+' / '+CATS.length+'</span><span class="t">'+esc(t)+'</span>'+inner+'<span class="tick">'+(p&&p!=='skip'?'Change':'')+'</span></button>'}).join('');
+ return phone('<div class="hd" style="border:0;padding-bottom:6px"><div class="k"><i></i>Voting closes Nov 13 · 8pm</div><h2>your ballot</h2></div>'+
+ '<div class="prog"><div class="row"><span>'+n+' of '+CATS.length+' answered</span><span>Saved</span></div><div class="bar"><b style="width:'+(n/CATS.length*100)+'%"></b></div></div>'+
+ '<div class="rule">anonymous. you can’t vote for yourself, and you can pick the same person up to <b>'+LIMIT+'</b> times. skipping is fine.</div>'+
+ '<div class="body" id="ballotBody">'+rows+'</div>'+
+ '<div class="foot"><span style="font-size:.72rem;color:var(--soft)">edit until voting closes</span><button class="btn" id="toReview">Review</button></div>'+
+ '<div class="sheetbg" id="sbg"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Choose a member"><div class="grab"></div><div class="sh"><div class="k" id="shk"></div><h3 id="sht"></h3><input type="search" id="q" placeholder="Search the 35 members in" aria-label="Search members"><div class="use" id="use"></div></div><div class="list" id="plist"></div><div class="foot"><button class="btn ghost" id="skipB">Skip this one</button><button class="btn ghost" id="clrB">Close</button></div></div>')}
+function usage(ex){var u={};Object.keys(picks).forEach(function(k){var p=picks[k];if(p&&p!=='skip'&&+k!==ex)u[p]=(u[p]||0)+1});return u}
+function openSheet(i){openCat=i;$('#shk').textContent=String(i+1).padStart(2,'0')+' of '+CATS.length;$('#sht').textContent=CATS[i];
+ var u=usage(i);$('#use').innerHTML=Object.keys(u).map(function(k){return '<span class="'+(u[k]>=LIMIT?'max':'')+'">'+esc(k)+' '+u[k]+'/'+LIMIT+'</span>'}).join('');
+ $('#q').value='';fillList('');$('#sbg').classList.add('on');$('#sheet').classList.add('on');setTimeout(function(){$('#q').focus()},300)}
+function fillList(q){var u=usage(openCat);var order=MEMBERS.slice(),seed=openCat*7+3;
+ order.sort(function(a,b){var ha=(a.charCodeAt(0)*seed+a.length*13)%97,hb=(b.charCodeAt(0)*seed+b.length*13)%97;return ha-hb});
+ var h=order.filter(function(m){return m.toLowerCase().indexOf(q.toLowerCase())>-1}).map(function(m){var self=m===ME,max=(u[m]||0)>=LIMIT,sel=picks[openCat]===m;
+  return '<button class="p '+(sel?'sel':'')+'" '+(self||max?'disabled':'')+' data-m="'+esc(m)+'"><span class="av">'+esc(m[0])+'</span><span class="nm">'+esc(m)+'</span><small>'+(self?'That’s you':max?'Used '+LIMIT+'/'+LIMIT:'')+'</small></button>'}).join('');
+ $('#plist').innerHTML=h||'<p class="hint" style="padding:14px 0">No member with that name.</p>';
+ [].forEach.call(document.querySelectorAll('#plist .p'),function(b){b.onclick=function(){picks[openCat]=b.dataset.m;closeSheet();render();}})}
+function closeSheet(){var s=$('#sheet');if(s){s.classList.remove('on');$('#sbg').classList.remove('on')}}
+function reviewScr(){
+ var done=false;var rows=CATS.map(function(t,i){var p=picks[i];return '<div class="p" style="padding:8px 0"><span class="nm" style="font-weight:400;font-size:.84rem">'+esc(t)+'</span><b style="font:400 1.25rem var(--bl);text-align:right">'+(p&&p!=='skip'?esc(p):'<span style="font:400 .75rem var(--mo);color:var(--soft)">'+(p==='skip'?'skipped':'—')+'</span>')+'</b></div>'}).join('');
+ var u=usage(-1);var chips=Object.keys(u).map(function(k){return '<span class="'+(u[k]>=LIMIT?'max':'')+'">'+esc(k)+' '+u[k]+'/'+LIMIT+'</span>'}).join('');
+ return phone('<div class="hd"><div class="k"><i></i>Last check</div><h2>review your votes</h2><p>you can change these until nov 13.</p></div><div class="body" id="revBody"><span class="lab">How you spread your votes</span><div class="use">'+chips+'</div><span class="lab" style="margin-top:12px">Your picks</span>'+rows+
+ '<p class="hint" style="margin-top:12px">your votes are anonymous. admins only see totals, never who voted for who.</p></div><div class="foot"><button class="btn ghost" id="backB">Back</button><button class="btn red" id="submitB">Submit ballot</button></div>')}
+function doneScr(){return phone('<div class="body"><div class="done-box"><img src="art/loop.webp" alt=""><h3>Voted.</h3><p class="hint">thanks. results land when voting closes nov 13. you can edit until then.</p><p style="margin-top:14px"><button class="btn ghost" id="editB">Edit my ballot</button></p><p class="hint" style="margin-top:18px">38 of 54 members have voted so far.</p></div></div>')}
+/* ---------- rules ---------- */
+function rulesScr(){return phone('<div class="hd"><div class="k"><i></i>how the poll works</div><h2>the rules</h2></div><div class="body rules"><h3>how it works</h3><ol><li>we pick a theme for the month.</li><li>you join if you want in. nobody is added automatically.</li><li>you send in award ideas for a week.</li><li>we pick the final list, 20 max.</li><li>voting is open for a week. one pick per award.</li><li>results go up when voting closes.</li></ol><h3>fair play</h3><ul><li>you can’t vote for yourself.</li><li>you can pick the same person up to <b>3</b> times on your ballot.</li><li>votes are anonymous. nobody can see who voted for who, admins included.</li><li>an award needs at least <b>2</b> votes.</li></ul><h3>everybody gets a turn</h3><p>nobody wins more than <b>3</b> golds a month. if someone gets more, the extras go to whoever came next. it’s a rule, not a judgment. it just means more people get a moment.</p><h3>ties</h3><p>ties share the gold.</p><h3>not into it?</h3><p>just don’t join. you stay off the list and out of the results.</p></div>')}
+/* ---------- cap engine (real data) ---------- */
+function cap(){
+ var cats=RAW.map(function(r,i){var groups=[];if(r[1]&&r[1].length)groups.push({n:r[1],v:r[2]});if(r[3])groups.push({n:r[3][0],v:r[3][1]});if(r[4])groups.push({n:r[4][0],v:r[4][1]});
+  var m=groups.length>1?groups[0].v-groups[1].v:groups[0]?groups[0].v:0;return {i:i,t:r[0],g:groups,m:m,raw:r[1]||[],rv:r[2]}});
+ var order=cats.slice().sort(function(a,b){return (b.m-a.m)||(b.rv-a.rv)});
+ var cnt={},kc={},out={};
+ order.forEach(function(c){var res=null,passed=false;
+  for(var k=0;k<c.g.length;k++){var grp=c.g[k];var ok=grp.n.every(function(n){return (cnt[n]||0)<CAP});
+   if(ok){res={n:grp.n,v:grp.v,lvl:k};break}else passed=true}
+  if(!res&&c.g[0]){res={n:c.g[0].n,v:c.g[0].v,lvl:0,kept:true}}
+  if(res){res.n.forEach(function(n){if(res.kept)kc[n]=(kc[n]||0)+1;else cnt[n]=(cnt[n]||0)+1})}out[c.i]={c:c,res:res,passed:passed}});
+ var rawCnt={};cats.forEach(function(c){c.raw.forEach(function(n){rawCnt[n]=(rawCnt[n]||0)+1})});
+ return {cats:cats,out:out,cnt:cnt,kc:kc,rawCnt:rawCnt}}
+function closeScr(){var R=cap();var chg=0,rows=cats(R).map(function(o){var c=o.c,r=o.res;var same=r&&r.lvl===0;if(!same)chg++;
+  return '<tr class="'+(same?'':'chg')+'"><td>'+esc(c.t)+'</td><td>'+(same?'<b class="b">'+esc(c.raw.join(', '))+'</b> <small>'+c.rv+'</small>':'<s>'+esc(c.raw.join(', '))+'</s> <small>'+c.rv+'</small>')+'</td><td>'+(same?(r&&r.kept?'<span class="chip wait">Kept: no one else had votes</span>':'—'):r?'<b class="b">'+esc(r.n.join(', '))+'</b> <small>'+r.v+'</small><span class="pill">cap</span>':'<span class="chip no">No award</span>')+'</td></tr>'}).join('');
+ var top=Object.keys(R.rawCnt).sort(function(a,b){return R.rawCnt[b]-R.rawCnt[a]}).filter(function(n){return R.rawCnt[n]>CAP||(R.cnt[n]||0)+(R.kc[n]||0)>CAP});
+ var ppl=top.map(function(n){return '<div class="set"><span>'+esc(n)+'</span><span><s>'+R.rawCnt[n]+'</s> → <b>'+(R.cnt[n]||0)+'</b> golds'+(R.kc[n]?' <small>+'+R.kc[n]+' kept</small>':'')+'</span></div>'}).join('');
+ return '<div class="desk"><div class="dh"><div><h2>Close and publish</h2><p>October · Horror movie · voting ends Nov 13, 8pm. Results stay private until you publish.</p></div><div style="display:flex;gap:8px"><button class="btn ghost" id="cl1">Re-run tally</button><button class="btn red" id="pub">Publish results</button></div></div>'+
+ '<div class="grid"><div><span class="lab">Preview · cap applied (real Halloween numbers)</span><p class="hint" style="margin:0 0 8px">Awards are handed out biggest landslide first. When someone hits the cap, the gold goes to the next person with votes. If nobody else got votes, the original winner keeps it. '+chg+' of '+RAW.length+' categories changed.</p><div style="overflow-x:auto"><table class="tbl"><tr><th>Category</th><th>Most votes</th><th>Awarded</th></tr>'+rows+'</table></div></div>'+
+ '<div><span class="lab">Turnout</span><div class="kv"><span>Members who joined</span><b>41 / 54</b><span>Ballots submitted</span><b>38 / 41</b><span>Skipped answers</span><b>6%</b></div><span class="lab" style="margin-top:12px">Settings</span>'+
+ '<div class="set"><span>Gold cap per person</span><input type="text" value="'+CAP+'" aria-label="Gold cap"></div><div class="set"><span>Votes per person, per ballot</span><input type="text" value="'+LIMIT+'" aria-label="Per ballot limit"></div><div class="set"><span>Minimum votes for an award</span><input type="text" value="2" aria-label="Minimum votes"></div><div class="set"><span>If nobody else is eligible</span><select aria-label="Fallback"><option>Keep winner</option><option>No award</option></select></div><div class="set"><span>Ties</span><select aria-label="Tie rule"><option>Share gold</option></select></div>'+
+ '<span class="lab" style="margin-top:14px">Who the cap affected</span>'+ppl+
+ '<span class="lab" style="margin-top:14px">Before you publish</span><label class="check"><input type="checkbox"><span>I read the cap changes and I’m happy with them.</span></label><label class="check"><input type="checkbox"><span>Anyone who opted out is removed from share images.</span></label><label class="check"><input type="checkbox"><span>I know admins can’t see who voted for whom, and I’m not looking for it.</span></label>'+
+ '<p class="hint">If you won something, it’s in the same rules as everyone else. Those rules are public on the rules page.</p></div></div></div>'}
+function cats(R){return RAW.map(function(r,i){return R.out[i]})}
+/* ---------- curate ---------- */
+function curateScr(){
+ var items=[{t:'Opens the door anyway, even after the radio said don’t',v:14,by:'Kasia',st:'ok'},{t:'Brings snacks to the haunted house',v:11,by:'Esti',st:'ok'},{t:'Says “let’s split up” with total confidence',v:9,by:'Mai',st:''},{t:'Gets a ghost to like them',v:6,by:'Joules',st:''},{t:'Heather would definitely hide a bite',v:4,by:'Cat/Laura',st:'',flag:'Names a member (Heather). Rewrite as a moment or decline.'},{t:'Thinks the dog is the real killer',v:3,by:'Henna',st:'',dup:'Similar to “Blames the wrong suspect” (5 votes). Merge?'}];
+ var rows=items.map(function(x,i){return '<div class="arow" id="ar'+i+'"><div><div class="t">'+esc(x.t)+'</div><div class="m">▲ '+x.v+' upvotes · sent by '+x.by+'</div></div><div>'+(x.st==='ok'?'<span class="chip ok">Accepted</span>':'')+'</div>'+(x.flag?'<div class="flag">⚠ '+x.flag+'</div>':'')+(x.dup?'<div class="hint" style="grid-column:1/-1;margin:0">'+x.dup+'</div>':'')+
+ '<div class="acts"><button class="btn sm" data-a="acc" data-i="'+i+'">Accept</button><button class="btn sm ghost">Edit</button><button class="btn sm ghost">Merge</button><button class="btn sm ghost">Decline</button></div></div>'}).join('');
+ return '<div class="desk"><div class="dh"><div><h2>Curate ideas</h2><p>October · Horror movie · 31 ideas in · 6 shown here. Ideas close Nov 6.</p></div><div style="display:flex;gap:8px"><button class="btn ghost">Sort: most upvotes</button><button class="btn" id="open">Open voting</button></div></div>'+
+ '<div class="grid"><div><span class="lab">Ideas</span>'+rows+'</div><div><span class="lab">The ballot</span><div class="kv"><span>Accepted</span><b id="accN">2</b><span>Max on one ballot</span><b>20</b></div><div class="bar" style="margin:0 0 12px"><b id="accB" style="width:10%"></b></div>'+
+ '<span class="lab">Checks before opening</span><div class="check"><span>✓ Nothing names a specific member</span></div><div class="check"><span>✓ No duplicates</span></div><div class="check"><span>○ At least 12 categories (2 so far)</span></div><div class="check"><span>○ Mix of moments, not just personalities</span></div>'+
+ '<span class="lab" style="margin-top:14px">Joining</span><div class="set"><span>Joining closes</span><input type="text" value="Nov 7" aria-label="Joining closes"></div><div class="set"><span>Members in so far</span><b>41 / 54</b></div><span class="lab" style="margin-top:14px">Voting window</span><div class="set"><span>Opens</span><input type="text" value="Nov 7" aria-label="Opens"></div><div class="set"><span>Closes</span><input type="text" value="Nov 13" aria-label="Closes"></div><div class="set"><span>Reminder before close</span><select aria-label="Reminder"><option>24 hours</option></select></div></div></div></div>'}
+/* ---------- desktop member screens ---------- */
+function dFrame(k,t,p,l,r,foot){return `<div class="desk"><div class="dh"><div><div class="hd" style="border:0;padding:0"><div class="k"><i></i>${k}</div></div><h2>${t}</h2><p>${p}</p></div></div><div class="grid"><div>${l}</div><div>${r}</div></div>${foot||''}</div>`}
+function dGate(w){return dFrame('not in this poll','join to '+w,'polls are opt in. you have to join to take part.',`<p class="hint" style="font-size:.95rem">you haven’t joined this month’s poll yet.</p><p style="margin-top:14px"><button class="btn" id="gojoin">go to join</button></p>`,'')}
+function dJoin(){var n=JOINED?35:34;return dFrame('october · horror movie · join by nov 7','join the poll','polls are opt in. nobody is added automatically.',
+ `<div class="card"><span class="lab">if you join</span><p class="hint" style="margin:.2rem 0 0;color:var(--ink)">you can suggest ideas and vote.<br>other members can vote for you.<br>your name can show up in the results and on shared images.</p></div><div class="card"><span class="lab">if you don’t</span><p class="hint" style="margin:.2rem 0 0;color:var(--ink)">you stay off the list and out of the results. you can still read the results page when it’s up.</p></div>`,
+ (JOINED?`<div class="done-box" style="padding:6px 0"><h3 style="font-size:3rem">you’re in.</h3></div><p class="hint">you can leave any time before voting opens on nov 7. after that your name is locked in for this poll.</p><p style="margin-top:12px"><button class="btn ghost" id="leaveB">leave the poll</button></p>`:`<p style="margin:0 0 12px"><button class="btn red" id="joinB">i’m in</button></p><p class="hint">you can change your mind until voting opens.</p>`)+`<span class="lab" style="margin-top:18px">members in so far</span><div class="bar"><b style="width:${n/54*100}%"></b></div><p class="hint"><b>${n}</b> of 54</p>`)}
+function dIdeas(){if(!JOINED)return dGate('suggest ideas');var li=ideas.map(function(x,i){return `<div class="card idea"><div><div class="t">${esc(x.t)}</div><span class="chip ${x.s==='ok'?'ok':x.s==='no'?'no':'wait'}">${x.s==='ok'?'Accepted':x.s==='no'?'Not used: names a person':'Waiting for admin'}</span>${x.me?' <span class="chip">Yours</span>':''}</div><button class="up" data-up="${i}" aria-pressed="${!!x.up}" aria-label="Upvote, ${x.v} so far">▲<br>${x.v+(x.up?1:0)}</button></div>`}).join('');
+ return dFrame('october · horror movie · closes nov 6','suggest an award','finish the sentence. describe a moment, not a person.',`<label class="lab" for="idea">Most likely to…</label><textarea id="idea" maxlength="90" placeholder="…say “I’ll be right back” and mean it"></textarea><p class="warn" id="warn">that looks like it names someone. make it a moment anyone could have.</p><p class="hint"><span id="cnt">0</span>/90 · 3 ideas each. you’ve used 1.</p><div style="margin:12px 0 18px"><button class="btn" id="send">Send idea</button></div><p class="hint">ideas about one person, looks, or anything that could sting get declined. only admins see who sent what.</p>`,`<span class="lab">ideas so far · upvote the ones you want</span>${li}`)}
+function dBallot(){if(!JOINED)return dGate('vote');var n=Object.keys(picks).filter(function(k){return picks[k]}).length;
+ var rows=CATS.map(function(t,i){var p=picks[i],inner=p==='skip'?'<span class="empty" style="color:var(--soft)">Skipped</span>':p?`<span class="pick">${esc(p)}<img src="icons/underline.webp" alt=""></span>`:'<span class="empty">Pick someone</span>';
+  return `<button class="cat ${p&&p!=='skip'?'done':''}${p==='skip'?' skip':''}${i===dsel?' cur':''}" data-dc="${i}"><span class="n">${String(i+1).padStart(2,'0')} / ${CATS.length}</span><span class="t">${esc(t)}</span>${inner}</button>`}).join('');
+ var left=`<div class="prog" style="margin:0 0 10px;border:2px solid var(--ink)"><div class="row"><span>${n} of ${CATS.length} answered</span><span>Saved</span></div><div class="bar"><b style="width:${n/CATS.length*100}%"></b></div></div><p class="hint" style="margin:0 0 10px">anonymous. you can’t vote for yourself, and you can pick the same person up to <b>${LIMIT}</b> times. skipping is fine.</p>${rows}`;
+ var right=`<div style="position:sticky;top:10px"><span class="lab">${String(dsel+1).padStart(2,'0')} of ${CATS.length}</span><h3 style="font:600 1.25rem/1.25 var(--ar);margin:0 0 10px">${esc(CATS[dsel])}</h3><input type="search" id="dq" placeholder="Search the 35 members in" aria-label="Search members"><div class="use" id="duse"></div><div class="dgrid" id="dlist"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn ghost" id="dskip">skip this one</button><button class="btn" id="dreview" style="margin-left:auto">review ballot</button></div></div>`;
+ return dFrame('voting closes nov 13 · 8pm','your ballot','edit until voting closes.',left,right)}
+function dUse(){var u=usage(dsel);$('#duse').innerHTML=Object.keys(u).map(function(k){return `<span class="${u[k]>=LIMIT?'max':''}">${esc(k)} ${u[k]}/${LIMIT}</span>`}).join('')}
+function dFill(q){dUse();var u=usage(dsel),order=MEMBERS.slice(),seed=dsel*7+3;order.sort(function(a,b){return ((a.charCodeAt(0)*seed+a.length*13)%97)-((b.charCodeAt(0)*seed+b.length*13)%97)});
+ $('#dlist').innerHTML=order.filter(function(m){return m.toLowerCase().indexOf(q.toLowerCase())>-1}).map(function(m){var self=m===ME,max=(u[m]||0)>=LIMIT,sel=picks[dsel]===m;return `<button class="p ${sel?'sel':''}" ${self||max?'disabled':''} data-m="${esc(m)}"><span class="av">${esc(m[0])}</span><span class="nm">${esc(m)}</span><small>${self?'That’s you':max?'Used '+LIMIT+'/'+LIMIT:''}</small></button>`}).join('')||'<p class="hint">No member with that name.</p>';
+ [].forEach.call(document.querySelectorAll('#dlist .p'),function(b){b.onclick=function(){picks[dsel]=b.dataset.m;var nx=dsel+1;while(nx<CATS.length&&picks[nx])nx++;if(nx<CATS.length)dsel=nx;render()}})}
+function dBind(){[].forEach.call(document.querySelectorAll('[data-dc]'),function(b){b.onclick=function(){dsel=+b.dataset.dc;render()}});$('#dq').oninput=function(){dFill(this.value)};dFill('');$('#dskip').onclick=function(){picks[dsel]='skip';var nx=dsel+1;while(nx<CATS.length&&picks[nx])nx++;if(nx<CATS.length)dsel=nx;render()};$('#dreview').onclick=function(){cur=3;render()}}
+function dReview(){if(!JOINED)return dGate('vote');if(window._voted)return dFrame('done','voted.','results land when voting closes nov 13. you can edit until then.',`<div class="done-box" style="text-align:left;padding:0"><img src="art/loop.webp" alt="" style="margin:0 0 10px;width:220px"><p style="margin-top:14px"><button class="btn ghost" id="editB">Edit my ballot</button></p></div>`,`<span class="lab">turnout</span><div class="bar"><b style="width:${38/41*100}%"></b></div><p class="hint"><b>38</b> of 41 members who joined have voted so far.</p>`);
+ var rows=CATS.map(function(t,i){var p=picks[i];return `<div class="p" style="padding:8px 0"><span class="nm" style="font-weight:400;font-size:.9rem">${esc(t)}</span><b style="font:400 1.3rem var(--bl);text-align:right">${p&&p!=='skip'?esc(p):`<span style="font:400 .75rem var(--mo);color:var(--soft)">${p==='skip'?'skipped':'—'}</span>`}</b></div>`}).join('');
+ var u=usage(-1),chips=Object.keys(u).map(function(k){return `<span class="${u[k]>=LIMIT?'max':''}">${esc(k)} ${u[k]}/${LIMIT}</span>`}).join('');
+ return dFrame('last check','review your votes','you can change these until nov 13.',`<span class="lab">your picks</span>${rows}`,`<span class="lab">how you spread your votes</span><div class="use">${chips}</div><p class="hint">your votes are anonymous. admins only see totals, never who voted for who.</p><div style="display:flex;gap:8px;margin-top:14px"><button class="btn ghost" id="backB">Back</button><button class="btn red" id="submitB">Submit ballot</button></div>`)}
+function dRules(){return dFrame('how the poll works','the rules','read this before you join.',`<div class="rules rules2"><div><h3>how it works</h3><ol><li>we pick a theme for the month.</li><li>you join if you want in. nobody is added automatically.</li><li>you send in award ideas for a week.</li><li>we pick the final list, 20 max.</li><li>voting is open for a week. one pick per award.</li><li>results go up when voting closes.</li></ol></div><div><h3>fair play</h3><ul><li>you can’t vote for yourself.</li><li>you can pick the same person up to <b>3</b> times on your ballot.</li><li>votes are anonymous. nobody can see who voted for who, admins included.</li><li>an award needs at least <b>2</b> votes.</li></ul></div><div><h3>everybody gets a turn</h3><p>nobody wins more than <b>3</b> golds a month. if someone gets more, the extras go to whoever came next. it’s a rule, not a judgment. it just means more people get a moment.</p></div><div><h3>ties</h3><p>ties share the gold.</p><h3>not into it?</h3><p>just don’t join. you stay off the list and out of the results.</p></div></div>`,`<span class="lab">the numbers this month</span><div class="set"><span>votes per person, per ballot</span><b>3</b></div><div class="set"><span>golds per person</span><b>3</b></div><div class="set"><span>votes needed for an award</span><b>2</b></div><div class="set"><span>voting closes</span><b>nov 13</b></div>`)}
+/* ---------- render ---------- */
+function render(){var s=SCREENS[cur].id,h='';var memS=['join','ideas','ballot','review','rules'].indexOf(s)>-1;if(memS&&VIEW==='desk'){h={join:dJoin,ideas:dIdeas,ballot:dBallot,review:dReview,rules:dRules}[s]();$('#stage').innerHTML=h;drawTabs();bind(s);return}
+ if(s==='join')h=joinScr();else if(s==='ideas')h=ideasScr();else if(s==='ballot')h=ballotScr();else if(s==='review')h=!JOINED?gate('vote'):window._voted?doneScr():reviewScr();else if(s==='rules')h=rulesScr();else if(s==='curate')h=curateScr();else h=closeScr();
+ $('#stage').innerHTML=h;drawTabs();bind(s)}
+function bind(s){
+ if(s==='join'||((s==='ideas'||s==='ballot'||s==='review')&&!JOINED)){var jb=$('#joinB'),lb=$('#leaveB'),gj=$('#gojoin');if(jb)jb.onclick=function(){JOINED=true;render()};if(lb)lb.onclick=function(){JOINED=false;render()};if(gj)gj.onclick=function(){cur=0;render()};if(s==='join'||!JOINED)return}
+ if(s==='ideas'){var ta=$('#idea');ta.oninput=function(){$('#cnt').textContent=ta.value.length;var hit=MEMBERS.some(function(m){var f=m.split(/[ \/.(]/)[0];return f.length>2&&ta.value.toLowerCase().indexOf(f.toLowerCase())>-1});$('#warn').classList.toggle('on',hit)};
+  $('#send').onclick=function(){if(!ta.value.trim())return toast('write an idea first.');if($('#warn').classList.contains('on'))return toast('make it a moment first.');ideas.unshift({t:'Most likely to '+ta.value.trim(),v:0,me:true,s:'wait'});render();toast('sent. an admin will look at it.')};
+  [].forEach.call(document.querySelectorAll('[data-up]'),function(b){b.onclick=function(){var x=ideas[+b.dataset.up];x.up=!x.up;render()}})}
+ if(s==='ballot'&&VIEW==='desk'){dBind();return}
+ if(s==='ballot'){[].forEach.call(document.querySelectorAll('.cat'),function(b){b.onclick=function(){openSheet(+b.dataset.c)}});
+  $('#q').oninput=function(){fillList(this.value)};$('#sbg').onclick=closeSheet;$('#clrB').onclick=closeSheet;
+  $('#skipB').onclick=function(){picks[openCat]='skip';closeSheet();render()};$('#toReview').onclick=function(){cur=3;render()}}
+ if(s==='review'){if(window._voted){$('#editB').onclick=function(){window._voted=false;cur=2;render()}}else{$('#backB').onclick=function(){cur=2;render()};$('#submitB').onclick=function(){window._voted=true;render()}}}
+ if(s==='curate'){var n=2;[].forEach.call(document.querySelectorAll('[data-a=acc]'),function(b){b.onclick=function(){b.disabled=true;b.textContent='Accepted';n++;$('#accN').textContent=n;$('#accB').style.width=(n/20*100)+'%'}});
+  $('#open').onclick=function(){alert('Mock only: this would open voting and notify members.')}}
+ if(s==='close'){$('#pub').onclick=function(){alert('Mock only: this would publish results and generate share cards.')}}}
+render();
+</script></body></html>

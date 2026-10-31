@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Share Cards</title><style>@font-face{font-family:'ED Fairville';src:url(ED.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--ink:#0b0b0b;--soft:#4a4944;--red:#b3201a;--redi:#ff7a6e;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:#e4e2db;color:var(--ink);font:16px/1.5 'IBM Plex Mono','Courier New',monospace;padding:24px 16px 60px}
+body.fullpage{padding:0;background:#fff}
+h1{font-family:'ED Fairville',Georgia,serif;font-size:3rem;margin:.2rem auto 0;max-width:1100px;font-weight:400}
+.lead{max-width:1100px;margin:.2rem auto 1.5rem;color:var(--soft)}
+.grp{max-width:1100px;margin:0 auto 2.6rem}.grp h2{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin:0 0 1rem}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.fig{margin:0}.fig figcaption{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-top:.5rem}
+.pv{position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.25);width:calc(1080px*.3);}
+.fig.story .pv{height:calc(1920px*.3)}.fig.square .pv{height:calc(1350px*.3)}
+.pv .card{transform:scale(.3);transform-origin:0 0;position:absolute;left:0;top:0}
+@media(max-width:760px){.pv{width:calc(1080px*.27)}.fig.story .pv{height:calc(1920px*.27)}.fig.square .pv{height:calc(1350px*.27)}.pv .card{transform:scale(.27)}}
+/* card */
+.card{width:1080px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink)}
+.card.ink{background:var(--ink);color:var(--paper)}
+.card::after{content:"";position:absolute;inset:0;background:url(art/grain.webp);opacity:.1;mix-blend-mode:multiply;pointer-events:none}
+.card.ink::after{display:none}
+.art{position:absolute;pointer-events:none;mix-blend-mode:multiply}
+.ink .art{filter:invert(1);mix-blend-mode:screen}
+.a1{right:-16%;top:7%;height:36%;opacity:1;transform:rotate(8deg)}
+.a2{left:-18%;bottom:-8%;height:60%;opacity:.35;transform:rotate(-12deg) scaleX(-1)}
+.a3{left:-14%;bottom:-12%;height:50%;opacity:.4;transform:rotate(-8deg)}
+.square .a1{top:auto;bottom:11%;right:-16%;height:46%}.nar{max-width:640px}.square .j{max-width:600px}
+.in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:130px 84px 120px}
+.square .in{padding:84px 84px 76px}
+.sp{flex:1}
+.eye{display:flex;align-items:center;gap:18px;font-size:28px;letter-spacing:.16em;text-transform:uppercase}
+.eye i{width:20px;height:20px;background:var(--red);transform:rotate(45deg)}.ink .eye i{background:var(--redi)}
+.cat{font:700 54px/1.1 'Archivo','Helvetica Neue',Arial,sans-serif;margin-bottom:14px;max-width:760px}
+.square .cat{font-size:46px}
+.nm{font-family:'ED Fairville','UnifrakturCook',Georgia,serif;font-weight:400;line-height:.92;letter-spacing:-.01em;margin:0}
+.ul{width:520px;margin:6px 0 26px;mix-blend-mode:multiply}
+.vt{display:flex;align-items:flex-end;gap:22px;margin:28px 0 20px}
+.vt span{font-size:32px;letter-spacing:.14em;text-transform:uppercase;padding-bottom:14px}
+.d{mix-blend-mode:multiply;display:block}.ink .d{filter:invert(1);mix-blend-mode:screen}
+.j{font:600 44px/1.2 'Archivo','Helvetica Neue',Arial,sans-serif;margin:8px 0 0;max-width:840px}
+.square .j{font-size:38px}
+.lst{list-style:none;padding:0;margin:14px 0 24px;display:grid;gap:12px;font:600 38px/1.2 'Archivo','Helvetica Neue',Arial,sans-serif}
+.lst li{display:flex;gap:20px;align-items:baseline;border-top:2px solid var(--ink);padding-top:12px}.lst b{font:500 26px 'IBM Plex Mono',monospace;color:var(--red)}
+.square .lst{font-size:32px}
+.ft{display:flex;justify-content:space-between;align-items:center;font-size:26px;letter-spacing:.12em;text-transform:uppercase;border-top:2px solid currentColor;padding-top:22px}
+/* story safe zones */
+.story::before{content:"";position:absolute;left:0;right:0;top:0;height:250px;background:repeating-linear-gradient(45deg,rgba(179,32,26,.0),rgba(179,32,26,.0) 10px,rgba(179,32,26,.0) 10px,rgba(179,32,26,0) 20px);z-index:3}
+</style></head><body class=""><h1>Share cards</h1><p class="lead">Pick the look. Safe zones are marked on the Story cards. Real cards would be made for every winner and person.</p><section class="grp"><h2>Category winner</h2><div class="row"><figure class="fig story"><div class="pv"><div class="card paper story" data-name="winner-story" style="height:1920px"><img class="art a1" src="art/red.webp" alt=""><div class="in"><div class="eye"><i></i>Halloween Horror Movie Poll</div>
+<div class="sp"></div>
+<div class="cat">Takes charge in a panic</div>
+<div class="nm" style="font-size:300px">Heather</div>
+<img class="ul" src="icons/underline.webp" alt="">
+<div class="vt"><img class="d" style="height:280px" src="icons/n1.webp" alt=""><img class="d" style="height:280px" src="icons/n3.webp" alt=""><span>votes</span></div>
+<p class="j nar">Thirteen of you saw the chaos and said “her.” Brave.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Story 1080×1920</figcaption></figure><figure class="fig square"><div class="pv"><div class="card paper square" data-name="winner-square" style="height:1350px"><img class="art a1" src="art/red.webp" alt=""><div class="in"><div class="eye"><i></i>Halloween Horror Movie Poll</div>
+<div class="sp"></div>
+<div class="cat">Takes charge in a panic</div>
+<div class="nm" style="font-size:250px">Heather</div>
+<img class="ul" src="icons/underline.webp" alt="">
+<div class="vt"><img class="d" style="height:210px" src="icons/n1.webp" alt=""><img class="d" style="height:210px" src="icons/n3.webp" alt=""><span>votes</span></div>
+<p class="j nar">Thirteen of you saw the chaos and said “her.” Brave.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Feed 1080×1350</figcaption></figure></div></section><section class="grp"><h2>Personal results</h2><div class="row"><figure class="fig story"><div class="pv"><div class="card paper story" data-name="personal-story" style="height:1920px"><img class="art a1" src="art/drip.webp" alt=""><div class="in"><div class="eye"><i></i>My horror movie results</div>
+<div class="sp"></div>
+<div class="cat">In the movie, I am</div>
+<div class="nm" style="font-size:230px">Andrada</div>
+<div class="vt"><img class="d" style="height:280px" src="icons/n4.webp" alt=""><span>golds</span></div>
+<ul class="lst"><li><b>1</b>Silent, then the right tool</li><li><b>2</b>“Bad feeling” but opens the door</li><li><b>3</b>Runs fast in heels or one sock</li><li><b>4</b>“I’ll be fine, go without me”</li></ul>
+<p class="j">Opens the door anyway.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Story 1080×1920</figcaption></figure><figure class="fig square"><div class="pv"><div class="card paper square" data-name="personal-square" style="height:1350px"><img class="art a1" src="art/drip.webp" alt=""><div class="in"><div class="eye"><i></i>My horror movie results</div>
+<div class="sp"></div>
+<div class="cat">In the movie, I am</div>
+<div class="nm" style="font-size:190px">Andrada</div>
+<div class="vt"><img class="d" style="height:200px" src="icons/n4.webp" alt=""><span>golds</span></div>
+<ul class="lst"><li><b>1</b>Silent, then the right tool</li><li><b>2</b>“Bad feeling” but opens the door</li><li><b>3</b>Runs fast in heels or one sock</li><li><b>4</b>“I’ll be fine, go without me”</li></ul>
+<p class="j">Opens the door anyway.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Feed 1080×1350</figcaption></figure></div></section><section class="grp"><h2>Most golds</h2><div class="row"><figure class="fig story"><div class="pv"><div class="card ink story" data-name="golds-story" style="height:1920px"><img class="art a1" src="art/loop.webp" alt=""><div class="in"><div class="eye"><i></i>Most golds won</div>
+<div class="sp"></div>
+<div class="nm" style="font-size:300px">Ed D.<br>Mame</div>
+<div class="vt"><img class="d" style="height:300px" src="icons/n6.webp" alt=""><span>golds</span></div>
+<p class="j">Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Story 1080×1920</figcaption></figure><figure class="fig square"><div class="pv"><div class="card ink square" data-name="golds-square" style="height:1350px"><img class="art a1" src="art/loop.webp" alt=""><div class="in"><div class="eye"><i></i>Most golds won</div>
+<div class="sp"></div>
+<div class="nm" style="font-size:250px">Ed D.<br>Mame</div>
+<div class="vt"><img class="d" style="height:220px" src="icons/n6.webp" alt=""><span>golds</span></div>
+<p class="j">Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed.</p>
+<div class="sp"></div><div class="ft"><span>The Feral Collective</span><span>yoursite.com/poll</span></div></div></div></div><figcaption>Feed 1080×1350</figcaption></figure></div></section></body></html>

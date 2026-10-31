@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Polls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'ED Fairville';src:url(ED.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--paper2:#ebeae3;--ink:#0b0b0b;--soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--redi:#ff7a6e;
+--bl:'ED Fairville','UnifrakturCook',Georgia,serif;--ar:'Archivo','Helvetica Neue',Arial,sans-serif;--mo:'IBM Plex Mono','Courier New',monospace;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mo)}
+button,a{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0;padding:0}a{text-decoration:none}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+img{max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--ink);padding:max(10px,env(safe-area-inset-top)) 20px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bar .mark{font-family:var(--bl);font-size:1.45rem;line-height:1}
+.pill{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--ink);padding:3px 9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--paper);color:var(--ink);padding:13px 18px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--paper)}
+.btn.line{background:transparent;color:var(--paper);border-color:var(--paper)}.btn.red{background:var(--redi);border-color:var(--redi);color:var(--ink)}
+.btn.dk{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn.dkl{background:var(--paper);color:var(--ink);border-color:var(--ink)}
+/* hero */
+.hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.hero .art{position:absolute;filter:invert(1);mix-blend-mode:screen;pointer-events:none;right:-6%;top:-12%;height:125%;opacity:.5;transform:rotate(8deg)}
+.hero .art2{left:-10%;bottom:-34%;right:auto;top:auto;height:100%;opacity:.22;transform:rotate(-12deg) scaleX(-1)}
+.hero .in{position:relative;display:grid;grid-template-columns:1.5fr 1fr;gap:34px;padding:clamp(1.8rem,4vw,3rem) 0 clamp(1.6rem,3vw,2.6rem)}
+.eye{display:flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}.eye i{width:10px;height:10px;background:var(--redi);transform:rotate(45deg);flex:none}
+.hero h1{font:400 clamp(3rem,9vw,5.6rem)/.95 var(--bl);margin:.7rem 0 .5rem;text-wrap:balance}
+.hero .sub{font-family:var(--ar);font-size:1.05rem;color:#d8d6cf;max-width:34rem;margin:0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.track{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.track li{border-top:3px solid #3a3a37;padding:9px 12px 0 0;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#8f8d86}
+.track li b{display:block;font-weight:500;color:inherit}.track li small{display:block;letter-spacing:.04em;text-transform:none;font-size:.7rem;margin-top:2px}
+.track li.done{border-color:var(--paper);color:#c9c7bf}.track li.now{border-color:var(--redi);color:var(--paper)}
+.me{background:var(--paper);color:var(--ink);border:2px solid var(--paper);padding:16px 16px 18px;align-self:start}
+.me .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.me h2{font:400 2.1rem/1 var(--bl);margin:.35rem 0 .4rem}.me p{font-family:var(--ar);margin:0 0 8px;font-size:.92rem;color:var(--soft)}
+.bar2{height:8px;background:var(--line);margin:10px 0 4px;position:relative}.bar2 b{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.me small{font-size:.7rem;color:var(--soft)}
+.fair{display:flex;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding:12px 0;font-family:var(--ar);font-size:.9rem}
+.fair span::before{content:"";display:inline-block;width:8px;height:8px;background:var(--red);transform:rotate(45deg);margin-right:8px}
+.fair a{margin-left:auto;text-decoration:underline;text-underline-offset:3px}
+/* past */
+section.past{padding-top:clamp(2.2rem,5vw,3.4rem)}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:.45rem;margin:0 0 1.2rem;flex-wrap:wrap}
+.sh h2{font:400 clamp(2.2rem,5vw,3rem)/1 var(--bl);margin:0}.sh small{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.pc{border:2px solid var(--ink);background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:16px 16px 14px;min-height:15rem}
+.pc .art{position:absolute;right:-10%;top:-14%;height:78%;mix-blend-mode:multiply;opacity:.9;pointer-events:none}
+.pc>*{position:relative}
+.pc .d{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{border:1.5px solid var(--red);color:var(--red);padding:0 6px;font-size:.6rem}
+.pc h3{font:400 clamp(2rem,4vw,2.7rem)/.98 var(--bl);margin:.1rem 0 0;max-width:15ch}
+.pc p{font-family:var(--ar);margin:0;color:var(--soft);font-size:.92rem;max-width:26rem}
+.nums{display:flex;gap:18px;align-items:flex-end;margin-top:auto;flex-wrap:wrap}
+.nums div{display:flex;align-items:flex-end;gap:7px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}.nums img{height:2.4rem;mix-blend-mode:multiply}
+.you{font-size:.72rem;border-top:1px solid var(--line);padding-top:8px;font-family:var(--ar);font-weight:600}
+.pc .go{align-self:flex-start;margin-top:4px}
+.empty{border:2px dashed var(--ink);padding:18px;font-family:var(--ar);color:var(--soft);display:flex;align-items:center;justify-content:center;text-align:center;min-height:15rem}
+footer{margin-top:clamp(3rem,6vw,5rem);background:var(--ink);color:var(--paper);padding:2.2rem 0 2.6rem;position:relative;overflow:hidden}
+footer .art{position:absolute;right:-8%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.4;pointer-events:none}
+footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--bl);display:block}footer p{margin:.5rem 0 0;color:#c9c7bf;font-family:var(--ar);max-width:34rem}
+.tabbar{display:none}
+@media(max-width:760px){
+ .wrap{padding:0 16px}.bar{padding-left:16px;padding-right:16px}
+ .hero .in{grid-template-columns:1fr;gap:22px}.hero .art{height:70%;right:-26%;opacity:.28}
+ .track{grid-template-columns:1fr 1fr;row-gap:12px}
+ .grid{grid-template-columns:1fr}
+ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+ .tabbar{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--paper);border-top:2px solid var(--ink);padding-bottom:env(safe-area-inset-bottom)}
+ .tabbar button{padding:12px 6px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:4px}
+ .tabbar button i{width:10px;height:10px;border:2px solid var(--ink);transform:rotate(45deg)}
+ .tabbar button[aria-selected=true]{background:var(--ink);color:var(--paper)}.tabbar button[aria-selected=true] i{background:var(--redi);border-color:var(--redi)}
+ body[data-tab=now] #past,body[data-tab=past] #now{display:none}
+ body[data-tab=past] footer{margin-top:2rem}
+}
+</style></head><body data-tab="now">
+<header class="bar"><span class="mark">the Feral Collective</span><span class="pill">Polls</span></header>
+<main>
+<div id="now"><div class="hero"><img class="art" src="art/loop.webp" alt=""><img class="art art2" src="art/drip.webp" alt=""><div class="wrap"><div class="in" id="heroIn"></div></div></div>
+<div class="wrap"><div class="fair"><span>anonymous votes</span><span>nobody wins more than 3 golds</span><span>you have to join to play</span><a href="#">read the rules</a></div></div></div>
+<section class="past wrap" id="past"><div class="sh"><h2>past polls</h2><small id="pcount"></small></div><div class="grid" id="pgrid"></div></section>
+</main>
+<footer><img class="art" src="art/bold.webp" alt=""><div class="wrap"><div class="in"><b>Next one is always coming.</b><p>One poll a month. Join in, send ideas, vote, find out who gets us all killed.</p></div></div></footer>
+<nav class="tabbar" id="tb" role="tablist" aria-label="Polls"><button role="tab" data-t="now" aria-selected="true"><i></i>This month</button><button role="tab" data-t="past" aria-selected="false"><i></i>Past polls</button></nav>
+<script>
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function dg(n){return String(n).split('').map(function(c){return '<img src="icons/n'+c+'.webp" alt="">'}).join('')}
+var STEPS=[['Join','closes nov 7'],['Ideas','close nov 6'],['Voting','nov 7 to nov 13'],['Results','after nov 13']];
+var S={
+ open:{pill:'joining and ideas open',t:'Holiday Chaos',sub:'this month’s theme. join in, then send award ideas.',tr:['now','now','todo','todo']},
+ curating:{pill:'picking the final list',t:'Holiday Chaos',sub:'ideas are closed. we’re choosing the awards.',tr:['now','done','todo','todo']},
+ voting:{pill:'voting open',t:'Holiday Chaos',sub:'one pick per award. votes are anonymous.',tr:['done','done','now','todo']},
+ closed:{pill:'voting closed',t:'Holiday Chaos',sub:'votes are in. results go up when we publish.',tr:['done','done','done','now']},
+ results:{pill:'results are up',t:'Holiday Chaos',sub:'the results are in. go see who survived.',tr:['done','done','done','done']},
+ none:{pill:'between polls',t:'Next poll soon',sub:'we’ll email you when joining opens.',tr:['todo','todo','todo','todo']}};
+function hero(state,you){var c=S[state],e=Object.assign({},c);var btn=function(txt,cls){return '<a class="btn '+cls+'" href="#">'+txt+'</a>'};
+ var cta='',mk='',mh='',mp='',bar='';
+ if(state==='open'){ if(you==='out'){cta=btn('i’m in','red')+btn('read the rules','line');mk='your status';mh='not in yet';mp='joining closes nov 7. you have to join to suggest ideas and vote.'}
+  else{cta=btn('suggest an idea','red')+btn('read the rules','line');mk='your status';mh='you’re in.';mp='send up to 3 ideas before nov 6.';bar=1}}
+ else if(state==='curating'){ cta=btn('read the rules','line');mk='your status';mh=you==='out'?'not in':'you’re in.';mp=you==='out'?'joining closes nov 7.':'we’re choosing the final list. voting opens nov 7.';bar=you==='out'?0:1}
+ else if(state==='voting'){ if(you==='out'){cta=btn('read the rules','line');mk='your status';mh='joining closed';mp='you can read the results when they’re up.'}
+  else if(you==='voted'){cta=btn('edit my votes','red');mk='your status';mh='voted.';mp='you can change your votes until nov 13.';bar=1}
+  else{cta=btn('vote now','red');mk='your status';mh='your ballot is open';mp='18 awards. skip any you want. closes nov 13.';bar=1}}
+ else if(state==='closed'){cta=btn('read the rules','line');mk='your status';mh=you==='out'?'not in':'thanks for voting';mp='results go up when we publish them.';}
+ else if(state==='results'){cta=btn('see results','red');mk='your status';mh=you==='out'?'not in':'see how you did';mp=you==='out'?'you can still read the results.':'find your name on the results page.'}
+ else {cta=btn('read the rules','line');mk='what’s next';mh='coming soon';mp='one poll a month. we’ll tell you when it opens.'}
+ var tr='<ul class="track">'+STEPS.map(function(s,i){return '<li class="'+c.tr[i]+'"><b>'+s[0]+'</b><small>'+(state==='none'?'—':s[1])+'</small></li>'}).join('')+'</ul>';
+ var joined=bar?'<div class="bar2" aria-hidden="true"><b style="width:'+(35/54*100)+'%"></b></div><small>35 of 54 members are in</small>':'';
+ $('#heroIn').innerHTML='<div><div class="eye"><i></i>'+esc(c.pill)+'</div><h1>'+esc(c.t)+'</h1><p class="sub">'+esc(c.sub)+'</p><div class="cta">'+cta+'</div>'+tr+'</div><aside class="me" aria-label="Your status"><div class="k">'+mk+'</div><h2>'+mh+'</h2><p>'+mp+'</p>'+joined+'</aside>'}
+function $(s){return document.querySelector(s)}
+var POLLS=[
+ {t:'Halloween Horror Movie',d:'oct 2026',line:'who survives the horror movie and who gets us all killed.',a:27,p:20,art:'red',you:'you won 4 golds',real:1},
+ {t:'Road Trip Chaos',d:'sep 2026',line:'who’s driving, who’s lost, who packed snacks.',a:22,p:17,art:'drip',you:'you were in this one',sample:1},
+ {t:'Group Project',d:'aug 2026',line:'who does the work and who shows up for the photo.',a:24,p:19,art:'loop',sample:1}];
+function past(you,n){var list=POLLS.slice(0,n);
+ $('#pcount').textContent=list.length?list.length+(list.length===1?' poll':' polls'):'';
+ $('#pgrid').innerHTML=list.map(function(p){return '<article class="pc"><img class="art" src="art/'+p.art+'.webp" alt=""><div class="d">'+p.d+(p.sample?'<span class="chip">sample</span>':'')+'</div><h3>'+esc(p.t)+'</h3><p>'+esc(p.line)+'</p><div class="nums"><div>'+dg(p.a)+'awards</div><div>'+dg(p.p)+'people got a gold</div></div>'+(you!=='out'&&p.you?'<div class="you">'+esc(p.you)+'</div>':'')+'<a class="btn dk go" href="#">see results</a></article>'}).join('')+(list.length<2?'<div class="empty">more polls will show up here as we run them.</div>':'')}
+function apply(){var h=(location.hash||'#open.in').slice(1).split('.');var st=S[h[0]]?h[0]:'open',you=h[1]||'in',n=h[2]?+h[2]:3;hero(st,you);past(you,n)}
+window.addEventListener('hashchange',apply);apply();
+[].forEach.call(document.querySelectorAll('#tb button'),function(b){b.onclick=function(){document.body.dataset.tab=b.dataset.t;[].forEach.call(document.querySelectorAll('#tb button'),function(x){x.setAttribute('aria-selected',x===b)});window.scrollTo(0,0)}});
+</script></body></html>

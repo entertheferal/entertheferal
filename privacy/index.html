@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 var(--archivo);padding:0}
+a{color:var(--ink)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.header-mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header-back{font-size:.78rem;text-decoration:none;color:var(--ink-soft)}
+.wrap{max-width:720px;margin:0 auto;padding:2rem 1.25rem 4rem}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);line-height:1;margin:0 0 .5rem}
+.version{font-size:.85rem;color:var(--ink-soft);margin-bottom:2rem}
+.summary{background:var(--paper-2);border:1.5px solid var(--ink);padding:1.25rem;margin-bottom:2rem}
+.summary h2{font-family:var(--black);font-weight:400;font-size:1.4rem;margin:0 0 .6rem}
+.summary ul{margin:0;padding-left:1.25rem}
+.summary li{margin-bottom:.4rem}
+h2{font-family:var(--black);font-weight:400;font-size:1.8rem;margin:2rem 0 .8rem;line-height:1.1}
+h3{font-family:var(--archivo);font-weight:600;font-size:1.1rem;margin:1.5rem 0 .5rem}
+p,ul,ol{margin:0 0 1rem}
+ul,ol{padding-left:1.5rem}
+li{margin-bottom:.4rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.9rem}
+th,td{border:1px solid var(--line);padding:.6rem .8rem;text-align:left;vertical-align:top}
+th{background:var(--paper-2);font-weight:600}
+.todo{background:#fff3cd;border:1px solid #ffc107;padding:.8rem;margin:1.5rem 0;font-size:.9rem}
+.footer{padding:1.5rem 1rem;text-align:center;font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.footer a{color:inherit;margin:0 .5rem}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="header-mark">the Feral Collective</a>
+  <a href="/" class="header-back">Back to site</a>
+</header>
+
+<div class="wrap">
+  <h1>Privacy Policy</h1>
+  <p class="version">Version 2026-10-29-v1 &middot; Effective [EFFECTIVE_DATE]</p>
+
+  <div class="todo">
+    <strong>TODO:</strong> This policy should be reviewed by a lawyer before launch. Bracketed [PLACEHOLDERS] need to be filled in by the site owner.
+  </div>
+
+  <div class="summary">
+    <h2>Summary</h2>
+    <ul>
+      <li>We collect only what we need: email, profile info you choose to share, and an optional photo.</li>
+      <li>We don't sell your data, show you ads, or track you across the web.</li>
+      <li>You can export or delete your data anytime from Settings.</li>
+      <li>We use Supabase (database), Vercel (hosting), and [EMAIL_PROVIDER] (login emails).</li>
+    </ul>
+  </div>
+
+  <h2>1. Who we are</h2>
+  <p>The Feral Collective is operated by [LEGAL_ENTITY_NAME], located at [LEGAL_ADDRESS].</p>
+  <p>For privacy questions, contact us at <a href="mailto:[PRIVACY_EMAIL]">[PRIVACY_EMAIL]</a>.</p>
+  <p>[If you need an EU/UK representative, add that information here.]</p>
+
+  <h2>2. What we collect and why</h2>
+  <table>
+    <thead>
+      <tr><th>Data</th><th>Purpose</th><th>Legal basis</th><th>Retention</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Email address</td>
+        <td>Account login (passwordless codes), account notifications</td>
+        <td>Contract (necessary to provide service)</td>
+        <td>Until account deletion</td>
+      </tr>
+      <tr>
+        <td>Handle, display name</td>
+        <td>Identify you to other members</td>
+        <td>Contract</td>
+        <td>Until account deletion</td>
+      </tr>
+      <tr>
+        <td>Bio, social links</td>
+        <td>Optional profile info you choose to share</td>
+        <td>Consent (you provide it voluntarily)</td>
+        <td>Until you remove it or delete account</td>
+      </tr>
+      <tr>
+        <td>Profile photo</td>
+        <td>Optional avatar shown to members</td>
+        <td>Consent</td>
+        <td>Until you remove it or delete account</td>
+      </tr>
+      <tr>
+        <td>Invite code used</td>
+        <td>Audit trail for abuse prevention</td>
+        <td>Legitimate interest</td>
+        <td>Anonymized on account deletion</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Photos and location data</h3>
+  <p>When you upload a profile photo, we process it in your browser before uploading. This strips EXIF metadata including GPS location data. We never see or store your photo's location information.</p>
+
+  <h2>3. What we do NOT do</h2>
+  <ul>
+    <li><strong>No selling or sharing:</strong> We do not sell, rent, or share your personal information with third parties for their marketing purposes. (California/CCPA/CPRA disclosure)</li>
+    <li><strong>No advertising:</strong> We don't show ads or share data with ad networks.</li>
+    <li><strong>No profiling:</strong> We don't build profiles about you for automated decision-making.</li>
+    <li><strong>No tracking:</strong> We don't use tracking pixels, analytics cookies, or fingerprinting.</li>
+  </ul>
+
+  <h2>4. Service providers</h2>
+  <p>We use these third parties to operate the service:</p>
+  <table>
+    <thead>
+      <tr><th>Provider</th><th>Purpose</th><th>Location</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Supabase</td>
+        <td>Database, authentication, file storage</td>
+        <td>[SUPABASE_REGION, e.g., US East]</td>
+      </tr>
+      <tr>
+        <td>Vercel</td>
+        <td>Website hosting, request logs (anonymized after 30 days)</td>
+        <td>Global CDN, US processing</td>
+      </tr>
+      <tr>
+        <td>[EMAIL_PROVIDER, e.g., Resend]</td>
+        <td>Sending login code emails</td>
+        <td>[EMAIL_PROVIDER_LOCATION]</td>
+      </tr>
+      <tr>
+        <td>Spotify (optional)</td>
+        <td>Embedded player, only loaded if you click to play</td>
+        <td>EU/US</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Each provider has a data processing agreement with us and is committed to protecting your data.</p>
+
+  <h2>5. International transfers</h2>
+  <p>Your data may be processed in the United States. We rely on Standard Contractual Clauses and, where applicable, the EU-US Data Privacy Framework for lawful transfers from the EEA/UK.</p>
+
+  <h2>6. How long we keep data</h2>
+  <ul>
+    <li><strong>Active accounts:</strong> Data is kept while your account exists.</li>
+    <li><strong>After deletion:</strong> Your profile and personal data are deleted immediately. Invite redemption records are anonymized (user ID removed). Database backups are purged within [BACKUP_RETENTION_DAYS] days.</li>
+  </ul>
+
+  <h2>7. Your rights</h2>
+  <p>You have the right to:</p>
+  <ul>
+    <li><strong>Access:</strong> Download a copy of your data (Settings → Download my data)</li>
+    <li><strong>Correction:</strong> Edit your profile anytime</li>
+    <li><strong>Deletion:</strong> Delete your account (Settings → Delete my account)</li>
+    <li><strong>Restriction/Objection:</strong> Contact us to limit processing</li>
+    <li><strong>Withdraw consent:</strong> Remove optional data like bio and photo anytime</li>
+    <li><strong>Complain:</strong> File a complaint with your local data protection authority</li>
+  </ul>
+
+  <h3>Regional rights</h3>
+  <ul>
+    <li><strong>California (CCPA/CPRA):</strong> You can request to know, delete, and opt out of sale/sharing (we don't sell or share). No discrimination for exercising rights.</li>
+    <li><strong>Brazil (LGPD):</strong> Similar rights apply; contact [PRIVACY_EMAIL].</li>
+    <li><strong>Canada (PIPEDA):</strong> You can access and correct your data; contact [PRIVACY_EMAIL].</li>
+    <li><strong>UK/Australia:</strong> Contact us or your local authority.</li>
+  </ul>
+  <p>Most rights are self-serve in Settings. For other requests, email <a href="mailto:[PRIVACY_EMAIL]">[PRIVACY_EMAIL]</a>. We respond within 30 days.</p>
+
+  <h2>8. Children</h2>
+  <p>The Feral Collective is not for anyone under [MIN_AGE] years old. We require age confirmation at signup. If we learn that someone under [MIN_AGE] has created an account, we will delete it.</p>
+
+  <h2>9. Cookies and local storage</h2>
+  <p>We use one essential item in your browser's local storage: your login session (stored by Supabase). This is strictly necessary for you to stay signed in.</p>
+  <p>We do not use tracking cookies, advertising cookies, or analytics cookies. No cookie banner is required because we only use essential storage.</p>
+
+  <h2>10. Security</h2>
+  <ul>
+    <li>All data is encrypted in transit (HTTPS/TLS)</li>
+    <li>Database access is controlled by row-level security</li>
+    <li>Passwords are never used or stored (passwordless login only)</li>
+    <li>Admin access requires verified account status</li>
+  </ul>
+
+  <h3>Breach notification</h3>
+  <p>If we discover a data breach that affects your personal data:</p>
+  <ul>
+    <li>We will notify the relevant supervisory authority within 72 hours where required</li>
+    <li>We will notify affected members without undue delay</li>
+  </ul>
+
+  <h2>11. Changes to this policy</h2>
+  <p>We may update this policy from time to time. Material changes will be:</p>
+  <ul>
+    <li>Announced with a version number change</li>
+    <li>Communicated to members by email</li>
+    <li>Require re-acceptance at next sign-in if legally required</li>
+  </ul>
+
+  <h2>12. Version and date</h2>
+  <p>This is version 2026-10-29-v1, effective [EFFECTIVE_DATE].</p>
+</div>
+
+<footer class="footer">
+  <a href="/privacy">Privacy</a>
+  <a href="/guidelines">Guidelines</a>
+  <a href="/terms">Terms</a>
+  <a href="mailto:[PRIVACY_EMAIL]">Contact</a>
+</footer>
+
+</body>
+</html>

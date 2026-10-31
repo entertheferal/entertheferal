@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Rules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'ED Fairville';src:url(ED.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--paper2:#ebeae3;--ink:#0b0b0b;--soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--redi:#ff7a6e;
+--bl:'ED Fairville','UnifrakturCook',Georgia,serif;--ar:'Archivo','Helvetica Neue',Arial,sans-serif;--mo:'IBM Plex Mono','Courier New',monospace;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}html{overflow-x:clip;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mo)}
+a{color:inherit}img{max-width:100%}:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--ink);padding:max(10px,env(safe-area-inset-top)) 20px 10px;display:flex;justify-content:space-between;align-items:center}
+.bar .mark{font-family:var(--bl);font-size:1.45rem;line-height:1}.pill{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--ink);padding:3px 9px}
+.dg{display:inline-flex;align-items:flex-end;gap:2px}.dg img{display:block;mix-blend-mode:multiply}.inv .dg img{filter:invert(1);mix-blend-mode:screen}
+/* hero */
+.hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.hero .art{position:absolute;filter:invert(1);mix-blend-mode:screen;pointer-events:none;right:-7%;top:-14%;height:135%;opacity:.55;transform:rotate(8deg)}
+.hero .art2{left:-10%;bottom:-40%;top:auto;right:auto;height:110%;opacity:.22;transform:rotate(-12deg) scaleX(-1)}
+.hero .in{position:relative;padding:clamp(2.4rem,6vw,4.6rem) 0 clamp(2rem,4vw,3.2rem)}
+.eye{display:flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}.eye i{width:10px;height:10px;background:var(--redi);transform:rotate(45deg)}
+.hero h1{font:400 clamp(4.2rem,15vw,9.5rem)/.9 var(--bl);margin:.5rem 0 .6rem}
+.hero .sub{font:600 clamp(1.05rem,2.4vw,1.5rem)/1.25 var(--ar);max-width:30rem;margin:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.chips a{border:2px solid var(--paper);padding:6px 11px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}.chips a:hover{background:var(--paper);color:var(--ink)}
+/* sections */
+section{padding-top:clamp(2.6rem,6vw,4.4rem)}
+.sh{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:.45rem;margin:0 0 1.4rem;flex-wrap:wrap}
+.sh h2{font:400 clamp(2.4rem,6vw,3.6rem)/1 var(--bl);margin:0}.sh small{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-left:auto}
+/* steps: timeline */
+.steps{--dh:4.2rem;display:grid;grid-template-columns:repeat(6,1fr);gap:0;list-style:none;margin:0;padding:0;position:relative}
+.steps li{position:relative;padding:0 16px 0 0;display:flex;flex-direction:column;gap:6px}
+.steps li::before{content:"";order:2;height:2px;background:var(--ink);margin:12px 0 14px;width:calc(100% + 0px)}
+.steps li::after{content:"";position:absolute;left:0;top:calc(var(--dh,3.4rem) + 11px);width:14px;height:14px;background:var(--red);transform:rotate(45deg)}
+.steps li:last-child::before{width:60%}
+.steps .num{order:1;font:400 var(--dh,3.4rem)/1 var(--bl);height:var(--dh,3.4rem);display:block}
+.steps .when{order:3;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.steps h3{order:4;font:700 1.1rem/1.2 var(--ar);margin:0}.steps p{order:5;font:400 .9rem/1.35 var(--ar);margin:0;color:var(--soft)}
+/* fair play: rulebook rows */
+.fp{display:flex;flex-direction:column;border:2px solid var(--ink)}
+.fp>div{display:grid;grid-template-columns:11rem 1fr;align-items:center;gap:8px 28px;padding:14px 24px;border-top:2px solid var(--ink)}
+.fp>div:first-child{border-top:0}
+.fp .dg{justify-content:center}.fp .dg img{height:6.4rem}
+.fp h3{font:700 clamp(1.4rem,3vw,2rem)/1.1 var(--ar);margin:0 0 4px;letter-spacing:-.01em}.fp p{margin:0;font:400 1rem/1.4 var(--ar);color:var(--soft)}
+.fp>div.hi{background:var(--ink);color:var(--paper)}.fp>div.hi p{color:#c9c7bf}
+.fp .tx{min-width:0}
+/* anon band */
+.band{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;margin-top:clamp(2.6rem,6vw,4.4rem);padding:clamp(2.4rem,5vw,3.6rem) 0}
+.band .art{position:absolute;right:-16%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.28;pointer-events:none}
+.band .in{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:34px;align-items:end}
+.band h2{font:400 clamp(2.6rem,7vw,4.6rem)/.98 var(--bl);margin:0}
+.band ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}.band li{font:400 1rem/1.35 var(--ar);color:#d8d6cf;padding-left:22px;position:relative}
+.band li::before{content:"";position:absolute;left:0;top:.45em;width:8px;height:8px;background:var(--redi);transform:rotate(45deg)}.band li b{color:var(--paper);font-weight:600}
+/* turn diagram */
+.turn{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.turn .lead{font:600 clamp(1.3rem,3vw,1.8rem)/1.2 var(--ar);margin:0 0 12px}.turn p{font:400 1rem/1.45 var(--ar);margin:0 0 10px;color:var(--soft)}
+.dia{border:2px solid var(--ink);padding:16px;background:var(--paper)}
+.dia .k{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;display:block}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.aw{width:56px;height:56px;border:2px solid var(--ink);display:grid;place-items:center;font:400 1.5rem var(--bl);background:var(--ink);color:var(--paper)}
+.aw.out{background:transparent;color:var(--ink);border-style:dashed}
+.arrow{font-size:1.4rem;line-height:1;padding:0 4px}
+.who{font:600 .95rem var(--ar);min-width:7.5rem}.who small{display:block;font:400 .7rem var(--mo);color:var(--soft);letter-spacing:.06em}
+.pass{margin-left:auto;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+.tie{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;font:600 .95rem var(--ar)}
+/* join */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.two div{border:2px solid var(--ink);padding:18px}
+.two h3{font:400 2rem/1 var(--bl);margin:0 0 10px}.two ul{margin:0;padding-left:1.1rem;font:400 .98rem/1.45 var(--ar)}.two li{margin:.25rem 0}
+.two .in2{background:var(--paper2)}
+/* faq */
+.faq details{border-bottom:2px solid var(--ink);padding:0}.faq details:first-of-type{border-top:2px solid var(--ink)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:14px;align-items:center;padding:16px 4px;font:600 1.05rem/1.25 var(--ar)}
+.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";font:400 1.8rem/1 var(--mo);flex:none}.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 16px;padding:0 4px;font:400 1rem/1.5 var(--ar);color:var(--soft);max-width:44rem}
+.cta{margin-top:clamp(2.6rem,6vw,4.4rem);border:2px solid var(--ink);padding:22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta b{font:400 clamp(1.8rem,4vw,2.6rem)/1 var(--bl)}.btn{display:inline-flex;background:var(--ink);color:var(--paper);padding:13px 18px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink)}
+footer{margin-top:clamp(3rem,6vw,5rem);background:var(--ink);color:var(--paper);padding:2.2rem 0 2.6rem;position:relative;overflow:hidden}
+footer .art{position:absolute;right:-8%;top:-30%;height:170%;filter:invert(1);mix-blend-mode:screen;opacity:.4;pointer-events:none}
+footer .in{position:relative}footer b{font:400 clamp(2.2rem,6vw,3.6rem)/1 var(--bl);display:block}footer p{margin:.5rem 0 0;color:#c9c7bf;font-family:var(--ar);max-width:34rem}
+@media(max-width:900px){.steps{grid-template-columns:1fr;--dh:3.6rem}.steps li{padding:0 0 26px 34px;border-left:2px solid var(--ink);margin-left:8px}.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+ .steps li::before{display:none}.steps li::after{left:-8px;top:6px}}
+@media(max-width:760px){.wrap{padding:0 16px}.bar{padding-left:16px;padding-right:16px}.hero .art{height:80%;right:-28%;opacity:.3}
+ .two,.turn,.band .in{grid-template-columns:1fr}.fp>div{grid-template-columns:5.4rem 1fr;padding:14px 14px;gap:6px 14px}.fp .dg img{height:4.4rem}.band .art{opacity:.3}
+ .row{gap:6px}.aw{width:46px;height:46px}.pass{margin-left:0;flex-basis:100%}}
+
+</style></head><body>
+<header class="bar"><span class="mark">the Feral Collective</span><span class="pill">Rules</span></header>
+<div class="hero"><img class="art" src="art/loop.webp" alt=""><img class="art art2" src="art/drip.webp" alt=""><div class="wrap"><div class="in">
+<div class="eye"><i></i>how the poll works</div><h1>the rules</h1><p class="sub">short version: you join, you vote, nobody hogs the awards.</p>
+<nav class="chips" aria-label="On this page"><a href="#how">how it works</a><a href="#fair">fair play</a><a href="#anon">anonymous</a><a href="#turn">everybody gets a turn</a><a href="#join">joining</a><a href="#faq">questions</a></nav></div></div></div>
+<main class="wrap">
+<section id="how"><div class="sh"><h2>how it works</h2><small>one poll a month</small></div>
+<ol class="steps" id="steps"></ol></section>
+<section id="fair"><div class="sh"><h2>fair play</h2><small>the numbers this month</small></div>
+<div class="fp" id="fp"></div></section>
+</main>
+<div class="band" id="anon"><img class="art" src="art/bold.webp" alt=""><div class="wrap"><div class="in inv"><h2>nobody sees who voted for who.</h2>
+<ul><li><b>not even admins.</b> we only see totals, never who picked who.</li><li>your name is never saved next to your votes.</li><li>if you clear your browser you can’t edit your ballot anymore, but your votes still count.</li><li>you can see that you voted. that’s it.</li></ul></div></div></div>
+<main class="wrap">
+<section id="turn"><div class="sh"><h2>everybody gets a turn</h2><small>the golds rule</small></div>
+<div class="turn"><div><p class="lead">nobody wins more than 3 golds in a month.</p><p>if someone gets more than that, the extras go to whoever came next. it’s a rule, not a judgment. it just means more people get a moment.</p><p>we do the math the same way every time, biggest landslides first. nothing is picked by hand.</p></div>
+<div class="dia" role="img" aria-label="Example: a person with five winning categories keeps three, and the other two go to the next person in line."><span class="k">example</span>
+<div class="row"><div class="who">alex<small>most votes in 5</small></div><span class="aw">1</span><span class="aw">2</span><span class="aw">3</span><span class="aw out">4</span><span class="aw out">5</span></div>
+<div class="row"><span class="pass">alex keeps 3, the other 2 go to next in line</span></div>
+<div class="row"><div class="who">next in line<small>got the 2 left over</small></div><span class="arrow">→</span><span class="aw">4</span><span class="aw">5</span></div>
+<div class="tie">ties share the gold.</div></div></div></section>
+<section id="join"><div class="sh"><h2>joining is your choice</h2><small>you have to opt in</small></div>
+<div class="two"><div class="in2"><h3>if you join</h3><ul><li>you can suggest ideas and vote</li><li>other members can vote for you</li><li>your name can show up in the results and on shared images</li><li>you can leave until joining closes</li></ul></div>
+<div><h3>if you don’t</h3><ul><li>you stay off the list and out of the results</li><li>you can still read the results page</li><li>nobody is added automatically</li></ul></div></div></section>
+<section id="faq" class="faq"><div class="sh"><h2>questions</h2></div>
+<details><summary>can i change my votes?</summary><p>yes, until voting closes. open your ballot and change any pick. skip any award you want. a partial ballot still counts.</p></details>
+<details><summary>can i vote for myself?</summary><p>no. your name shows up greyed out on your own ballot.</p></details>
+<details><summary>can i pick the same person for everything?</summary><p>you can pick the same person up to 3 times on your ballot. after that their name is greyed out and you have to pick someone else.</p></details>
+<details><summary>what if an award only gets a couple of votes?</summary><p>an award needs at least 2 votes. if it doesn’t get them, nobody wins it that month.</p></details>
+<details><summary>who picks the awards?</summary><p>you do. everyone who joined can send in ideas, and we pick the final list.</p></details>
+<details><summary>what happens to my info?</summary><p>your votes are anonymous and your name is only shown in results if you joined. you can delete your account any time in settings. read the <a href="#">privacy policy</a> for the details.</p></details></section>
+<div class="cta"><b>ready to play?</b><a class="btn" href="#">see this month’s poll</a></div>
+</main>
+<footer><img class="art" src="art/bold.webp" alt=""><div class="wrap"><div class="in"><b>fair is the whole point.</b><p>One poll a month. Everybody gets a turn. Find out who gets us all killed.</p></div></div></footer>
+<script>
+function dg(n,h,cls){return '<span class="dg" role="img" aria-label="'+n+'">'+String(n).split('').map(function(c){return '<img src="icons/n'+c+'.webp" alt="" style="height:'+h+'">'}).join('')+'</span>'}
+var STEPS=[['we pick a theme','we choose a theme for the month.','day 1'],['you join if you want in','nobody is added automatically.','by nov 7'],['you send ideas','up to 3 award ideas each, for about a week.','by nov 6'],['we pick the list','20 awards max.','before voting'],['you vote','one pick per award. skip any you want.','nov 7 to nov 13'],['results go up','after voting closes and we publish.','after nov 13']];
+document.getElementById('steps').innerHTML=STEPS.map(function(s,i){return '<li><span class="num">'+(i+1)+'</span><span class="when">'+s[2]+'</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></li>'}).join('');
+var FP=[[0,'votes for yourself','you can’t vote for yourself. your name is greyed out.',''],[3,'same person, max','you can pick the same person up to 3 times on your ballot.',''],[3,'golds per person','nobody wins more than 3 in a month.','hi'],[2,'votes to win','an award needs at least 2 votes.','']];
+document.getElementById('fp').innerHTML=FP.map(function(f){return '<div class="'+f[3]+(f[3]?' inv':'')+'">'+dg(f[0],'6.4rem')+'<div class="tx"><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div></div>'}).join('');
+</script></body></html>

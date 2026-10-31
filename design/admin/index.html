@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Polls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'ED Fairville';src:url(ED.woff2) format('woff2');font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;--amber:#8a5a00;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}:focus-visible{outline:2px solid var(--ink);outline-offset:2px}[hidden]{display:none!important}
+.demo{background:#dcdad2;border-bottom:1px dashed var(--ink-soft);padding:8px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.7rem;color:var(--ink-soft)}
+.demo b{letter-spacing:.12em;text-transform:uppercase;font-weight:500}.demo select{border:1.5px solid var(--ink);background:var(--paper);padding:3px 6px;font-size:.75rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.mark{font-family:var(--black);font-size:1.6rem;line-height:1}
+.header-menu{display:flex;gap:1rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1100px;margin:0 auto;padding:1.5rem 1rem 4rem}
+h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);line-height:1;margin:0 0 1.5rem}
+.tabs{display:flex;gap:.5rem;border-bottom:2px solid var(--ink);margin-bottom:1.5rem;overflow-x:auto}
+.tab{background:none;border:0;padding:.7rem 1.2rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab:hover{background:var(--paper-2)}.tab[aria-selected=true]{background:var(--ink);color:var(--paper)}
+.sub{display:flex;gap:.35rem;margin:0 0 1.25rem;overflow-x:auto;padding-bottom:4px}
+.sub button{background:var(--paper);border:1.5px solid var(--ink);padding:.4rem .75rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.sub button[aria-selected=true]{background:var(--ink);color:var(--paper)}
+.sub button .n{display:inline-block;margin-left:6px;min-width:1.3em;text-align:center;background:var(--red);color:#fff;font-size:.62rem;padding:0 4px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:1.6rem;align-items:start}.grid.even{grid-template-columns:1fr 1fr}
+@media(max-width:800px){.grid,.grid.even{grid-template-columns:1fr}}
+.card{border:2px solid var(--ink);padding:1.25rem;margin-bottom:1.25rem;background:var(--paper)}
+.card.dark{background:var(--ink);color:var(--paper)}.card.dark .hint{color:#c9c7bf}
+.card h2{font-family:var(--black);font-weight:400;font-size:1.8rem;margin:0 0 .8rem;line-height:1}
+.card h3{font:700 1rem/1.25 var(--archivo);margin:0 0 .4rem}
+.hint{font:400 .88rem/1.4 var(--archivo);color:var(--ink-soft);margin:.2rem 0 .8rem}
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.9rem}.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.field input,.field select,.field textarea{background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;font-size:.9rem;width:100%}.field textarea{min-height:4.4rem;font-family:var(--archivo)}
+.field small{font:400 .78rem var(--archivo);color:var(--ink-soft)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}@media(max-width:480px){.fr{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.5rem 1.2rem;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-size:.85rem;letter-spacing:.04em;text-align:center}
+.btn:hover{background:var(--paper);color:var(--ink)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn:disabled:hover{background:var(--ink);color:var(--paper)}
+.btn.outline{background:transparent;color:var(--ink)}.btn.outline:hover{background:var(--ink);color:var(--paper)}.btn.outline:disabled:hover{background:transparent;color:var(--ink)}
+.btn.small{min-height:2.1rem;padding:.35rem .75rem;font-size:.74rem}.btn.warn{border-color:var(--red);background:var(--red);color:#fff}.btn.big{min-height:3.2rem;font-size:.95rem;width:100%}
+.msg{padding:.6rem .8rem;border:1.5px solid var(--line);font:400 .88rem var(--archivo);margin-bottom:1rem}.msg.bad{border-color:var(--red);color:var(--red)}.msg.ok{border-color:var(--green);color:var(--green)}.msg.warn{border-color:var(--amber);color:var(--amber)}
+.list{border:2px solid var(--ink)}.row{display:flex;flex-wrap:wrap;gap:.5rem 1rem;padding:.8rem 1rem;border-bottom:1px solid var(--line);align-items:center;justify-content:space-between}.row:last-child{border-bottom:0}
+.row-info{display:flex;flex-direction:column;min-width:0;flex:1 1 12rem}.row-info b{font-weight:600;font-size:.92rem;font-family:var(--archivo)}.row-info span{font-size:.75rem;color:var(--ink-soft)}
+.acts{display:flex;gap:.4rem;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;padding:.15rem .5rem;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);white-space:nowrap}
+.tag.green{background:var(--green);color:#fff;border-color:var(--green)}.tag.red{background:var(--red);color:#fff;border-color:var(--red)}.tag.soft{background:var(--ink-soft);color:var(--paper);border-color:var(--ink-soft)}.tag.amber{border-color:var(--amber);color:var(--amber)}
+/* phase stepper */
+.stepper{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:0 0 1.4rem;list-style:none;padding:0}
+.stepper li{border-top:4px solid var(--line);padding:8px 8px 0 0;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.stepper li.done{border-color:var(--ink);color:var(--ink)}.stepper li.now{border-color:var(--red);color:var(--ink);font-weight:500}
+@media(max-width:600px){.stepper{grid-template-columns:repeat(3,1fr);row-gap:10px}}
+.gates{list-style:none;margin:.6rem 0 1rem;padding:0;display:grid;gap:.5rem}
+.gates li{display:flex;gap:.6rem;align-items:flex-start;font:400 .92rem/1.35 var(--archivo)}
+.gates li i{flex:none;width:1.25rem;height:1.25rem;display:grid;place-items:center;font:500 .75rem var(--mono);font-style:normal;border:1.5px solid var(--ink)}
+.gates li.ok i{background:var(--green);border-color:var(--green);color:#fff}.gates li.no i{background:var(--red);border-color:var(--red);color:#fff}
+.gates li small{display:block;color:var(--ink-soft);font-size:.8rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.25rem}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+.stat{border:2px solid var(--ink);padding:.8rem}.stat b{font:400 2.4rem/1 var(--black);display:block}.stat span{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.bar{height:10px;background:var(--line);margin:.5rem 0}.bar b{display:block;height:100%;background:var(--ink)}
+.tbl{width:100%;border-collapse:collapse;font:400 .85rem var(--archivo)}.tbl th{font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;text-align:left;color:var(--ink-soft);padding:6px 8px;border-bottom:2px solid var(--ink)}.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}.tbl .chg{background:#fff7e0}.tbl s{color:var(--ink-soft)}
+.chk{display:flex;gap:.6rem;align-items:flex-start;font:400 .92rem var(--archivo);margin:.5rem 0}.chk input{width:1.1rem;height:1.1rem;margin-top:.15rem;accent-color:var(--ink)}
+.days{display:flex;gap:6px;align-items:flex-end;height:90px;margin:.6rem 0}.days div{flex:1;background:var(--ink);position:relative;min-width:8px}.days div span{position:absolute;bottom:-1.4rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--ink-soft)}
+.thumbs{display:flex;gap:10px;align-items:flex-start}.thumbs img{border:2px solid var(--ink);height:150px;width:auto}
+.log .row{font-size:.82rem}.mono{font:400 .74rem var(--mono);color:var(--ink-soft)}
+.ord{display:flex;gap:.4rem}
+.lock{display:flex;gap:.6rem;align-items:center;border:2px dashed var(--ink);padding:.7rem .9rem;margin-bottom:1rem;font:400 .9rem var(--archivo)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:.7rem 1rem;font:400 .85rem var(--archivo);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}.toast.on{opacity:1}
+</style></head><body>
+<div class="demo"><b>preview only</b><label>poll phase <select id="phase"></select></label><span id="demoNote"></span></div>
+<header class="topbar"><span class="mark">the Feral Collective</span><nav class="header-menu"><span>Calendar</span><span>Polls</span><span>My profile</span><span>Sign out</span></nav></header>
+<div class="wrap"><h1>Admin</h1>
+<div class="tabs" role="tablist" id="top"><button class="tab" role="tab" data-v="invites" aria-selected="false">Invites</button><button class="tab" role="tab" data-v="members" aria-selected="false">Members</button><button class="tab" role="tab" data-v="polls" aria-selected="true">Polls</button></div>
+<div id="main"></div></div><div class="toast" id="toast" role="status"></div>
+<script src="data.js"></script>
+<script>
+var PH=['draft','open','curating','voting','closed','published'];
+var PHN={draft:'Draft',open:'Joining + ideas open',curating:'Picking the list',voting:'Voting open',closed:'Voting closed',published:'Published'};
+var st={phase:'curating',v:'polls',scr:'overview',poll:1,joinEarly:false,locked:{},caps:{a:'Names the zombies, jokes at the worst moment, volunteers first, and walks into the abandoned building. We will miss you, Ed.',b:'Thirteen of you saw the chaos and said "her." Brave.',c:'Yes, including the one that is definitely the villain.',w:'The people have spoken.',p:'In the movie, I am...'},checks:[0,0,0]};
+var $=function(s,r){return (r||document).querySelector(s)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},2200)}
+var MEM=['Andrada','Anna I.','Aurora','Cat/Laura','Cpt. Sparky','Daria.f','Drakaina Mimosa','Ed D. Mame','Emmi','Esti','Francesca','Heather','Henna','Holly','Joules','Kasia','Kyoko','Lyana','Maha Naveed','Mai','Pandasjo','Pauline Kim','SindyT','Sonia/Iris','Stephanie','TheWinterNyx','VictoriaWHOA','squeaky85 (Lori)'];
+var IDEAS=[['Opens the door anyway, even after the radio said don’t',14,'Kasia','ok'],['Brings snacks to the haunted house',11,'Esti','ok'],['Says “let’s split up” with total confidence',9,'Mai',''],['Gets a ghost to like them',6,'Joules',''],['Heather would definitely hide a bite',4,'Cat/Laura','','Names a member (Heather). Rewrite it as a moment or decline.'],['Thinks the dog is the real killer',3,'Henna','','Looks like a duplicate of “Blames the wrong suspect” (5 upvotes).']];
+var CATS=RAW.slice(0,14).map(function(r){return r[0]});
+function phIdx(){return PH.indexOf(st.phase)}
+function joinClosed(){var i=phIdx();return i>=3||(i===2&&st.joinEarly)}
+/* ---------- engine (same cap rules as the poll prompt) ---------- */
+function capRun(CAP){var cats=RAW.map(function(r,i){var g=[];if(r[1]&&r[1].length)g.push({n:r[1],v:r[2]});if(r[3])g.push({n:r[3][0],v:r[3][1]});if(r[4])g.push({n:r[4][0],v:r[4][1]});var m=g.length>1?g[0].v-g[1].v:(g[0]?g[0].v:0);return {i:i,t:r[0],g:g,m:m,raw:r[1]||[],rv:r[2]}});
+ var order=cats.slice().sort(function(a,b){return (b.m-a.m)||(b.rv-a.rv)}),cnt={},out={};
+ order.forEach(function(c){var res=null;for(var k=0;k<c.g.length;k++){var grp=c.g[k];if(grp.n.every(function(n){return (cnt[n]||0)<CAP})){res={n:grp.n,v:grp.v,lvl:k};break}}
+  if(!res&&c.g[0])res={n:c.g[0].n,v:c.g[0].v,lvl:0,kept:true};
+  if(res&&!res.kept)res.n.forEach(function(n){cnt[n]=(cnt[n]||0)+1});out[c.i]={c:c,res:res}});
+ return cats.map(function(c){return out[c.i]})}
+/* ---------- chrome ---------- */
+function render(){
+ [].forEach.call(document.querySelectorAll('#top .tab'),function(b){b.setAttribute('aria-selected',b.dataset.v===st.v)});
+ var h='';
+ if(st.v==='invites'||st.v==='members')h='<div class="card"><h2>'+(st.v==='invites'?'Invites':'Members')+'</h2><p class="hint">This tab already exists on the site. Only the Polls tab is new.</p></div>';
+ else if(st.v==='polls')h=pollsView();
+ $('#main').innerHTML=h;bind();$('#demoNote').textContent=st.v==='polls'&&st.scr!=='list'&&st.scr!=='new'?'phase changes what is locked, what is allowed, and what the next button does':'';}
+function pollsView(){
+ if(st.scr==='list')return listView();if(st.scr==='new')return newView();
+ var subs=[['overview','Overview'],['people','People'],['ideas','Ideas'],['ballot','Ballot'],['voting','Voting'],['results','Results'],['emails','Emails'],['log','Log']];
+ var nIdeas=(PH.indexOf(st.phase)>=1&&PH.indexOf(st.phase)<=2)?'2':'';
+ var nav='<p style="margin:0 0 .6rem"><button class="btn outline small" data-go="list">← all polls</button></p><div class="sub" role="tablist">'+subs.map(function(s){return '<button role="tab" data-s="'+s[0]+'" aria-selected="'+(st.scr===s[0])+'">'+s[1]+(s[0]==='ideas'&&nIdeas?'<span class="n">'+nIdeas+'</span>':'')+'</button>'}).join('')+'</div>';
+ var body={overview:overview,people:people,ideas:ideas,ballot:ballot,voting:voting,results:results,emails:emails,log:logv}[st.scr]();
+ return nav+body}
+function stepper(){var i=phIdx();return '<ol class="stepper" aria-label="Poll phase">'+PH.map(function(p,k){return '<li class="'+(k<i?'done':k===i?'now':'')+'">'+PHN[p]+'</li>'}).join('')+'</ol>'}
+function listView(){return '<div class="grid"><div><div class="card"><h2>Polls</h2><div class="list"><div class="row"><div class="row-info"><b>Holiday Chaos</b><span>joining closes nov 7 · voting nov 7 to nov 13</span></div><span class="tag '+(st.phase==='published'?'green':st.phase==='draft'?'soft':'amber')+'">'+PHN[st.phase]+'</span><div class="acts"><button class="btn small" data-go="poll">Open</button></div></div>'+
+ '<div class="row"><div class="row-info"><b>Halloween Horror Movie</b><span>oct 2026 · 27 awards · 20 people got a gold</span></div><span class="tag green">Published</span><div class="acts"><button class="btn small outline" data-toast="Opens the results page">View results</button></div></div></div></div></div>'+
+ '<div><div class="card"><h2>New poll</h2><p class="hint">One poll at a time is the plan. Make the next one while the current one is wrapping up if you want.</p><button class="btn big" data-go="new">Create a poll</button></div></div></div>'}
+function newView(){return '<p style="margin:0 0 .6rem"><button class="btn outline small" data-go="list">← all polls</button></p><div class="grid"><div><div class="card"><h2>New poll</h2>'+
+ '<div class="field"><label for="t">Title</label><input id="t" value="Holiday Chaos"></div><div class="field"><label for="sb">One line</label><input id="sb" value="this month’s theme. join in, then send award ideas."><small>Shows under the title on the polls page.</small></div>'+
+ '<h3 style="margin-top:1rem">Dates</h3><div class="fr"><div class="field"><label>Joining and ideas open</label><input id="d1" type="date" value="2026-11-01"></div><div class="field"><label>Ideas close</label><input id="d2" type="date" value="2026-11-06"></div><div class="field"><label>Joining closes</label><input id="d3" type="date" value="2026-11-07"></div><div class="field"><label>Voting opens</label><input id="d4" type="date" value="2026-11-07"></div><div class="field"><label>Voting closes</label><input id="d5" type="date" value="2026-11-13"></div></div><div id="dmsg"></div>'+
+ '<h3 style="margin-top:1rem">Rules for this poll</h3><div class="fr"><div class="field"><label>Votes per person, per ballot</label><input type="number" value="3"><small>Same person max, on one ballot.</small></div><div class="field"><label>Golds per person</label><input type="number" value="3"><small>The cap.</small></div><div class="field"><label>Votes needed for an award</label><input type="number" value="2"></div><div class="field"><label>Ideas per member</label><input type="number" value="3"></div><div class="field"><label>Awards on the ballot, min</label><input type="number" value="12"></div><div class="field"><label>Awards on the ballot, max</label><input type="number" value="20"></div><div class="field"><label>People needed to run</label><input type="number" value="10"><small>Voting can’t open with fewer joined.</small></div><div class="field"><label>If nobody else is eligible</label><select><option>Keep the winner</option><option>No award</option></select><small>When the cap can’t move a gold to anyone.</small></div></div>'+
+ '<button class="btn" data-toast="Poll saved as a draft. Nothing opens until you say so.">Save as draft</button></div></div>'+
+ '<div><div class="card"><h2>What happens</h2><ul class="gates"><li class="ok"><i>1</i><div>Nov 1: joining and ideas open. Members get an email.</div></li><li class="ok"><i>2</i><div>Nov 6: ideas close. You pick the final list.</div></li><li class="ok"><i>3</i><div>Nov 7: joining closes and the list is locked. Voting opens.</div></li><li class="ok"><i>4</i><div>Nov 13: voting closes. You see results first.</div></li><li class="ok"><i>5</i><div>You publish when you’re happy. Nothing goes public before that.</div></li></ul></div></div></div>'}
+/* ---------- overview ---------- */
+function overview(){var i=phIdx(),jc=joinClosed();
+ var joined=i>=1?41:0,cats=i>=2?14:0,ballots=i>=3?38:0;
+ var stats='<div class="stats"><div class="stat"><b>'+joined+'</b><span>joined of 54</span></div><div class="stat"><b>'+(i>=1?31:0)+'</b><span>ideas sent</span></div><div class="stat"><b>'+cats+'</b><span>awards on the ballot</span></div><div class="stat"><b>'+(i>=3?ballots:'—')+'</b><span>ballots in'+(i>=3?' of 41':'')+'</span></div></div>';
+ var g=[],act='',nextLabel='',dis=false,why='';
+ if(st.phase==='draft'){nextLabel='Open joining and ideas';g=[[1,'Dates are set','Joining closes on or before voting opens.'],[1,'Rules page shows this poll’s numbers','3 per ballot, 3 golds, 2 votes to win.'],[0,'Emails are scheduled','Optional. You can turn them off.']]}
+ if(st.phase==='open'){nextLabel='Close ideas and start picking the list';g=[[0,'Ideas close on nov 6','You can close early.']]}
+ if(st.phase==='curating'){nextLabel='Open voting';g=[[jc?1:0,'Joining is closed and the list is locked',jc?'41 members are in and locked.':'Joining closes nov 7. Close it now to continue.'],[1,'14 awards on the ballot','Between 12 and 20.'],[1,'41 members joined','At least 10 needed.'],[1,'Voting opens on or after joining closes','Nov 7 is not before nov 7.']];dis=!jc;why='Voting can’t start until joining is closed.'}
+ if(st.phase==='voting'){nextLabel='Close voting now';g=[[1,'Voting is open until nov 13, 8pm','Closes by itself then.'],[1,'No one can see any counts','Not members, not you.']]}
+ if(st.phase==='closed'){nextLabel='Go to results and publish';g=[[1,'Voting is closed','Totals are ready for you to look at.'],[st.checks.every(Boolean)?1:0,'You checked the results and the three boxes','On the Results tab.']]}
+ if(st.phase==='published'){nextLabel='';g=[[1,'Results are public','Published nov 14.']]}
+ var gl='<ul class="gates">'+g.map(function(x){return '<li class="'+(x[0]?'ok':'no')+'"><i>'+(x[0]?'✓':'✕')+'</i><div>'+x[1]+'<small>'+x[2]+'</small></div></li>'}).join('')+'</ul>';
+ var btn=nextLabel?'<button class="btn big" data-next '+(dis?'disabled':'')+'>'+nextLabel+'</button>'+(dis?'<p class="hint" style="margin-top:.6rem">'+why+'</p>':''):'';
+ var early=(i===2&&!jc)?'<p style="margin-top:.8rem"><button class="btn outline small" data-closejoin>Close joining now</button></p>':'';
+ var sched='<div class="card"><h2>Schedule</h2><ul class="gates"><li class="'+(i>=1?'ok':'')+'"><i>'+(i>=1?'✓':'')+'</i><div>Joining and ideas open<small>nov 1</small></div></li><li class="'+(i>=2?'ok':'')+'"><i>'+(i>=2?'✓':'')+'</i><div>Ideas close<small>nov 6</small></div></li><li class="'+(jc?'ok':'')+'"><i>'+(jc?'✓':'')+'</i><div>Joining closes and the list locks<small>nov 7'+(st.joinEarly&&i===2?' (closed early)':'')+'</small></div></li><li class="'+(i>=3?'ok':'')+'"><i>'+(i>=3?'✓':'')+'</i><div>Voting opens<small>nov 7</small></div></li><li class="'+(i>=4?'ok':'')+'"><i>'+(i>=4?'✓':'')+'</i><div>Voting closes<small>nov 13, 8pm</small></div></li><li class="'+(i>=5?'ok':'')+'"><i>'+(i>=5?'✓':'')+'</i><div>Results published<small>when you publish</small></div></li></ul><p class="hint">Dates already past are locked. Future dates can still be changed, as long as voting opens on or after joining closes.</p><button class="btn outline small" data-toast="Date editor, same fields as New poll">Edit dates</button></div>';
+ var danger='<div class="card"><h2>Careful</h2>'+(i===4?'<p class="hint">Reopen voting if you closed too early. It’s logged.</p><button class="btn outline small" data-reopen>Reopen voting</button> ':'')+'<button class="btn warn small" data-toast="Asks you to type the poll name first, then cancels and tells joined members" '+(i===5?'disabled':'')+'>Cancel this poll</button></div>';
+ return '<div class="card"><h2>Holiday Chaos</h2><p class="hint" style="margin-bottom:.4rem">this month’s theme. join in, then send award ideas.</p>'+stepper()+'</div>'+stats+'<div class="grid"><div><div class="card'+(nextLabel?'':'')+'"><h2>Next step</h2>'+gl+btn+early+'</div></div><div>'+sched+danger+'</div></div>'}
+/* ---------- people ---------- */
+function people(){var i=phIdx(),lk=joinClosed();
+ var rows=MEM.map(function(m,k){return '<div class="row"><div class="row-info"><b>'+esc(m)+'</b><span>joined nov '+(1+k%5)+'</span></div><div class="acts"><button class="btn small outline" '+(lk||i===0?'disabled':'')+' data-toast="Removed '+esc(m)+'. Logged.">Remove</button></div></div>'}).join('');
+ return '<div class="grid"><div><div class="card"><h2>Who joined</h2>'+(lk?'<div class="lock">🔒 Joining is closed and the list is locked. Nobody can join or leave.</div>':'<div class="msg warn">Joining is open until nov 7. Members can still leave themselves.</div>')+
+ '<div class="field"><input placeholder="Search members" aria-label="Search joined members"></div><div class="list">'+(i===0?'<div class="row"><span class="hint">Nobody yet. Joining hasn’t opened.</span></div>':rows)+'</div><p class="hint" style="margin-top:.6rem">Showing 28 of 41.</p></div></div>'+
+ '<div><div class="card"><h2>Numbers</h2><div class="stats" style="grid-template-columns:1fr 1fr"><div class="stat"><b>'+(i>=1?41:0)+'</b><span>joined</span></div><div class="stat"><b>13</b><span>not joined</span></div></div><div class="bar"><b style="width:'+(i>=1?76:0)+'%"></b></div><p class="hint">Needs at least 10 to open voting.</p><button class="btn outline small" '+(lk||i===0?'disabled':'')+' data-toast="Reminder queued for the 13 members who haven’t joined">Remind members who haven’t joined</button></div>'+
+ '<div class="card"><h2>Taking someone out</h2><p class="hint">Before the list locks you can remove a member. After that you can’t, to keep the vote fair. If someone really needs out, tell me and we handle it with a log entry.</p></div></div></div>'}
+/* ---------- ideas ---------- */
+function ideas(){var i=phIdx(),ro=i>=3;
+ var rows=IDEAS.map(function(x,k){return '<div class="row" style="align-items:flex-start"><div class="row-info"><b>'+esc(x[0])+'</b><span>▲ '+x[1]+' upvotes · sent by '+esc(x[2])+'</span>'+(x[4]?'<span style="color:var(--red);font-weight:500;margin-top:.2rem">⚠ '+esc(x[4])+'</span>':'')+'</div>'+(x[3]==='ok'?'<span class="tag green">Accepted</span>':'')+
+  '<div class="acts"><button class="btn small" '+(ro?'disabled':'')+' data-toast="Accepted. It’s on the ballot.">Accept</button><button class="btn small outline" '+(ro?'disabled':'')+' data-toast="Edit text, saved to the log">Edit</button><button class="btn small outline" '+(ro?'disabled':'')+' data-toast="Merge with another idea, upvotes add up">Merge</button><button class="btn small outline" '+(ro?'disabled':'')+' data-toast="Declined. You’ll be asked for a reason.">Decline</button></div></div>'}).join('');
+ return '<div class="grid"><div><div class="card"><h2>Ideas</h2>'+(ro?'<div class="lock">🔒 Voting has started. The list can’t change.</div>':i<=1?'<div class="msg warn">Ideas are still coming in. They close nov 6.</div>':'')+'<div class="list">'+rows+'</div><p class="hint" style="margin-top:.6rem">Showing 6 of 31, most upvotes first. Ideas that name a member are flagged for you automatically.</p></div></div>'+
+ '<div><div class="card"><h2>The ballot so far</h2><div class="stats" style="grid-template-columns:1fr 1fr"><div class="stat"><b>14</b><span>accepted</span></div><div class="stat"><b>20</b><span>max</span></div></div><div class="bar"><b style="width:70%"></b></div><ul class="gates"><li class="ok"><i>✓</i><div>Nothing names a member</div></li><li class="ok"><i>✓</i><div>No duplicates left</div></li><li class="ok"><i>✓</i><div>At least 12 awards<small>14 right now</small></div></li></ul></div></div></div>'}
+/* ---------- ballot ---------- */
+function ballot(){var i=phIdx(),ro=i>=3;
+ var rows=CATS.map(function(c,k){return '<div class="row"><span class="mono" style="width:2rem">'+String(k+1).padStart(2,'0')+'</span><div class="row-info"><b>'+esc(c)+'</b></div><div class="acts"><button class="btn small outline" '+(ro?'disabled':'')+' aria-label="Move up">↑</button><button class="btn small outline" '+(ro?'disabled':'')+' aria-label="Move down">↓</button><button class="btn small outline" '+(ro?'disabled':'')+' data-toast="Edit title">Edit</button><button class="btn small outline" '+(ro?'disabled':'')+' data-toast="Taken off the ballot">Remove</button></div></div>'}).join('');
+ return '<div class="grid"><div><div class="card"><h2>The ballot</h2>'+(ro?'<div class="lock">🔒 Voting has started. The ballot is locked.</div>':'')+'<div class="list">'+(i<2?'<div class="row"><span class="hint">Accept ideas first. They show up here.</span></div>':rows)+'</div></div></div>'+
+ '<div><div class="card"><h2>Check</h2><ul class="gates"><li class="ok"><i>✓</i><div>14 awards<small>Between 12 and 20.</small></div></li><li class="ok"><i>✓</i><div>Titles all read as a moment, not a person</div></li></ul><button class="btn outline small" data-toast="Opens the ballot the way members see it">See it as a member</button></div>'+
+ '<div class="card"><h2>Order</h2><p class="hint">Members see awards in this order. The people list under each award is shuffled for every voter.</p></div></div></div>'}
+/* ---------- voting ---------- */
+function voting(){var i=phIdx();
+ if(i<3)return '<div class="card"><h2>Voting</h2><div class="lock">Voting hasn’t opened yet. This tab shows turnout once it does.</div></div>';
+ var d=[3,9,14,22,30,34,38],bars=d.map(function(v,k){return '<div style="height:'+(v/38*100)+'%"><span>d'+(k+1)+'</span></div>'}).join('');
+ return '<div class="grid"><div><div class="card"><h2>Turnout</h2><div class="stats" style="grid-template-columns:1fr 1fr"><div class="stat"><b>38</b><span>ballots in</span></div><div class="stat"><b>3</b><span>joined, haven’t voted</span></div></div><div class="bar"><b style="width:'+(38/41*100)+'%"></b></div><p class="hint">38 of 41 joined members have voted.</p><div class="days" aria-label="Ballots in by day">'+bars+'</div><p style="height:1rem"></p></div></div>'+
+ '<div><div class="card dark"><h2>No counts. On purpose.</h2><p class="hint">While voting is open nobody sees any numbers per person or per award, including you. You see turnout only. Counts show up after you close voting.</p></div>'+
+ '<div class="card"><h2>Reminders</h2><p class="hint">Sends an email only to joined members who haven’t voted yet. It never says who they voted for, because you can’t see that.</p><button class="btn outline small" '+(i>=4?'disabled':'')+' data-toast="Reminder queued for 3 members">Remind the 3 who haven’t voted</button></div></div></div>'}
+/* ---------- results ---------- */
+function results(){var i=phIdx();
+ if(i<4)return '<div class="card"><h2>Results</h2><div class="lock">🔒 Results are hidden until voting closes. Nobody can see any counts before then, you included.</div></div>';
+ var R=capRun(3),ch=R.filter(function(o){return !o.res||o.res.lvl>0||o.res.kept});
+ var rows=ch.map(function(o){var c=o.c,r=o.res;return '<tr class="chg"><td>'+esc(c.t)+'</td><td><s>'+esc(c.raw.join(', '))+'</s> <small>'+c.rv+'</small></td><td>'+(r&&!r.kept?'<b>'+esc(r.n.join(', '))+'</b> <small>'+r.v+'</small>':'<span class="tag amber">kept: nobody else had votes</span>')+'</td></tr>'}).join('');
+ var pub=i===5;
+ var cap='<div class="card"><h2>After the golds rule</h2><p class="hint">Nobody gets more than 3 golds. Biggest landslides are handed out first. '+ch.length+' of 27 awards changed. Real Halloween numbers, as an example.</p><div style="overflow-x:auto"><table class="tbl"><tr><th>Award</th><th>Most votes</th><th>Awarded</th></tr>'+rows+'</table></div></div>';
+ var HL=[['Ed D. Mame','Most golds won','a'],['Heather','Biggest landslide','b'],['Emmi','Adopts every stray','c']];
+ var capt='<div class="card"><h2>Captions</h2><p class="hint">Shown on the results page and share cards. Filled in from the captions file. Edit any of them.</p>'+HL.map(function(h){return '<div class="field"><label>Highlight: '+esc(h[0])+'</label><input '+(pub?'disabled':'')+' value="'+esc(h[1])+'" aria-label="Title for '+esc(h[0])+'"><textarea '+(pub?'disabled':'')+' aria-label="Caption for '+esc(h[0])+'">'+esc(st.caps[h[2]])+'</textarea></div>'}).join('')+'<div class="fr"><div class="field"><label>Default, winner cards</label><input '+(pub?'disabled':'')+' value="'+esc(st.caps.w)+'"></div><div class="field"><label>Default, personal cards</label><input '+(pub?'disabled':'')+' value="'+esc(st.caps.p)+'"></div></div><small class="hint">Per-award captions can be added too. Anything left empty uses the default.</small></div>';
+ var thumbs='<div class="card"><h2>Share cards</h2><p class="hint">Made when you publish, for everyone who joined and hasn’t asked to be left off. A couple of examples:</p><div class="thumbs"><img src="img/winner-story.png" alt="Example category winner card"><img src="img/golds-square.png" alt="Example most golds card"></div></div>';
+ var chk='<div class="card dark"><h2>'+(pub?'Published':'Ready?')+'</h2>'+(pub?'<p class="hint">Results went public nov 14. The results page and share cards are live.</p>':'<label class="chk"><input type="checkbox" data-ck="0" '+(st.checks[0]?'checked':'')+'><span>I read the golds changes and I’m happy with them.</span></label><label class="chk"><input type="checkbox" data-ck="1" '+(st.checks[1]?'checked':'')+'><span>I checked the captions.</span></label><label class="chk"><input type="checkbox" data-ck="2" '+(st.checks[2]?'checked':'')+'><span>I know I can’t see who voted for who, and I’m not trying to.</span></label><p style="margin-top:1rem"><button class="btn big" style="background:var(--paper);color:var(--ink);border-color:var(--paper)" data-publish '+(st.checks.every(Boolean)?'':'disabled')+'>Publish results</button></p><p class="hint">Publishing makes results public and builds the results page and share cards. You can’t take it back, so look it over first.</p>')+'</div>';
+ return '<div class="grid"><div>'+cap+capt+'</div><div>'+chk+thumbs+'</div></div>'}
+/* ---------- emails + log ---------- */
+function emails(){var E=[['Joining and ideas open','nov 1, 9am','Everyone invited'],['Reminder to join','nov 5, 9am','Members who haven’t joined'],['Voting is open','nov 7, 9am','Joined members'],['Reminder to vote','nov 12, 8pm (24h before)','Joined members who haven’t voted'],['Results are up','when you publish','Joined members']];
+ return '<div class="card"><h2>Emails</h2><p class="hint">Each one goes out once, never twice. Members can turn poll emails off in their settings.</p><div class="list">'+E.map(function(e,k){return '<div class="row"><div class="row-info"><b>'+e[0]+'</b><span>'+e[1]+' · '+e[2]+'</span></div><label class="chk" style="margin:0"><input type="checkbox" checked aria-label="Send: '+e[0]+'"><span>on</span></label><button class="btn small outline" data-toast="Edit the text of this email">Edit text</button></div>'}).join('')+'</div></div>'}
+function logv(){var L=[['nov 14, 9:02am','zzy','published results'],['nov 13, 8:00pm','system','voting closed'],['nov 7, 9:00am','system','voting opened'],['nov 7, 9:00am','system','joining closed, list locked (41 members)'],['nov 6, 4:12pm','zzy','accepted idea “Brings snacks to the haunted house”'],['nov 6, 4:10pm','zzy','edited idea text'],['nov 3, 8:30pm','zzy','declined an idea (names a member)'],['nov 1, 9:00am','system','joining and ideas opened']];
+ return '<div class="card"><h2>Log</h2><p class="hint">Every admin action and every phase change. Votes are never in here.</p><div class="list log">'+L.map(function(l){return '<div class="row"><div class="row-info"><b style="font-weight:500">'+l[2]+'</b><span>'+l[0]+' · '+l[1]+'</span></div></div>'}).join('')+'</div></div>'}
+/* ---------- events ---------- */
+function bind(){
+ [].forEach.call(document.querySelectorAll('[data-go]'),function(b){b.onclick=function(){var g=b.dataset.go;st.scr=g==='poll'?'overview':g;render()}});
+ [].forEach.call(document.querySelectorAll('[data-s]'),function(b){b.onclick=function(){st.scr=b.dataset.s;render()}});
+ [].forEach.call(document.querySelectorAll('[data-toast]'),function(b){b.onclick=function(){toast(b.dataset.toast)}});
+ [].forEach.call(document.querySelectorAll('[data-ck]'),function(b){b.onchange=function(){st.checks[+b.dataset.ck]=b.checked;render()}});
+ var nx=$('[data-next]');if(nx)nx.onclick=function(){var i=phIdx();if(i<5){st.phase=PH[i+1];$('#phase').value=st.phase;if(st.phase==='closed'||st.phase==='voting')st.scr=st.phase==='closed'?'results':'overview';toast('Done. '+PHN[st.phase]+'. Logged.');render()}};
+ var cj=$('[data-closejoin]');if(cj)cj.onclick=function(){st.joinEarly=true;toast('Joining closed. The list is locked.');render()};
+ var ro=$('[data-reopen]');if(ro)ro.onclick=function(){st.phase='voting';$('#phase').value='voting';toast('Voting reopened. Logged.');render()};
+ var pb=$('[data-publish]');if(pb)pb.onclick=function(){st.phase='published';$('#phase').value='published';toast('Published. Results are public.');render()};
+ var d=$('#d4');if(d){var chk=function(){var a=$('#d3').value,b=$('#d4').value,m=$('#dmsg');m.innerHTML=b<a?'<div class="msg bad">Voting can’t open before joining closes. Move voting later or joining earlier.</div>':'';};['d3','d4'].forEach(function(id){$('#'+id).onchange=chk});chk()}
+}
+[].forEach.call(document.querySelectorAll('#top .tab'),function(b){b.onclick=function(){st.v=b.dataset.v;if(st.v==='polls')st.scr='list';render()}});
+var sel=$('#phase');sel.innerHTML=PH.map(function(p){return '<option value="'+p+'">'+PHN[p]+'</option>'}).join('');sel.value=st.phase;sel.onchange=function(){st.phase=sel.value;st.joinEarly=false;st.checks=[0,0,0];render()};
+st.scr='overview';render();
+</script></body></html>
