@@ -97,6 +97,12 @@ form{display:flex;flex-direction:column;gap:1rem}
 (function() {
   'use strict';
 
+  // Save redirect URL immediately on page load
+  const redirectParam = new URLSearchParams(window.location.search).get('redirect');
+  if (redirectParam && redirectParam.startsWith('/')) {
+    localStorage.setItem('feral_redirect', redirectParam);
+  }
+
   const step1 = document.getElementById('step1');
   const step2 = document.getElementById('step2');
   const loginForm = document.getElementById('loginForm');
@@ -118,12 +124,6 @@ form{display:flex;flex-direction:column;gap:1rem}
     const btn = document.getElementById('loginBtn');
     btn.disabled = true;
     btn.textContent = 'Sending link...';
-
-    // Save redirect URL for after magic link auth
-    const redirect = new URLSearchParams(window.location.search).get('redirect');
-    if (redirect && redirect.startsWith('/')) {
-      localStorage.setItem('feral_redirect', redirect);
-    }
 
     const { error } = await FeralAuth.signIn(email);
 
