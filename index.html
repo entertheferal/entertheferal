@@ -129,7 +129,14 @@ document.getElementById('playBtn').addEventListener('click', function() {
       if (result.data.session) {
         // Clear the hash
         history.replaceState(null, '', window.location.pathname);
-        // Get profile and redirect
+        // Check for saved redirect URL
+        var savedRedirect = localStorage.getItem('feral_redirect');
+        if (savedRedirect && savedRedirect.startsWith('/')) {
+          localStorage.removeItem('feral_redirect');
+          window.location.href = savedRedirect;
+          return;
+        }
+        // Get profile and redirect to profile page
         sb.from('profiles').select('handle').eq('id', result.data.session.user.id).single().then(function(p) {
           if (p.data && p.data.handle) {
             window.location.href = '/u/' + p.data.handle;
