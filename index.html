@@ -118,5 +118,29 @@ document.getElementById('playBtn').addEventListener('click', function() {
   </div>
   <img class="ink" alt="" src="images/ink.webp" width="2400" height="1000">
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script>
+// Handle magic link auth callback
+(function() {
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    var sb = window.supabase.createClient(window.FERAL.SUPABASE_URL, window.FERAL.SUPABASE_ANON_KEY);
+    sb.auth.getSession().then(function(result) {
+      if (result.data.session) {
+        // Clear the hash
+        history.replaceState(null, '', window.location.pathname);
+        // Get profile and redirect
+        sb.from('profiles').select('handle').eq('id', result.data.session.user.id).single().then(function(p) {
+          if (p.data && p.data.handle) {
+            window.location.href = '/u/' + p.data.handle;
+          } else {
+            window.location.href = '/';
+          }
+        });
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
