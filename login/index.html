@@ -41,9 +41,6 @@ form{display:flex;flex-direction:column;gap:1rem}
 .msg.bad{border-color:var(--red);color:var(--red);display:block}
 .msg.ok{border-color:var(--green);color:var(--green);display:block}
 
-.code-inputs{display:flex;gap:.5rem;justify-content:center}
-.code-inputs input{width:2.8rem;height:3.4rem;text-align:center;font-size:1.5rem;font-family:var(--mono);border:1.5px solid var(--ink);background:var(--paper);padding:0}
-.code-inputs input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 
 .step{display:none}.step.active{display:block}
 .back-link{font-size:.85rem;color:var(--ink-soft);border:0;background:0;padding:0;cursor:pointer;text-decoration:underline}
@@ -66,37 +63,23 @@ form{display:flex;flex-direction:column;gap:1rem}
   <!-- Step 1: Email -->
   <div class="step active" id="step1">
     <h1>Sign in</h1>
-    <p class="sub">We'll email you a 6-digit code.</p>
+    <p class="sub">We'll email you a sign-in link.</p>
     <form id="loginForm" novalidate>
       <div class="field">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
       </div>
       <div class="msg" id="loginMsg" role="alert" aria-live="polite"></div>
-      <button type="submit" class="btn" id="loginBtn">Send code</button>
+      <button type="submit" class="btn" id="loginBtn">Send link</button>
     </form>
   </div>
 
-  <!-- Step 2: Verify code -->
+  <!-- Step 2: Check email -->
   <div class="step" id="step2">
     <h1>Check your email</h1>
-    <p class="sub">We sent a 6-digit code to <strong id="sentTo"></strong></p>
-    <form id="verifyForm" novalidate>
-      <div class="field">
-        <label>Enter code</label>
-        <div class="code-inputs" id="codeInputs">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
-          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
-        </div>
-      </div>
-      <div class="msg" id="verifyMsg" role="alert" aria-live="polite"></div>
-      <button type="submit" class="btn" id="verifyBtn">Sign in</button>
-      <button type="button" class="back-link" id="backBtn">Use a different email</button>
-    </form>
+    <p class="sub">We sent a sign-in link to <strong id="sentTo"></strong></p>
+    <p class="sub">Click the link to sign in. You can close this tab.</p>
+    <button type="button" class="back-link" id="backBtn">Use a different email</button>
   </div>
 </div>
 </main>
@@ -114,15 +97,10 @@ form{display:flex;flex-direction:column;gap:1rem}
 (function() {
   'use strict';
 
-  let pendingEmail = '';
-
   const step1 = document.getElementById('step1');
   const step2 = document.getElementById('step2');
   const loginForm = document.getElementById('loginForm');
-  const verifyForm = document.getElementById('verifyForm');
   const loginMsg = document.getElementById('loginMsg');
-  const verifyMsg = document.getElementById('verifyMsg');
-  const codeInputs = document.querySelectorAll('#codeInputs input');
 
   // Login form submit
   loginForm.addEventListener('submit', async function(e) {
@@ -139,12 +117,12 @@ form{display:flex;flex-direction:column;gap:1rem}
 
     const btn = document.getElementById('loginBtn');
     btn.disabled = true;
-    btn.textContent = 'Sending code...';
+    btn.textContent = 'Sending link...';
 
     const { error } = await FeralAuth.signIn(email);
 
     btn.disabled = false;
-    btn.textContent = 'Send code';
+    btn.textContent = 'Send link';
 
     if (error) {
       loginMsg.className = 'msg bad';
@@ -153,89 +131,15 @@ form{display:flex;flex-direction:column;gap:1rem}
     }
 
     // Move to step 2
-    pendingEmail = email;
     document.getElementById('sentTo').textContent = email;
     step1.classList.remove('active');
     step2.classList.add('active');
-    codeInputs[0].focus();
-  });
-
-  // Code input handling
-  codeInputs.forEach((input, i) => {
-    input.addEventListener('input', function() {
-      const val = this.value.replace(/[^0-9]/g, '');
-      this.value = val;
-      if (val && i < codeInputs.length - 1) {
-        codeInputs[i + 1].focus();
-      }
-    });
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' && !this.value && i > 0) {
-        codeInputs[i - 1].focus();
-      }
-    });
-    input.addEventListener('paste', function(e) {
-      e.preventDefault();
-      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
-      for (let j = 0; j < Math.min(text.length, 6); j++) {
-        codeInputs[j].value = text[j];
-      }
-      if (text.length >= 6) {
-        codeInputs[5].focus();
-        verifyForm.dispatchEvent(new Event('submit'));
-      }
-    });
-  });
-
-  // Verify form submit
-  verifyForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    verifyMsg.className = 'msg';
-    verifyMsg.textContent = '';
-
-    const code = Array.from(codeInputs).map(i => i.value).join('');
-    if (code.length !== 6) {
-      verifyMsg.className = 'msg bad';
-      verifyMsg.textContent = 'Please enter all 6 digits.';
-      return;
-    }
-
-    const btn = document.getElementById('verifyBtn');
-    btn.disabled = true;
-    btn.textContent = 'Signing in...';
-
-    const { data, error } = await FeralAuth.verifyOtp(pendingEmail, code);
-
-    btn.disabled = false;
-    btn.textContent = 'Sign in';
-
-    if (error) {
-      verifyMsg.className = 'msg bad';
-      verifyMsg.textContent = FeralAuth.friendlyError(error);
-      codeInputs.forEach(i => i.value = '');
-      codeInputs[0].focus();
-      return;
-    }
-
-    // Success! Get profile and redirect
-    const profile = await FeralAuth.getProfile();
-    const redirect = new URLSearchParams(window.location.search).get('redirect');
-    if (redirect && redirect.startsWith('/')) {
-      window.location.href = redirect;
-    } else if (profile) {
-      window.location.href = '/u/' + profile.handle;
-    } else {
-      window.location.href = '/';
-    }
   });
 
   // Back button
   document.getElementById('backBtn').addEventListener('click', function() {
     step2.classList.remove('active');
     step1.classList.add('active');
-    codeInputs.forEach(i => i.value = '');
-    verifyMsg.className = 'msg';
-    verifyMsg.textContent = '';
   });
 
   // If already signed in, redirect
