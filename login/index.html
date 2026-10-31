@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 var(--mono);min-height:100vh;display:flex;flex-direction:column}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.header-mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header a:not(.header-mark){font-size:.78rem;letter-spacing:.06em;text-decoration:none;color:var(--ink);border-bottom:1.5px solid var(--ink);padding-bottom:1px}
+.header a:not(.header-mark):hover{background:var(--ink);color:var(--paper)}
+
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.card{width:100%;max-width:420px;border:2px solid var(--ink);padding:clamp(1.5rem,4vw,2rem)}
+.card h1{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,6vw,3rem);line-height:1;margin:0 0 .5rem}
+.card .sub{margin:0 0 1.5rem;color:var(--ink-soft);font-size:.9rem}
+
+form{display:flex;flex-direction:column;gap:1rem}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.field input{background:var(--paper);border:1.5px solid var(--ink);padding:.7rem .8rem;font:inherit;font-size:16px}
+.field input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.field .hint{font-size:.72rem;color:var(--ink-soft)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:.7rem 1.5rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font:inherit;font-size:1rem;letter-spacing:.04em;cursor:pointer}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.msg{padding:.8rem;border:1.5px solid var(--ink);font-size:.85rem;display:none}
+.msg.bad{border-color:var(--red);color:var(--red);display:block}
+.msg.ok{border-color:var(--green);color:var(--green);display:block}
+
+.code-inputs{display:flex;gap:.5rem;justify-content:center}
+.code-inputs input{width:2.8rem;height:3.4rem;text-align:center;font-size:1.5rem;font-family:var(--mono);border:1.5px solid var(--ink);background:var(--paper);padding:0}
+.code-inputs input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+
+.step{display:none}.step.active{display:block}
+.back-link{font-size:.85rem;color:var(--ink-soft);border:0;background:0;padding:0;cursor:pointer;text-decoration:underline}
+.back-link:hover{color:var(--ink)}
+
+.footer{padding:1.5rem 1rem;text-align:center;font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.footer a{color:inherit;margin:0 .5rem}
+.footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="header-mark">the Feral Collective</a>
+  <a href="/join">Need an invite?</a>
+</header>
+
+<main class="main">
+<div class="card">
+  <!-- Step 1: Email -->
+  <div class="step active" id="step1">
+    <h1>Sign in</h1>
+    <p class="sub">We'll email you a 6-digit code.</p>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div class="msg" id="loginMsg" role="alert" aria-live="polite"></div>
+      <button type="submit" class="btn" id="loginBtn">Send code</button>
+    </form>
+  </div>
+
+  <!-- Step 2: Verify code -->
+  <div class="step" id="step2">
+    <h1>Check your email</h1>
+    <p class="sub">We sent a 6-digit code to <strong id="sentTo"></strong></p>
+    <form id="verifyForm" novalidate>
+      <div class="field">
+        <label>Enter code</label>
+        <div class="code-inputs" id="codeInputs">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+        </div>
+      </div>
+      <div class="msg" id="verifyMsg" role="alert" aria-live="polite"></div>
+      <button type="submit" class="btn" id="verifyBtn">Sign in</button>
+      <button type="button" class="back-link" id="backBtn">Use a different email</button>
+    </form>
+  </div>
+</div>
+</main>
+
+<footer class="footer">
+  <a href="/privacy">Privacy</a>
+  <a href="/guidelines">Guidelines</a>
+  <a href="/terms">Terms</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  let pendingEmail = '';
+
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const loginForm = document.getElementById('loginForm');
+  const verifyForm = document.getElementById('verifyForm');
+  const loginMsg = document.getElementById('loginMsg');
+  const verifyMsg = document.getElementById('verifyMsg');
+  const codeInputs = document.querySelectorAll('#codeInputs input');
+
+  // Login form submit
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    loginMsg.className = 'msg';
+    loginMsg.textContent = '';
+
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      loginMsg.className = 'msg bad';
+      loginMsg.textContent = 'Please enter your email.';
+      return;
+    }
+
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending code...';
+
+    const { error } = await FeralAuth.signIn(email);
+
+    btn.disabled = false;
+    btn.textContent = 'Send code';
+
+    if (error) {
+      loginMsg.className = 'msg bad';
+      loginMsg.textContent = FeralAuth.friendlyError(error);
+      return;
+    }
+
+    // Move to step 2
+    pendingEmail = email;
+    document.getElementById('sentTo').textContent = email;
+    step1.classList.remove('active');
+    step2.classList.add('active');
+    codeInputs[0].focus();
+  });
+
+  // Code input handling
+  codeInputs.forEach((input, i) => {
+    input.addEventListener('input', function() {
+      const val = this.value.replace(/[^0-9]/g, '');
+      this.value = val;
+      if (val && i < codeInputs.length - 1) {
+        codeInputs[i + 1].focus();
+      }
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !this.value && i > 0) {
+        codeInputs[i - 1].focus();
+      }
+    });
+    input.addEventListener('paste', function(e) {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      for (let j = 0; j < Math.min(text.length, 6); j++) {
+        codeInputs[j].value = text[j];
+      }
+      if (text.length >= 6) {
+        codeInputs[5].focus();
+        verifyForm.dispatchEvent(new Event('submit'));
+      }
+    });
+  });
+
+  // Verify form submit
+  verifyForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    verifyMsg.className = 'msg';
+    verifyMsg.textContent = '';
+
+    const code = Array.from(codeInputs).map(i => i.value).join('');
+    if (code.length !== 6) {
+      verifyMsg.className = 'msg bad';
+      verifyMsg.textContent = 'Please enter all 6 digits.';
+      return;
+    }
+
+    const btn = document.getElementById('verifyBtn');
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+
+    const { data, error } = await FeralAuth.verifyOtp(pendingEmail, code);
+
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+
+    if (error) {
+      verifyMsg.className = 'msg bad';
+      verifyMsg.textContent = FeralAuth.friendlyError(error);
+      codeInputs.forEach(i => i.value = '');
+      codeInputs[0].focus();
+      return;
+    }
+
+    // Success! Get profile and redirect
+    const profile = await FeralAuth.getProfile();
+    const redirect = new URLSearchParams(window.location.search).get('redirect');
+    if (redirect && redirect.startsWith('/')) {
+      window.location.href = redirect;
+    } else if (profile) {
+      window.location.href = '/u/' + profile.handle;
+    } else {
+      window.location.href = '/';
+    }
+  });
+
+  // Back button
+  document.getElementById('backBtn').addEventListener('click', function() {
+    step2.classList.remove('active');
+    step1.classList.add('active');
+    codeInputs.forEach(i => i.value = '');
+    verifyMsg.className = 'msg';
+    verifyMsg.textContent = '';
+  });
+
+  // If already signed in, redirect
+  FeralAuth.getUser().then(user => {
+    if (user) {
+      FeralAuth.getProfile().then(profile => {
+        const redirect = new URLSearchParams(window.location.search).get('redirect');
+        if (redirect && redirect.startsWith('/')) {
+          window.location.href = redirect;
+        } else if (profile) {
+          window.location.href = '/u/' + profile.handle;
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

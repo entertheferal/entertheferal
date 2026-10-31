@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join - The Feral Collective</title>
+<style>
+@font-face{font-family:'ED Fairville';src:url(../fonts/ED-Fairville-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-500.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-600.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Archivo';src:url(../fonts/archivo-700.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/ibm-plex-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{--paper:#f6f5f1;--paper-2:#ebeae3;--ink:#0b0b0b;--ink-soft:#4a4944;--line:#c9c7bf;--red:#b3201a;--green:#1a7a3a;
+--black:'ED Fairville',Georgia,serif;--archivo:'Archivo',sans-serif;--mono:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 var(--mono);min-height:100vh;display:flex;flex-direction:column}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1.5px solid var(--ink)}
+.header-mark{font-family:var(--black);font-size:1.6rem;line-height:1;text-decoration:none;color:inherit}
+.header a:not(.header-mark){font-size:.78rem;letter-spacing:.06em;text-decoration:none;color:var(--ink);border-bottom:1.5px solid var(--ink);padding-bottom:1px}
+.header a:not(.header-mark):hover{background:var(--ink);color:var(--paper)}
+
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.card{width:100%;max-width:420px;border:2px solid var(--ink);padding:clamp(1.5rem,4vw,2rem)}
+.card h1{font-family:var(--black);font-weight:400;font-size:clamp(2.2rem,6vw,3rem);line-height:1;margin:0 0 .5rem}
+.card .sub{margin:0 0 1.5rem;color:var(--ink-soft);font-size:.9rem}
+
+form{display:flex;flex-direction:column;gap:1rem}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:baseline}
+.field input{background:var(--paper);border:1.5px solid var(--ink);padding:.7rem .8rem;font:inherit;font-size:16px}
+.field input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.field .hint{font-size:.72rem;color:var(--ink-soft)}
+.field .hint.ok{color:var(--green)}
+.field .hint.bad{color:var(--red)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media (max-width:480px){.field-row{grid-template-columns:1fr}}
+
+.check{display:flex;gap:.6rem;align-items:flex-start;font-size:.85rem;line-height:1.4}
+.check input{flex:none;width:1.1rem;height:1.1rem;margin-top:.15rem;accent-color:var(--ink)}
+.check a{color:inherit}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:.7rem 1.5rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font:inherit;font-size:1rem;letter-spacing:.04em;cursor:pointer}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--paper)}
+
+.msg{padding:.8rem;border:1.5px solid var(--ink);font-size:.85rem;display:none}
+.msg.bad{border-color:var(--red);color:var(--red);display:block}
+.msg.ok{border-color:var(--green);color:var(--green);display:block}
+
+.code-inputs{display:flex;gap:.5rem;justify-content:center}
+.code-inputs input{width:2.8rem;height:3.4rem;text-align:center;font-size:1.5rem;font-family:var(--mono);border:1.5px solid var(--ink);background:var(--paper);padding:0}
+.code-inputs input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+
+.step{display:none}.step.active{display:block}
+.back-link{font-size:.85rem;color:var(--ink-soft);border:0;background:0;padding:0;cursor:pointer;text-decoration:underline}
+.back-link:hover{color:var(--ink)}
+
+.footer{padding:1.5rem 1rem;text-align:center;font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.footer a{color:inherit;margin:0 .5rem}
+.footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="header-mark">the Feral Collective</a>
+  <a href="/login">Already a member? Sign in</a>
+</header>
+
+<main class="main">
+<div class="card">
+  <!-- Step 1: Join form -->
+  <div class="step active" id="step1">
+    <h1>Join the pack</h1>
+    <p class="sub">Membership is invite-only. Got a code?</p>
+    <form id="joinForm" novalidate>
+      <div class="field">
+        <label for="inviteCode">Invite code</label>
+        <input type="text" id="inviteCode" name="inviteCode" required autocomplete="off" autocapitalize="characters" placeholder="FERAL-XXXX-XXXX" spellcheck="false">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+        <span class="hint">We'll send you a code to verify.</span>
+      </div>
+      <div class="field">
+        <label for="handle">Handle <span id="handleStatus"></span></label>
+        <input type="text" id="handle" name="handle" required autocomplete="off" autocapitalize="off" placeholder="yourname" spellcheck="false" pattern="[a-z0-9_.]{3,20}">
+        <span class="hint" id="handleHint">3-20 characters: letters, numbers, dots, underscores</span>
+      </div>
+      <div class="field">
+        <label for="displayName">Display name <span>(optional)</span></label>
+        <input type="text" id="displayName" name="displayName" maxlength="24" autocomplete="name" placeholder="How you want to be called">
+      </div>
+      <div class="check">
+        <input type="checkbox" id="ageCheck" required>
+        <label for="ageCheck">I am at least <span id="minAge">18</span> years old</label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="agreeCheck" required>
+        <label for="agreeCheck">I agree to the <a href="/guidelines" target="_blank">Community Guidelines</a> and <a href="/privacy" target="_blank">Privacy Policy</a></label>
+      </div>
+      <div class="msg" id="joinMsg" role="alert" aria-live="polite"></div>
+      <button type="submit" class="btn" id="joinBtn">Create account</button>
+    </form>
+  </div>
+
+  <!-- Step 2: Verify code -->
+  <div class="step" id="step2">
+    <h1>Check your email</h1>
+    <p class="sub">We sent a 6-digit code to <strong id="sentTo"></strong></p>
+    <form id="verifyForm" novalidate>
+      <div class="field">
+        <label>Enter code</label>
+        <div class="code-inputs" id="codeInputs">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+          <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+        </div>
+      </div>
+      <div class="msg" id="verifyMsg" role="alert" aria-live="polite"></div>
+      <button type="submit" class="btn" id="verifyBtn">Verify</button>
+      <button type="button" class="back-link" id="backBtn">Use a different email</button>
+    </form>
+  </div>
+</div>
+</main>
+
+<footer class="footer">
+  <a href="/privacy">Privacy</a>
+  <a href="/guidelines">Guidelines</a>
+  <a href="/terms">Terms</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // Strip invite code from URL after reading (privacy)
+  const params = new URLSearchParams(window.location.search);
+  const prefillCode = params.get('code');
+  if (prefillCode) {
+    history.replaceState(null, '', window.location.pathname);
+    document.getElementById('inviteCode').value = prefillCode;
+  }
+
+  // Set min age from config
+  document.getElementById('minAge').textContent = window.FERAL.MIN_AGE;
+
+  let pendingEmail = '';
+  let handleTimeout = null;
+
+  // Elements
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const joinForm = document.getElementById('joinForm');
+  const verifyForm = document.getElementById('verifyForm');
+  const handleInput = document.getElementById('handle');
+  const handleStatus = document.getElementById('handleStatus');
+  const handleHint = document.getElementById('handleHint');
+  const joinMsg = document.getElementById('joinMsg');
+  const verifyMsg = document.getElementById('verifyMsg');
+  const codeInputs = document.querySelectorAll('#codeInputs input');
+
+  // Handle availability check (debounced)
+  handleInput.addEventListener('input', function() {
+    const val = this.value.toLowerCase().trim();
+    handleStatus.textContent = '';
+    handleHint.className = 'hint';
+    handleHint.textContent = '3-20 characters: letters, numbers, dots, underscores';
+
+    clearTimeout(handleTimeout);
+    if (val.length < 3) return;
+
+    // Validate format
+    if (!/^[a-z0-9_.]{3,20}$/.test(val)) {
+      handleHint.className = 'hint bad';
+      handleHint.textContent = 'Only lowercase letters, numbers, dots, underscores';
+      return;
+    }
+
+    // Check reserved
+    if (window.FERAL.RESERVED_HANDLES.includes(val)) {
+      handleHint.className = 'hint bad';
+      handleHint.textContent = 'That handle is reserved';
+      return;
+    }
+
+    handleStatus.textContent = '(checking...)';
+    handleTimeout = setTimeout(async function() {
+      const available = await FeralAuth.checkHandle(val);
+      if (handleInput.value.toLowerCase().trim() !== val) return; // stale
+      handleStatus.textContent = '';
+      if (available) {
+        handleHint.className = 'hint ok';
+        handleHint.textContent = 'Available!';
+      } else {
+        handleHint.className = 'hint bad';
+        handleHint.textContent = 'Already taken';
+      }
+    }, 400);
+  });
+
+  // Join form submit
+  joinForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    joinMsg.className = 'msg';
+    joinMsg.textContent = '';
+
+    const inviteCode = document.getElementById('inviteCode').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const handle = document.getElementById('handle').value.toLowerCase().trim();
+    const displayName = document.getElementById('displayName').value.trim();
+    const ageCheck = document.getElementById('ageCheck').checked;
+    const agreeCheck = document.getElementById('agreeCheck').checked;
+
+    if (!inviteCode) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Please enter your invite code.';
+      return;
+    }
+    if (!email) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Please enter your email.';
+      return;
+    }
+    if (!handle || handle.length < 3) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Please choose a handle (at least 3 characters).';
+      return;
+    }
+    if (!/^[a-z0-9_.]{3,20}$/.test(handle)) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Handle must be 3-20 characters: letters, numbers, dots, underscores.';
+      return;
+    }
+    if (!ageCheck) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Please confirm your age.';
+      return;
+    }
+    if (!agreeCheck) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = 'Please agree to the guidelines and privacy policy.';
+      return;
+    }
+
+    const btn = document.getElementById('joinBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending code...';
+
+    const { error } = await FeralAuth.signUp(email, inviteCode, handle, displayName);
+
+    btn.disabled = false;
+    btn.textContent = 'Create account';
+
+    if (error) {
+      joinMsg.className = 'msg bad';
+      joinMsg.textContent = FeralAuth.friendlyError(error);
+      return;
+    }
+
+    // Move to step 2
+    pendingEmail = email;
+    document.getElementById('sentTo').textContent = email;
+    step1.classList.remove('active');
+    step2.classList.add('active');
+    codeInputs[0].focus();
+  });
+
+  // Code input handling
+  codeInputs.forEach((input, i) => {
+    input.addEventListener('input', function() {
+      const val = this.value.replace(/[^0-9]/g, '');
+      this.value = val;
+      if (val && i < codeInputs.length - 1) {
+        codeInputs[i + 1].focus();
+      }
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !this.value && i > 0) {
+        codeInputs[i - 1].focus();
+      }
+    });
+    input.addEventListener('paste', function(e) {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      for (let j = 0; j < Math.min(text.length, 6); j++) {
+        codeInputs[j].value = text[j];
+      }
+      if (text.length >= 6) {
+        codeInputs[5].focus();
+        verifyForm.dispatchEvent(new Event('submit'));
+      }
+    });
+  });
+
+  // Verify form submit
+  verifyForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    verifyMsg.className = 'msg';
+    verifyMsg.textContent = '';
+
+    const code = Array.from(codeInputs).map(i => i.value).join('');
+    if (code.length !== 6) {
+      verifyMsg.className = 'msg bad';
+      verifyMsg.textContent = 'Please enter all 6 digits.';
+      return;
+    }
+
+    const btn = document.getElementById('verifyBtn');
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+
+    const { data, error } = await FeralAuth.verifyOtp(pendingEmail, code);
+
+    btn.disabled = false;
+    btn.textContent = 'Verify';
+
+    if (error) {
+      verifyMsg.className = 'msg bad';
+      verifyMsg.textContent = FeralAuth.friendlyError(error);
+      codeInputs.forEach(i => i.value = '');
+      codeInputs[0].focus();
+      return;
+    }
+
+    // Success! Get profile and redirect
+    const profile = await FeralAuth.getProfile();
+    if (profile) {
+      window.location.href = '/u/' + profile.handle;
+    } else {
+      window.location.href = '/';
+    }
+  });
+
+  // Back button
+  document.getElementById('backBtn').addEventListener('click', function() {
+    step2.classList.remove('active');
+    step1.classList.add('active');
+    codeInputs.forEach(i => i.value = '');
+    verifyMsg.className = 'msg';
+    verifyMsg.textContent = '';
+  });
+
+  // If already signed in, redirect
+  FeralAuth.getUser().then(user => {
+    if (user) {
+      FeralAuth.getProfile().then(profile => {
+        if (profile) {
+          window.location.href = '/u/' + profile.handle;
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
