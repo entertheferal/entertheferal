@@ -17,7 +17,7 @@
       "title": "Name the zombies",
       "gold": { "names": ["Ed D. Mame"], "votes": 7 },
       "silver": { "names": ["Francesca"], "votes": 3 },
-      "bronze": { "names": ["Aurora", "Esti", "Drakaina Mimosa", "Stephanie", "TheWinterNyx"], "votes": 2 }
+      "bronze": { "names": ["Aurora", "Esti", "Drakaina Mimosa", "Stephanie", "Winter"], "votes": 2 }
     },
     {
       "slug": "survives-but-trips-in-the-final-scene",
@@ -44,7 +44,7 @@
       "slug": "drops-the-keys",
       "title": "Drops the keys",
       "gold": { "names": ["Pauline Kim"], "votes": 3 },
-      "silver": { "names": ["Emmi", "TheWinterNyx"], "votes": 2 },
+      "silver": { "names": ["Emmi", "Winter"], "votes": 2 },
       "bronze": "singles"
     },
     {
@@ -79,13 +79,13 @@
       "slug": "silent-then-the-right-tool",
       "title": "Silent, then the right tool",
       "gold": { "names": ["Andrada", "Kasia"], "votes": 3 },
-      "silver": { "names": ["Sonia/Iris", "Kyoko", "TheWinterNyx", "Aurora", "Emmi"], "votes": 2 },
+      "silver": { "names": ["Sonia/Iris", "Kyoko", "Winter", "Aurora", "Emmi"], "votes": 2 },
       "bronze": "singles"
     },
     {
       "slug": "snacks-first-aid-charger",
       "title": "Snacks, first aid, charger",
-      "gold": { "names": ["TheWinterNyx"], "votes": 4 },
+      "gold": { "names": ["Winter"], "votes": 4 },
       "silver": { "names": ["Aurora"], "votes": 3 },
       "bronze": { "names": ["Daria.f", "Esti", "Stephanie", "Francesca", "Henna"], "votes": 2 }
     },
@@ -177,7 +177,7 @@
       "slug": "detailed-end-of-world-journal",
       "title": "Detailed end-of-world journal",
       "gold": { "names": ["Anna I.", "Henna"], "votes": 3 },
-      "silver": { "names": ["VictoriaWHOA", "Lyana", "Kasia", "TheWinterNyx"], "votes": 2 },
+      "silver": { "names": ["VictoriaWHOA", "Lyana", "Kasia", "Winter"], "votes": 2 },
       "bronze": "singles"
     },
     {
