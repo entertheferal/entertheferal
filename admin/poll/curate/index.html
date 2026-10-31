@@ -197,6 +197,11 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2rem,5vw,2.8rem);lin
   async function init() {
     await FeralAuth.renderHeader('headerMenu');
 
+    const user = await FeralAuth.getUser();
+    if (!user) {
+      window.location.href = '/login/?redirect=/admin/poll/curate/';
+      return;
+    }
     const isAdmin = await FeralAuth.isAdmin();
     if (!isAdmin) {
       window.location.href = '/';

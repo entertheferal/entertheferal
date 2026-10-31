@@ -344,6 +344,11 @@ const CapAlgorithm = {
   async function init() {
     await FeralAuth.renderHeader('headerMenu');
 
+    const user = await FeralAuth.getUser();
+    if (!user) {
+      window.location.href = '/login/?redirect=/admin/poll/close/';
+      return;
+    }
     const isAdmin = await FeralAuth.isAdmin();
     if (!isAdmin) {
       window.location.href = '/';

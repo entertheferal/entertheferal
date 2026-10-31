@@ -195,6 +195,10 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     currentProfile = user ? await FeralAuth.getProfile() : null;
 
     // Check admin
+    if (!user) {
+      window.location.href = '/login/?redirect=/admin/';
+      return;
+    }
     if (!currentProfile || !currentProfile.is_admin) {
       window.location.href = '/';
       return;
