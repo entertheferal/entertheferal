@@ -150,7 +150,7 @@ function winnerCard(cat, size) {
     <div class="vt">${digs(cat.gold.votes, digH)}<span>votes</span></div>
     <p class="j">${escHtml(caption)}</p>
     ${isOG ? '' : '<div class="sp"></div>'}
-    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com/poll</span></div>
+    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com</span></div>
     ${isOG ? '</div>' : ''}
   </div>
 </div>
@@ -180,7 +180,7 @@ function personalCard(person, size) {
     <div class="vt">${digs(p.golds.length, digH)}<span>golds</span></div>
     <ul class="lst">${wins.map((w, i) => `<li><b>${i + 1}</b>${escHtml(w)}</li>`).join('')}${more ? `<li><b>+${more}</b>more</li>` : ''}</ul>
     ${isOG ? '' : '<div class="sp"></div>'}
-    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com/poll</span></div>
+    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com</span></div>
     ${isOG ? '</div>' : ''}
   </div>
 </div>
@@ -202,7 +202,7 @@ function highlightCard(h) {
     <div class="vt">${digs(p.golds.length, digH)}<span>golds</span></div>
     <p class="j">${escHtml(h.caption)}</p>
     <div class="sp"></div>
-    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com/poll</span></div>
+    <div class="ft"><span>The Feral Collective</span><span>entertheferal.com</span></div>
   </div>
 </div>
 </body></html>`;
