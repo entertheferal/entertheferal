@@ -84,12 +84,13 @@
   }
 
   // Sign in with OTP (existing users)
-  async function signIn(email) {
+  async function signIn(email, redirectTo) {
     const sb = getSupabase();
     const { error } = await sb.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
       options: {
-        shouldCreateUser: false
+        shouldCreateUser: false,
+        emailRedirectTo: redirectTo || (window.location.origin + '/login/')
       }
     });
     return { error };

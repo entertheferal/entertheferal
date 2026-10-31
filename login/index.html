@@ -148,19 +148,48 @@ form{display:flex;flex-direction:column;gap:1rem}
     step1.classList.add('active');
   });
 
-  // If already signed in, redirect
-  FeralAuth.getUser().then(user => {
-    if (user) {
-      FeralAuth.getProfile().then(profile => {
-        const redirect = new URLSearchParams(window.location.search).get('redirect');
-        if (redirect && redirect.startsWith('/')) {
-          window.location.href = redirect;
-        } else if (profile) {
-          window.location.href = '/u/' + profile.handle;
-        }
-      });
+  // Handle redirect after auth
+  function handleRedirect() {
+    // Check localStorage first (set before magic link was sent)
+    const savedRedirect = localStorage.getItem('feral_redirect');
+    if (savedRedirect && savedRedirect.startsWith('/')) {
+      localStorage.removeItem('feral_redirect');
+      window.location.href = savedRedirect;
+      return;
     }
-  });
+    // Check URL param
+    const paramRedirect = new URLSearchParams(window.location.search).get('redirect');
+    if (paramRedirect && paramRedirect.startsWith('/')) {
+      window.location.href = paramRedirect;
+      return;
+    }
+    // Default: go to profile
+    FeralAuth.getProfile().then(profile => {
+      if (profile) {
+        window.location.href = '/u/' + profile.handle;
+      }
+    });
+  }
+
+  // Check for magic link callback (hash with access_token)
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    // Clear the hash from URL
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    // Wait for auth state to be established
+    const sb = FeralAuth.getSupabase();
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        handleRedirect();
+      }
+    });
+  } else {
+    // No magic link - check if already signed in
+    FeralAuth.getUser().then(user => {
+      if (user) {
+        handleRedirect();
+      }
+    });
+  }
 })();
 </script>
 </body>
