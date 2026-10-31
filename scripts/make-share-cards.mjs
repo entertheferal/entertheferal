@@ -41,7 +41,7 @@ data.categories.forEach(cat => {
   if (!cat.gold?.names) return;
   cat.gold.names.forEach(name => {
     if (!stats[name]) stats[name] = { name, golds: [], silver: 0, bronze: 0 };
-    stats[name].golds.push(cat.title);
+    stats[name].golds.push({ title: cat.title, votes: cat.gold.votes });
   });
   if (cat.silver?.names) cat.silver.names.forEach(n => { if (!stats[n]) stats[n] = { name: n, golds: [], silver: 0, bronze: 0 }; stats[n].silver++; });
   if (cat.bronze?.names) cat.bronze.names.forEach(n => { if (!stats[n]) stats[n] = { name: n, golds: [], silver: 0, bronze: 0 }; stats[n].bronze++; });
@@ -164,8 +164,8 @@ function personalCard(person, size) {
   const p = stats[person];
   const nmClass = person.length > 12 ? (person.length > 20 ? 'xs' : 'sm') : '';
   const digH = isOG ? 100 : (isStory ? 280 : 200);
-  const wins = p.golds.slice(0, 4);
-  const more = p.golds.length > 4 ? p.golds.length - 4 : 0;
+  // Sort wins by votes (highest first)
+  const wins = [...p.golds].sort((a, b) => b.votes - a.votes);
   const caption = 'In the movie, I am...';
 
   return `<!DOCTYPE html><html><head><style>${cardCSS}</style></head><body>
@@ -178,7 +178,7 @@ function personalCard(person, size) {
     <div class="cat">${escHtml(caption)}</div>
     <div class="nm ${nmClass}">${escHtml(person)}</div>
     <div class="vt">${digs(p.golds.length, digH)}<span>golds</span></div>
-    <ul class="lst">${wins.map((w, i) => `<li><b>${i + 1}</b>${escHtml(w)}</li>`).join('')}${more ? `<li><b>+${more}</b>more</li>` : ''}</ul>
+    <ul class="lst">${wins.map((w, i) => `<li><b>${i + 1}</b>${escHtml(w.title)}</li>`).join('')}</ul>
     ${isOG ? '' : '<div class="sp"></div>'}
     <div class="ft"><span>The Feral Collective</span><span>entertheferal.com</span></div>
     ${isOG ? '</div>' : ''}
