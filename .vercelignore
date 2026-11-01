@@ -1,2 +1,9 @@
 design/
 docs/
+tests/
+playwright-report/
+node_modules/
+*.md
+.claude/
+supabase/
+images/Vantablack*
