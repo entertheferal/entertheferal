@@ -173,12 +173,29 @@ form{display:flex;flex-direction:column;gap:1rem}
 
   // Check for magic link callback (hash with access_token)
   if (window.location.hash && window.location.hash.includes('access_token')) {
-    // Clear the hash from URL
-    history.replaceState(null, '', window.location.pathname + window.location.search);
-    // Wait for auth state to be established
+    // IMPORTANT: Create Supabase client BEFORE clearing hash so it can extract the token
     const sb = FeralAuth.getSupabase();
+
+    // Track if we've already handled the redirect
+    let handled = false;
+
+    // Listen for auth state change
     sb.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+      if (handled) return;
+      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session) {
+        handled = true;
+        // Clear the hash from URL after token is processed
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+        handleRedirect();
+      }
+    });
+
+    // Also try getSession as a fallback (in case onAuthStateChange already fired)
+    sb.auth.getSession().then(({ data }) => {
+      if (handled) return;
+      if (data.session) {
+        handled = true;
+        history.replaceState(null, '', window.location.pathname + window.location.search);
         handleRedirect();
       }
     });

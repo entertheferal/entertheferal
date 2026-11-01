@@ -157,7 +157,7 @@ button{cursor:pointer}
   const handle = pathParts[1] || '';
 
   async function init() {
-    // Check auth
+    // Check auth (but don't require it - profiles are public)
     const currentUser = await FeralAuth.getUser();
     const currentProfile = currentUser ? await FeralAuth.getProfile() : null;
 
@@ -175,9 +175,8 @@ button{cursor:pointer}
         window.location.href = '/';
       });
     } else {
-      // Not signed in - redirect to login
-      window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
-      return;
+      // Not signed in - show sign in link
+      headerMenu.innerHTML = '<a href="/login/">Sign in</a>';
     }
 
     // Fetch profile by handle
