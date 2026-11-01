@@ -283,12 +283,16 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
   let publishChecks = [false, false, false];
 
   async function init() {
-    sb = FeralAuth.getSupabase();
-    const user = await FeralAuth.getUser();
-    currentProfile = user ? await FeralAuth.getProfile() : null;
+    try {
+      sb = FeralAuth.getSupabase();
+      if (!sb) {
+        console.error('Supabase client not initialized');
+      }
+      const user = await FeralAuth.getUser();
+      currentProfile = user ? await FeralAuth.getProfile() : null;
 
-    const headerMenu = document.getElementById('headerMenu');
-    const mainContent = document.querySelector('.wrap');
+      const headerMenu = document.getElementById('headerMenu');
+      const mainContent = document.querySelector('.wrap');
 
     // Not logged in - show login link
     if (!user) {
@@ -356,6 +360,16 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
 
     // Load polls when tab is clicked
     document.getElementById('tabPolls').addEventListener('click', loadPolls);
+    } catch (e) {
+      console.error('Admin init error:', e);
+      const mainContent = document.querySelector('.wrap');
+      if (mainContent) {
+        mainContent.innerHTML = `
+          <h1>Admin</h1>
+          <div class="msg bad">Error initializing admin page: ${FeralAuth.esc(e.message)}</div>
+        `;
+      }
+    }
   }
 
   // Toast notification
@@ -386,14 +400,24 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     const content = document.getElementById('pollsContent');
     content.innerHTML = '<div class="loading">Loading...</div>';
 
-    const { data, error } = await sb.rpc('get_all_polls_admin');
-    if (error) {
-      content.innerHTML = '<div class="msg bad">Failed to load polls: ' + FeralAuth.esc(error.message) + '</div>';
-      return;
-    }
+    try {
+      if (!sb) {
+        content.innerHTML = '<div class="msg bad">Not connected to database.</div>';
+        return;
+      }
+      const { data, error } = await sb.rpc('get_all_polls_admin');
+      if (error) {
+        content.innerHTML = '<div class="msg bad">Failed to load polls: ' + FeralAuth.esc(error.message) + '</div>';
+        console.error('loadPolls error:', error);
+        return;
+      }
 
-    pollsData = data || [];
-    renderPollsScreen();
+      pollsData = data || [];
+      renderPollsScreen();
+    } catch (e) {
+      console.error('loadPolls exception:', e);
+      content.innerHTML = '<div class="msg bad">Error loading polls: ' + FeralAuth.esc(e.message) + '</div>';
+    }
   }
 
   async function loadPollDetails(pollId) {
@@ -577,7 +601,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
                 <div class="field">
                   <label>People needed to run</label>
                   <input type="number" id="npMinParticipants" value="10" min="1" max="100">
-                  <small class="hint">Voting can't open with fewer joined.</small>
+                  <small class="hint">Voting cannot open with fewer joined.</small>
                 </div>
                 <div class="field">
                   <label>If nobody else is eligible</label>
@@ -585,7 +609,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
                     <option value="keep_winner">Keep the winner</option>
                     <option value="no_award">No award</option>
                   </select>
-                  <small class="hint">When the cap can't move a gold to anyone.</small>
+                  <small class="hint">When the cap cannot move a gold to anyone.</small>
                 </div>
               </div>
 
@@ -690,7 +714,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
       nextLabel = 'Open joining and ideas';
       gates = [
         [true, 'Dates are set', `Joining closes on or before voting opens.`],
-        [true, 'Rules page shows this poll's numbers', `${settings.votes_per_person_per_ballot || 3} per ballot, ${settings.gold_cap || 3} golds, ${settings.min_votes_for_award || 2} votes to win.`]
+        [true, "Rules page shows this poll's numbers", `${settings.votes_per_person_per_ballot || 3} per ballot, ${settings.gold_cap || 3} golds, ${settings.min_votes_for_award || 2} votes to win.`]
       ];
     } else if (currentPoll.status === 'ideas_open') {
       nextLabel = 'Close ideas and start picking the list';
@@ -708,7 +732,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
         [true, 'Voting opens on or after joining closes', `${fmtDate(currentPoll.voting_open_at)} is not before ${fmtDate(currentPoll.join_close_at)}.`]
       ];
       disabled = !jc;
-      whyDisabled = 'Voting can't start until joining is closed.';
+      whyDisabled = "Voting cannot start until joining is closed.";
     } else if (currentPoll.status === 'voting_open') {
       nextLabel = 'Close voting now';
       gates = [
@@ -759,7 +783,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     const danger = `
       <div class="card">
         <h2>Careful</h2>
-        ${idx === 4 ? '<p class="hint">Reopen voting if you closed too early. It's logged.</p><button class="btn outline small" data-reopen-voting>Reopen voting</button> ' : ''}
+        ${idx === 4 ? "<p class=\"hint\">Reopen voting if you closed too early. It is logged.</p><button class=\"btn outline small\" data-reopen-voting>Reopen voting</button> " : ''}
         <button class="btn warn small" data-cancel-poll ${idx === 5 ? 'disabled' : ''}>Cancel this poll</button>
       </div>
     `;
@@ -806,7 +830,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
           <button class="btn small outline" ${jc || idx === 0 ? 'disabled' : ''} data-remove-participant="${p.member_id}">Remove</button>
         </div>
       </div>`
-    ).join('') || '<div class="list-empty">Nobody yet. Joining hasn't opened.</div>';
+    ).join('') || '<div class="list-empty">Nobody yet. Joining has not opened.</div>';
 
     return `
       <div class="grid">
@@ -830,7 +854,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
           </div>
           <div class="card">
             <h2>Taking someone out</h2>
-            <p class="hint">Before the list locks you can remove a member. After that you can't, to keep the vote fair. If someone really needs out, tell me and we handle it with a log entry.</p>
+            <p class="hint">Before the list locks you can remove a member. After that you cannot, to keep the vote fair. If someone really needs out, tell me and we handle it with a log entry.</p>
           </div>
         </div>
       </div>
@@ -842,7 +866,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     const ro = idx >= 3; // read only after voting starts
 
     const lockMsg = ro
-      ? '<div class="lock">🔒 Voting has started. The list can't change.</div>'
+      ? '<div class="lock">🔒 Voting has started. The list cannot change.</div>'
       : idx <= 1 ? '<div class="msg warn">Ideas are still coming in. They close ' + fmtDate(currentPoll.ideas_close_at) + '.</div>' : '';
 
     const rows = pollIdeas.map(idea => {
@@ -953,7 +977,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     const idx = phaseIndex(currentPoll.status);
 
     if (idx < 3) {
-      return '<div class="card"><h2>Voting</h2><div class="lock">Voting hasn't opened yet. This tab shows turnout once it does.</div></div>';
+      return '<div class="card"><h2>Voting</h2><div class="lock">Voting has not opened yet. This tab shows turnout once it does.</div></div>';
     }
 
     const t = pollTurnout || { joined: 0, voted: 0, not_voted: 0, daily: [] };
@@ -1044,11 +1068,11 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
               : `
                 <label class="chk"><input type="checkbox" data-pub-check="0" ${publishChecks[0] ? 'checked' : ''}><span>I read the golds changes and I'm happy with them.</span></label>
                 <label class="chk"><input type="checkbox" data-pub-check="1" ${publishChecks[1] ? 'checked' : ''}><span>I checked the captions.</span></label>
-                <label class="chk"><input type="checkbox" data-pub-check="2" ${publishChecks[2] ? 'checked' : ''}><span>I know I can't see who voted for who, and I'm not trying to.</span></label>
+                <label class="chk"><input type="checkbox" data-pub-check="2" ${publishChecks[2] ? 'checked' : ''}><span>I know I cannot see who voted for who, and I'm not trying to.</span></label>
                 <p style="margin-top:1rem">
                   <button class="btn big" style="background:var(--paper);color:var(--ink);border-color:var(--paper)" data-publish ${publishChecks.every(Boolean) ? '' : 'disabled'}>Publish results</button>
                 </p>
-                <p class="hint">Publishing makes results public and builds the results page and share cards. You can't take it back, so look it over first.</p>
+                <p class="hint">Publishing makes results public and builds the results page and share cards. You cannot take it back, so look it over first.</p>
               `
             }
           </div>
@@ -1110,7 +1134,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
         const votingOpen = document.getElementById('npVotingOpen')?.value;
         const msg = document.getElementById('npDateMsg');
         if (joinClose && votingOpen && votingOpen < joinClose) {
-          msg.innerHTML = '<div class="msg bad">Voting can't open before joining closes. Move voting later or joining earlier.</div>';
+          msg.innerHTML = '<div class="msg bad">Voting cannot open before joining closes. Move voting later or joining earlier.</div>';
         } else {
           msg.innerHTML = '';
         }
@@ -1279,7 +1303,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
           p_position: nextPos
         });
 
-        toast('Accepted. It's on the ballot.');
+        toast('Accepted. It is on the ballot.');
         await loadPollDetails(currentPoll.id);
       };
     });
@@ -1465,13 +1489,19 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
   // --- Invites ---
 
   async function loadInvites() {
-    const { data, error } = await sb.from('invite_codes').select('*').order('created_at', { ascending: false });
     const list = document.getElementById('inviteList');
+    try {
+      if (!sb) {
+        list.innerHTML = `<div class="list-empty">Not connected to database.</div>`;
+        return;
+      }
+      const { data, error } = await sb.from('invite_codes').select('*').order('created_at', { ascending: false });
 
-    if (error || !data) {
-      list.innerHTML = `<div class="list-empty">Failed to load invites.</div>`;
-      return;
-    }
+      if (error || !data) {
+        list.innerHTML = `<div class="list-empty">Failed to load invites.</div>`;
+        console.error('loadInvites error:', error);
+        return;
+      }
 
     if (data.length === 0) {
       list.innerHTML = `<div class="list-empty">No invite codes yet.</div>`;
@@ -1517,6 +1547,10 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
         }
       });
     });
+    } catch (e) {
+      console.error('loadInvites exception:', e);
+      list.innerHTML = `<div class="list-empty">Error loading invites: ${FeralAuth.esc(e.message)}</div>`;
+    }
   }
 
   function setupCreateInvite() {
@@ -1577,13 +1611,19 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
   // --- Members ---
 
   async function loadMembers() {
-    const { data, error } = await sb.from('profiles').select('*').order('joined_at', { ascending: false });
     const list = document.getElementById('memberList');
+    try {
+      if (!sb) {
+        list.innerHTML = `<div class="list-empty">Not connected to database.</div>`;
+        return;
+      }
+      const { data, error } = await sb.from('profiles').select('*').order('joined_at', { ascending: false });
 
-    if (error || !data) {
-      list.innerHTML = `<div class="list-empty">Failed to load members.</div>`;
-      return;
-    }
+      if (error || !data) {
+        list.innerHTML = `<div class="list-empty">Failed to load members.</div>`;
+        console.error('loadMembers error:', error);
+        return;
+      }
 
     if (data.length === 0) {
       list.innerHTML = `<div class="list-empty">No members yet.</div>`;
@@ -1613,6 +1653,10 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
         if (member) showMemberDetail(member);
       });
     });
+    } catch (e) {
+      console.error('loadMembers exception:', e);
+      list.innerHTML = `<div class="list-empty">Error loading members: ${FeralAuth.esc(e.message)}</div>`;
+    }
   }
 
   function showMemberDetail(member) {
@@ -1710,7 +1754,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     });
   }
 
-  init();
+  init().catch(e => console.error('Unhandled admin init error:', e));
 })();
 </script>
 </body>
