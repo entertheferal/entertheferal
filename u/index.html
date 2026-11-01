@@ -39,6 +39,8 @@ button{cursor:pointer}
 .cover-img.cv-loop{object-position:50% 50%}
 .cover-img.cv-orange{object-position:50% 45%}
 .cover-img.cv-red{object-position:50% 55%}
+.cover-img.cv-layer-1{transform:rotate(90deg);transform-origin:center}
+.cover-img.cv-layer-2{transform:rotate(-90deg) scaleX(-1);transform-origin:center}
 
 /* Profile header */
 .head{display:grid;grid-template-columns:auto 1fr auto;gap:0 1.5rem;align-items:end;padding:0 1.5rem;margin-top:-3.6rem;position:relative}
@@ -221,9 +223,9 @@ button{cursor:pointer}
       avatarHtml = `<div class="avatar ${bgClass}"><span>${FeralAuth.esc(initial)}</span></div>`;
     }
 
-    // Build cover
+    // Build cover (dual-layer effect)
     const coverKey = profile.cover_key || 'loop';
-    const coverHtml = `<div class="cover"><img class="cover-img cv-${FeralAuth.esc(coverKey)}" src="../images/covers/${FeralAuth.esc(coverKey)}.webp" alt="" loading="lazy"></div>`;
+    const coverHtml = `<div class="cover"><img class="cover-img cv-${FeralAuth.esc(coverKey)} cv-layer-1" src="../images/covers/${FeralAuth.esc(coverKey)}.webp" alt="" loading="lazy"><img class="cover-img cv-${FeralAuth.esc(coverKey)} cv-layer-2" src="../images/covers/${FeralAuth.esc(coverKey)}.webp" alt="" loading="lazy"></div>`;
 
     // Build socials
     const socials = profile.socials || {};
@@ -250,7 +252,7 @@ button{cursor:pointer}
     let rolesHtml = '';
     const roles = profile.roles || [];
     for (const role of roles) {
-      rolesHtml += `<span class="role"><i class="mk mk-challenge"></i>${FeralAuth.esc(role)}</span>`;
+      rolesHtml += `<span class="role"><i class="mk mk-event"></i>${FeralAuth.esc(role)}</span>`;
     }
 
     // Build bio
@@ -281,7 +283,6 @@ button{cursor:pointer}
         <main>
           <div class="sec-h"><h2>About</h2></div>
           ${bioHtml}
-          <!-- Awards section will go here -->
         </main>
         <aside class="side">
           <section class="s-links">

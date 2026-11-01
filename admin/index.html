@@ -89,6 +89,67 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
 .member-acts{display:flex;flex-wrap:wrap;gap:.5rem}
 
 .loading{padding:2rem;text-align:center;color:var(--ink-soft)}
+
+/* Polls tab styles */
+.sub{display:flex;gap:.35rem;margin:0 0 1.25rem;overflow-x:auto;padding-bottom:4px}
+.sub button{background:var(--paper);border:1.5px solid var(--ink);padding:.4rem .75rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.sub button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.sub button .n{display:inline-block;margin-left:6px;min-width:1.3em;text-align:center;background:var(--red);color:#fff;font-size:.62rem;padding:0 4px}
+
+.stepper{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:0 0 1.4rem;list-style:none;padding:0}
+.stepper li{border-top:4px solid var(--line);padding:8px 8px 0 0;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.stepper li.done{border-color:var(--ink);color:var(--ink)}
+.stepper li.now{border-color:var(--red);color:var(--ink);font-weight:500}
+@media(max-width:600px){.stepper{grid-template-columns:repeat(3,1fr);row-gap:10px}}
+
+.gates{list-style:none;margin:.6rem 0 1rem;padding:0;display:grid;gap:.5rem}
+.gates li{display:flex;gap:.6rem;align-items:flex-start;font:400 .92rem/1.35 var(--archivo)}
+.gates li i{flex:none;width:1.25rem;height:1.25rem;display:grid;place-items:center;font:500 .75rem var(--mono);font-style:normal;border:1.5px solid var(--ink)}
+.gates li.ok i{background:var(--green);border-color:var(--green);color:#fff}
+.gates li.no i{background:var(--red);border-color:var(--red);color:#fff}
+.gates li small{display:block;color:var(--ink-soft);font-size:.8rem}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.25rem}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+.stat{border:2px solid var(--ink);padding:.8rem}
+.stat b{font:400 2.4rem/1 var(--black);display:block}
+.stat span{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+.hint{font:400 .88rem/1.4 var(--archivo);color:var(--ink-soft);margin:.2rem 0 .8rem}
+.card h3{font:700 1rem/1.25 var(--archivo);margin:0 0 .4rem}
+.card.dark{background:var(--ink);color:var(--paper)}
+.card.dark .hint{color:#c9c7bf}
+
+.btn.big{min-height:3.2rem;font-size:.95rem;width:100%}
+.msg.warn{border-color:#8a5a00;color:#8a5a00}
+
+.bar{height:10px;background:var(--line);margin:.5rem 0}
+.bar b{display:block;height:100%;background:var(--ink)}
+
+.lock{display:flex;gap:.6rem;align-items:center;border:2px dashed var(--ink);padding:.7rem .9rem;margin-bottom:1rem;font:400 .9rem var(--archivo)}
+
+.chk{display:flex;gap:.6rem;align-items:flex-start;font:400 .92rem var(--archivo);margin:.5rem 0}
+.chk input{width:1.1rem;height:1.1rem;margin-top:.15rem;accent-color:var(--ink)}
+
+.tbl{width:100%;border-collapse:collapse;font:400 .85rem var(--archivo)}
+.tbl th{font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;text-align:left;color:var(--ink-soft);padding:6px 8px;border-bottom:2px solid var(--ink)}
+.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl .chg{background:#fff7e0}
+.tbl s{color:var(--ink-soft)}
+
+.days{display:flex;gap:6px;align-items:flex-end;height:90px;margin:.6rem 0}
+.days div{flex:1;background:var(--ink);position:relative;min-width:8px}
+.days div span{position:absolute;bottom:-1.4rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--ink-soft)}
+
+.tag.green{background:var(--green);color:#fff;border-color:var(--green)}
+.tag.amber{border-color:#8a5a00;color:#8a5a00}
+.tag.soft{background:var(--ink-soft);color:var(--paper);border-color:var(--ink-soft)}
+
+.log .row{font-size:.82rem}
+.mono{font:400 .74rem var(--mono);color:var(--ink-soft)}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:.7rem 1rem;font:400 .85rem var(--archivo);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -104,6 +165,7 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tabInvites" aria-selected="true" aria-controls="panelInvites">Invites</button>
     <button class="tab" role="tab" id="tabMembers" aria-selected="false" aria-controls="panelMembers">Members</button>
+    <button class="tab" role="tab" id="tabPolls" aria-selected="false" aria-controls="panelPolls">Polls</button>
   </div>
 
   <!-- Invites Panel -->
@@ -177,7 +239,16 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
       </div>
     </div>
   </div>
+
+  <!-- Polls Panel -->
+  <div class="panel" id="panelPolls" role="tabpanel" aria-labelledby="tabPolls">
+    <div id="pollsContent">
+      <div class="loading">Loading...</div>
+    </div>
+  </div>
 </div>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../js/supabase-config.js"></script>
@@ -189,23 +260,73 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
   let sb, currentProfile;
   let selectedMember = null;
 
+  // Polls state
+  const PHASES = ['draft', 'ideas_open', 'curating', 'voting_open', 'closed', 'published'];
+  const PHASE_NAMES = {
+    draft: 'Draft',
+    ideas_open: 'Joining + ideas open',
+    curating: 'Picking the list',
+    voting_open: 'Voting open',
+    closed: 'Voting closed',
+    published: 'Published'
+  };
+  let pollsData = [];
+  let currentPoll = null;
+  let pollScreen = 'list';
+  let pollStats = null;
+  let pollIdeas = [];
+  let pollCategories = [];
+  let pollParticipants = [];
+  let pollTurnout = null;
+  let pollTally = null;
+  let pollAuditLog = [];
+  let publishChecks = [false, false, false];
+
   async function init() {
     sb = FeralAuth.getSupabase();
     const user = await FeralAuth.getUser();
     currentProfile = user ? await FeralAuth.getProfile() : null;
 
-    // Check admin
+    const headerMenu = document.getElementById('headerMenu');
+    const mainContent = document.querySelector('.wrap');
+
+    // Not logged in - show login link
     if (!user) {
-      window.location.href = '/login/?redirect=/admin/';
-      return;
-    }
-    if (!currentProfile || !currentProfile.is_admin) {
-      window.location.href = '/';
+      headerMenu.innerHTML = `<a href="/login/?redirect=/admin/">Sign in</a>`;
+      mainContent.innerHTML = `
+        <h1>Admin</h1>
+        <div class="card">
+          <h2>Sign in required</h2>
+          <p class="hint">You need to sign in to access the admin area.</p>
+          <a href="/login/?redirect=/admin/" class="btn">Sign in</a>
+        </div>
+      `;
       return;
     }
 
-    // Render header
-    const headerMenu = document.getElementById('headerMenu');
+    // Logged in but not admin
+    if (!currentProfile || !currentProfile.is_admin) {
+      headerMenu.innerHTML = `
+        <a href="/u/${FeralAuth.esc(currentProfile?.handle || '')}">My profile</a>
+        <a href="/calendar">Calendar</a>
+        <button type="button" id="signOutBtn">Sign out</button>
+      `;
+      mainContent.innerHTML = `
+        <h1>Admin</h1>
+        <div class="card">
+          <h2>Access denied</h2>
+          <p class="hint">You don't have admin access.</p>
+          <a href="/" class="btn">Go home</a>
+        </div>
+      `;
+      document.getElementById('signOutBtn')?.addEventListener('click', async () => {
+        await FeralAuth.signOut();
+        window.location.href = '/';
+      });
+      return;
+    }
+
+    // Logged in as admin - show full nav
     headerMenu.innerHTML = `
       <a href="/u/${FeralAuth.esc(currentProfile.handle)}">My profile</a>
       <a href="/calendar">Calendar</a>
@@ -232,6 +353,1113 @@ h1{font-family:var(--black);font-weight:400;font-size:clamp(2.5rem,6vw,3.5rem);l
     loadMembers();
     setupCreateInvite();
     setupMemberDetail();
+
+    // Load polls when tab is clicked
+    document.getElementById('tabPolls').addEventListener('click', loadPolls);
+  }
+
+  // Toast notification
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('on'), 2200);
+  }
+
+  // Format date for display
+  function fmtDate(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  function fmtDateTime(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+
+  // --- Polls ---
+
+  async function loadPolls() {
+    const content = document.getElementById('pollsContent');
+    content.innerHTML = '<div class="loading">Loading...</div>';
+
+    const { data, error } = await sb.rpc('get_all_polls_admin');
+    if (error) {
+      content.innerHTML = '<div class="msg bad">Failed to load polls: ' + FeralAuth.esc(error.message) + '</div>';
+      return;
+    }
+
+    pollsData = data || [];
+    renderPollsScreen();
+  }
+
+  async function loadPollDetails(pollId) {
+    currentPoll = pollsData.find(p => p.id === pollId);
+    if (!currentPoll) return;
+
+    // Load stats
+    const { data: stats } = await sb.rpc('get_poll_stats', { p_poll_id: pollId });
+    pollStats = stats;
+
+    // Load ideas for curating phase
+    if (['ideas_open', 'curating'].includes(currentPoll.status)) {
+      const { data: ideas } = await sb.rpc('get_poll_ideas_admin', { p_poll_id: pollId });
+      pollIdeas = ideas || [];
+    }
+
+    // Load categories
+    const { data: cats } = await sb.rpc('get_poll_categories_admin', { p_poll_id: pollId });
+    pollCategories = cats || [];
+
+    // Load participants
+    const { data: parts } = await sb.rpc('get_poll_participants', { p_poll_id: pollId });
+    pollParticipants = parts || [];
+
+    // Load turnout if voting has started
+    if (['voting_open', 'closed', 'published'].includes(currentPoll.status)) {
+      const { data: turnout } = await sb.rpc('get_turnout_stats', { p_poll_id: pollId });
+      pollTurnout = turnout;
+    }
+
+    // Load tally if closed or published
+    if (['closed', 'published'].includes(currentPoll.status)) {
+      const { data: tally } = await sb.rpc('get_poll_tally', { p_poll_id: pollId });
+      pollTally = tally;
+    }
+
+    // Load audit log
+    const { data: log } = await sb.rpc('get_poll_audit_log', { p_poll_id: pollId });
+    pollAuditLog = log || [];
+
+    renderPollsScreen();
+  }
+
+  function renderPollsScreen() {
+    const content = document.getElementById('pollsContent');
+
+    if (pollScreen === 'list') {
+      content.innerHTML = renderPollsList();
+    } else if (pollScreen === 'new') {
+      content.innerHTML = renderNewPoll();
+    } else if (currentPoll) {
+      content.innerHTML = renderPollSubnav() + renderPollScreenContent();
+    }
+
+    bindPollEvents();
+  }
+
+  function renderPollsList() {
+    const pollRows = pollsData.map(p => {
+      const tagClass = p.status === 'published' ? 'green' : p.status === 'draft' ? 'soft' : 'amber';
+      const dateInfo = p.status === 'published'
+        ? `${fmtDate(p.published_at)} · ${p.category_count} awards · ${p.participant_count} people`
+        : `joining closes ${fmtDate(p.join_close_at)} · voting ${fmtDate(p.voting_open_at)} to ${fmtDate(p.voting_close_at)}`;
+
+      return `
+        <div class="row">
+          <div class="row-info">
+            <b>${FeralAuth.esc(p.title)}</b>
+            <span>${dateInfo}</span>
+          </div>
+          <span class="tag ${tagClass}">${PHASE_NAMES[p.status] || p.status}</span>
+          <div class="row-acts">
+            ${p.status === 'published'
+              ? `<a href="/poll/${FeralAuth.esc(p.slug)}/" class="btn small outline" target="_blank">View results</a>`
+              : `<button class="btn small" data-open-poll="${p.id}">Open</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('') || '<div class="list-empty">No polls yet.</div>';
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>Polls</h2>
+            <div class="list">${pollRows}</div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>New poll</h2>
+            <p class="hint">One poll at a time is the plan. Make the next one while the current one is wrapping up if you want.</p>
+            <button class="btn big" data-go-screen="new">Create a poll</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderNewPoll() {
+    const today = new Date().toISOString().split('T')[0];
+    return `
+      <p style="margin:0 0 .6rem"><button class="btn outline small" data-go-screen="list">← all polls</button></p>
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>New poll</h2>
+            <form id="newPollForm">
+              <div class="field">
+                <label for="npTitle">Title</label>
+                <input type="text" id="npTitle" required placeholder="Holiday Chaos">
+              </div>
+              <div class="field">
+                <label for="npTopic">One line</label>
+                <input type="text" id="npTopic" placeholder="this month's theme. join in, then send award ideas.">
+                <small class="hint">Shows under the title on the polls page.</small>
+              </div>
+
+              <h3 style="margin-top:1rem">Dates</h3>
+              <div class="field-row">
+                <div class="field">
+                  <label>Joining and ideas open</label>
+                  <input type="date" id="npJoinOpen" value="${today}">
+                </div>
+                <div class="field">
+                  <label>Ideas close</label>
+                  <input type="date" id="npIdeasClose">
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Joining closes</label>
+                  <input type="date" id="npJoinClose">
+                </div>
+                <div class="field">
+                  <label>Voting opens</label>
+                  <input type="date" id="npVotingOpen">
+                </div>
+              </div>
+              <div class="field">
+                <label>Voting closes</label>
+                <input type="date" id="npVotingClose">
+              </div>
+              <div id="npDateMsg"></div>
+
+              <h3 style="margin-top:1rem">Rules for this poll</h3>
+              <div class="field-row">
+                <div class="field">
+                  <label>Votes per person, per ballot</label>
+                  <input type="number" id="npVotesPerBallot" value="3" min="1" max="10">
+                  <small class="hint">Same person max, on one ballot.</small>
+                </div>
+                <div class="field">
+                  <label>Golds per person</label>
+                  <input type="number" id="npGoldCap" value="3" min="1" max="10">
+                  <small class="hint">The cap.</small>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Votes needed for an award</label>
+                  <input type="number" id="npMinVotes" value="2" min="1" max="10">
+                </div>
+                <div class="field">
+                  <label>Ideas per member</label>
+                  <input type="number" id="npIdeasPerMember" value="3" min="1" max="10">
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Awards on the ballot, min</label>
+                  <input type="number" id="npMinCategories" value="12" min="1" max="50">
+                </div>
+                <div class="field">
+                  <label>Awards on the ballot, max</label>
+                  <input type="number" id="npMaxCategories" value="20" min="1" max="50">
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>People needed to run</label>
+                  <input type="number" id="npMinParticipants" value="10" min="1" max="100">
+                  <small class="hint">Voting can't open with fewer joined.</small>
+                </div>
+                <div class="field">
+                  <label>If nobody else is eligible</label>
+                  <select id="npCapFallback">
+                    <option value="keep_winner">Keep the winner</option>
+                    <option value="no_award">No award</option>
+                  </select>
+                  <small class="hint">When the cap can't move a gold to anyone.</small>
+                </div>
+              </div>
+
+              <div class="msg" id="npMsg" hidden></div>
+              <button type="submit" class="btn" id="npSubmit">Save as draft</button>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>What happens</h2>
+            <ul class="gates">
+              <li class="ok"><i>1</i><div>Joining and ideas open on your start date.</div></li>
+              <li class="ok"><i>2</i><div>Ideas close. You pick the final list.</div></li>
+              <li class="ok"><i>3</i><div>Joining closes and the list is locked. Voting opens.</div></li>
+              <li class="ok"><i>4</i><div>Voting closes. You see results first.</div></li>
+              <li class="ok"><i>5</i><div>You publish when you're happy. Nothing goes public before that.</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPollSubnav() {
+    const screens = [
+      ['overview', 'Overview'],
+      ['people', 'People'],
+      ['ideas', 'Ideas'],
+      ['ballot', 'Ballot'],
+      ['voting', 'Voting'],
+      ['results', 'Results'],
+      ['log', 'Log']
+    ];
+
+    const pendingIdeas = pollIdeas.filter(i => i.status === 'pending').length;
+
+    const tabs = screens.map(([id, label]) => {
+      const badge = id === 'ideas' && pendingIdeas > 0 ? `<span class="n">${pendingIdeas}</span>` : '';
+      return `<button role="tab" data-poll-screen="${id}" aria-selected="${pollScreen === id}">${label}${badge}</button>`;
+    }).join('');
+
+    return `
+      <p style="margin:0 0 .6rem"><button class="btn outline small" data-go-screen="list">← all polls</button></p>
+      <div class="sub" role="tablist">${tabs}</div>
+    `;
+  }
+
+  function renderPollScreenContent() {
+    switch (pollScreen) {
+      case 'overview': return renderOverview();
+      case 'people': return renderPeople();
+      case 'ideas': return renderIdeas();
+      case 'ballot': return renderBallot();
+      case 'voting': return renderVoting();
+      case 'results': return renderResults();
+      case 'log': return renderLog();
+      default: return renderOverview();
+    }
+  }
+
+  function phaseIndex(status) {
+    return PHASES.indexOf(status);
+  }
+
+  function isJoinClosed() {
+    if (!currentPoll) return false;
+    const idx = phaseIndex(currentPoll.status);
+    if (idx >= 3) return true; // voting_open or later
+    if (currentPoll.join_close_at && new Date(currentPoll.join_close_at) <= new Date()) return true;
+    return false;
+  }
+
+  function renderStepper() {
+    const idx = phaseIndex(currentPoll.status);
+    return `<ol class="stepper" aria-label="Poll phase">${PHASES.map((p, k) =>
+      `<li class="${k < idx ? 'done' : k === idx ? 'now' : ''}">${PHASE_NAMES[p]}</li>`
+    ).join('')}</ol>`;
+  }
+
+  function renderOverview() {
+    const idx = phaseIndex(currentPoll.status);
+    const jc = isJoinClosed();
+    const s = pollStats || { participants: 0, ideas: 0, categories: 0, ballots_cast: 0 };
+    const settings = currentPoll.settings || {};
+
+    const stats = `
+      <div class="stats">
+        <div class="stat"><b>${s.participants}</b><span>joined</span></div>
+        <div class="stat"><b>${s.ideas}</b><span>ideas sent</span></div>
+        <div class="stat"><b>${s.categories}</b><span>awards on the ballot</span></div>
+        <div class="stat"><b>${idx >= 3 ? s.ballots_cast : '—'}</b><span>ballots in${idx >= 3 ? ' of ' + s.participants : ''}</span></div>
+      </div>
+    `;
+
+    let gates = [];
+    let nextLabel = '';
+    let disabled = false;
+    let whyDisabled = '';
+
+    if (currentPoll.status === 'draft') {
+      nextLabel = 'Open joining and ideas';
+      gates = [
+        [true, 'Dates are set', `Joining closes on or before voting opens.`],
+        [true, 'Rules page shows this poll's numbers', `${settings.votes_per_person_per_ballot || 3} per ballot, ${settings.gold_cap || 3} golds, ${settings.min_votes_for_award || 2} votes to win.`]
+      ];
+    } else if (currentPoll.status === 'ideas_open') {
+      nextLabel = 'Close ideas and start picking the list';
+      gates = [
+        [false, `Ideas close on ${fmtDate(currentPoll.ideas_close_at)}`, 'You can close early.']
+      ];
+    } else if (currentPoll.status === 'curating') {
+      nextLabel = 'Open voting';
+      const minCats = settings.min_categories || 12;
+      const minParts = settings.min_participants || 10;
+      gates = [
+        [jc, 'Joining is closed and the list is locked', jc ? `${s.participants} members are in and locked.` : `Joining closes ${fmtDate(currentPoll.join_close_at)}. Close it now to continue.`],
+        [s.categories >= minCats, `${s.categories} awards on the ballot`, `Between ${minCats} and ${settings.max_categories || 20}.`],
+        [s.participants >= minParts, `${s.participants} members joined`, `At least ${minParts} needed.`],
+        [true, 'Voting opens on or after joining closes', `${fmtDate(currentPoll.voting_open_at)} is not before ${fmtDate(currentPoll.join_close_at)}.`]
+      ];
+      disabled = !jc;
+      whyDisabled = 'Voting can't start until joining is closed.';
+    } else if (currentPoll.status === 'voting_open') {
+      nextLabel = 'Close voting now';
+      gates = [
+        [true, `Voting is open until ${fmtDate(currentPoll.voting_close_at)}`, 'Closes by itself then.'],
+        [true, 'No one can see any counts', 'Not members, not you.']
+      ];
+    } else if (currentPoll.status === 'closed') {
+      nextLabel = 'Go to results and publish';
+      gates = [
+        [true, 'Voting is closed', 'Totals are ready for you to look at.'],
+        [publishChecks.every(Boolean), 'You checked the results and the three boxes', 'On the Results tab.']
+      ];
+    } else if (currentPoll.status === 'published') {
+      nextLabel = '';
+      gates = [
+        [true, 'Results are public', `Published ${fmtDate(currentPoll.published_at)}.`]
+      ];
+    }
+
+    const gatesHtml = gates.map(([ok, text, sub]) =>
+      `<li class="${ok ? 'ok' : 'no'}"><i>${ok ? '✓' : '✕'}</i><div>${FeralAuth.esc(text)}<small>${FeralAuth.esc(sub)}</small></div></li>`
+    ).join('');
+
+    const nextBtn = nextLabel
+      ? `<button class="btn big" data-next-phase ${disabled ? 'disabled' : ''}>${nextLabel}</button>${disabled ? `<p class="hint" style="margin-top:.6rem">${whyDisabled}</p>` : ''}`
+      : '';
+
+    const closeJoinBtn = currentPoll.status === 'curating' && !jc
+      ? `<p style="margin-top:.8rem"><button class="btn outline small" data-close-joining>Close joining now</button></p>`
+      : '';
+
+    const schedule = `
+      <div class="card">
+        <h2>Schedule</h2>
+        <ul class="gates">
+          <li class="${idx >= 1 ? 'ok' : ''}"><i>${idx >= 1 ? '✓' : ''}</i><div>Joining and ideas open<small>${fmtDate(currentPoll.join_open_at)}</small></div></li>
+          <li class="${idx >= 2 ? 'ok' : ''}"><i>${idx >= 2 ? '✓' : ''}</i><div>Ideas close<small>${fmtDate(currentPoll.ideas_close_at)}</small></div></li>
+          <li class="${jc ? 'ok' : ''}"><i>${jc ? '✓' : ''}</i><div>Joining closes and the list locks<small>${fmtDate(currentPoll.join_close_at)}</small></div></li>
+          <li class="${idx >= 3 ? 'ok' : ''}"><i>${idx >= 3 ? '✓' : ''}</i><div>Voting opens<small>${fmtDate(currentPoll.voting_open_at)}</small></div></li>
+          <li class="${idx >= 4 ? 'ok' : ''}"><i>${idx >= 4 ? '✓' : ''}</i><div>Voting closes<small>${fmtDate(currentPoll.voting_close_at)}</small></div></li>
+          <li class="${idx >= 5 ? 'ok' : ''}"><i>${idx >= 5 ? '✓' : ''}</i><div>Results published<small>when you publish</small></div></li>
+        </ul>
+        <p class="hint">Dates already past are locked. Future dates can still be changed, as long as voting opens on or after joining closes.</p>
+        <button class="btn outline small" data-edit-dates>Edit dates</button>
+      </div>
+    `;
+
+    const danger = `
+      <div class="card">
+        <h2>Careful</h2>
+        ${idx === 4 ? '<p class="hint">Reopen voting if you closed too early. It's logged.</p><button class="btn outline small" data-reopen-voting>Reopen voting</button> ' : ''}
+        <button class="btn warn small" data-cancel-poll ${idx === 5 ? 'disabled' : ''}>Cancel this poll</button>
+      </div>
+    `;
+
+    return `
+      <div class="card">
+        <h2>${FeralAuth.esc(currentPoll.title)}</h2>
+        <p class="hint" style="margin-bottom:.4rem">${FeralAuth.esc(currentPoll.topic || '')}</p>
+        ${renderStepper()}
+      </div>
+      ${stats}
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>Next step</h2>
+            <ul class="gates">${gatesHtml}</ul>
+            ${nextBtn}
+            ${closeJoinBtn}
+          </div>
+        </div>
+        <div>
+          ${schedule}
+          ${danger}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPeople() {
+    const idx = phaseIndex(currentPoll.status);
+    const jc = isJoinClosed();
+
+    const lockMsg = jc
+      ? '<div class="lock">🔒 Joining is closed and the list is locked. Nobody can join or leave.</div>'
+      : '<div class="msg warn">Joining is open until ' + fmtDate(currentPoll.join_close_at) + '. Members can still leave themselves.</div>';
+
+    const rows = pollParticipants.map(p =>
+      `<div class="row">
+        <div class="row-info">
+          <b>${FeralAuth.esc(p.display_name || p.handle)}</b>
+          <span>joined ${fmtDate(p.joined_at)}</span>
+        </div>
+        <div class="row-acts">
+          <button class="btn small outline" ${jc || idx === 0 ? 'disabled' : ''} data-remove-participant="${p.member_id}">Remove</button>
+        </div>
+      </div>`
+    ).join('') || '<div class="list-empty">Nobody yet. Joining hasn't opened.</div>';
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>Who joined</h2>
+            ${lockMsg}
+            <div class="list">${rows}</div>
+            <p class="hint" style="margin-top:.6rem">Showing ${pollParticipants.length} members.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>Numbers</h2>
+            <div class="stats" style="grid-template-columns:1fr 1fr">
+              <div class="stat"><b>${pollParticipants.length}</b><span>joined</span></div>
+              <div class="stat"><b>—</b><span>not joined</span></div>
+            </div>
+            <div class="bar"><b style="width:${pollParticipants.length > 0 ? Math.min(100, pollParticipants.length * 2) : 0}%"></b></div>
+            <p class="hint">Needs at least ${currentPoll.settings?.min_participants || 10} to open voting.</p>
+          </div>
+          <div class="card">
+            <h2>Taking someone out</h2>
+            <p class="hint">Before the list locks you can remove a member. After that you can't, to keep the vote fair. If someone really needs out, tell me and we handle it with a log entry.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderIdeas() {
+    const idx = phaseIndex(currentPoll.status);
+    const ro = idx >= 3; // read only after voting starts
+
+    const lockMsg = ro
+      ? '<div class="lock">🔒 Voting has started. The list can't change.</div>'
+      : idx <= 1 ? '<div class="msg warn">Ideas are still coming in. They close ' + fmtDate(currentPoll.ideas_close_at) + '.</div>' : '';
+
+    const rows = pollIdeas.map(idea => {
+      const flagWarning = idea.flagged ? `<span style="color:var(--red);font-weight:500;margin-top:.2rem">⚠ ${FeralAuth.esc(idea.flag_reason || 'Flagged')}</span>` : '';
+      const statusTag = idea.status === 'accepted' ? '<span class="tag green">Accepted</span>' : idea.status === 'declined' ? '<span class="tag soft">Declined</span>' : '';
+
+      return `
+        <div class="row" style="align-items:flex-start">
+          <div class="row-info">
+            <b>${FeralAuth.esc(idea.text)}</b>
+            <span>▲ ${idea.upvote_count} upvotes · sent by ${FeralAuth.esc(idea.author_name || idea.author_handle || 'unknown')}</span>
+            ${flagWarning}
+          </div>
+          ${statusTag}
+          <div class="row-acts">
+            <button class="btn small" ${ro || idea.status === 'accepted' ? 'disabled' : ''} data-accept-idea="${idea.id}">Accept</button>
+            <button class="btn small outline" ${ro ? 'disabled' : ''} data-edit-idea="${idea.id}">Edit</button>
+            <button class="btn small outline" ${ro ? 'disabled' : ''} data-merge-idea="${idea.id}">Merge</button>
+            <button class="btn small outline" ${ro || idea.status === 'declined' ? 'disabled' : ''} data-decline-idea="${idea.id}">Decline</button>
+          </div>
+        </div>
+      `;
+    }).join('') || '<div class="list-empty">No ideas yet.</div>';
+
+    const acceptedCount = pollIdeas.filter(i => i.status === 'accepted').length;
+    const maxCats = currentPoll.settings?.max_categories || 20;
+    const minCats = currentPoll.settings?.min_categories || 12;
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>Ideas</h2>
+            ${lockMsg}
+            <div class="list">${rows}</div>
+            <p class="hint" style="margin-top:.6rem">Showing ${pollIdeas.length} ideas, most upvotes first. Ideas that name a member are flagged automatically.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>The ballot so far</h2>
+            <div class="stats" style="grid-template-columns:1fr 1fr">
+              <div class="stat"><b>${acceptedCount}</b><span>accepted</span></div>
+              <div class="stat"><b>${maxCats}</b><span>max</span></div>
+            </div>
+            <div class="bar"><b style="width:${(acceptedCount / maxCats) * 100}%"></b></div>
+            <ul class="gates">
+              <li class="ok"><i>✓</i><div>Nothing names a member</div></li>
+              <li class="ok"><i>✓</i><div>No duplicates left</div></li>
+              <li class="${acceptedCount >= minCats ? 'ok' : 'no'}"><i>${acceptedCount >= minCats ? '✓' : '✕'}</i><div>At least ${minCats} awards<small>${acceptedCount} right now</small></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderBallot() {
+    const idx = phaseIndex(currentPoll.status);
+    const ro = idx >= 3;
+
+    const lockMsg = ro ? '<div class="lock">🔒 Voting has started. The ballot is locked.</div>' : '';
+
+    const rows = pollCategories.map((c, k) =>
+      `<div class="row">
+        <span class="mono" style="width:2rem">${String(k + 1).padStart(2, '0')}</span>
+        <div class="row-info"><b>${FeralAuth.esc(c.title)}</b></div>
+        <div class="row-acts">
+          <button class="btn small outline" ${ro ? 'disabled' : ''} data-move-cat-up="${c.id}" aria-label="Move up">↑</button>
+          <button class="btn small outline" ${ro ? 'disabled' : ''} data-move-cat-down="${c.id}" aria-label="Move down">↓</button>
+          <button class="btn small outline" ${ro ? 'disabled' : ''} data-edit-cat="${c.id}">Edit</button>
+          <button class="btn small outline" ${ro ? 'disabled' : ''} data-remove-cat="${c.id}">Remove</button>
+        </div>
+      </div>`
+    ).join('') || '<div class="list-empty">Accept ideas first. They show up here.</div>';
+
+    const minCats = currentPoll.settings?.min_categories || 12;
+    const maxCats = currentPoll.settings?.max_categories || 20;
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>The ballot</h2>
+            ${lockMsg}
+            <div class="list">${rows}</div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>Check</h2>
+            <ul class="gates">
+              <li class="${pollCategories.length >= minCats && pollCategories.length <= maxCats ? 'ok' : 'no'}"><i>${pollCategories.length >= minCats && pollCategories.length <= maxCats ? '✓' : '✕'}</i><div>${pollCategories.length} awards<small>Between ${minCats} and ${maxCats}.</small></div></li>
+              <li class="ok"><i>✓</i><div>Titles all read as a moment, not a person</div></li>
+            </ul>
+            <button class="btn outline small" data-preview-ballot>See it as a member</button>
+          </div>
+          <div class="card">
+            <h2>Order</h2>
+            <p class="hint">Members see awards in this order. The people list under each award is shuffled for every voter.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderVoting() {
+    const idx = phaseIndex(currentPoll.status);
+
+    if (idx < 3) {
+      return '<div class="card"><h2>Voting</h2><div class="lock">Voting hasn't opened yet. This tab shows turnout once it does.</div></div>';
+    }
+
+    const t = pollTurnout || { joined: 0, voted: 0, not_voted: 0, daily: [] };
+    const maxDaily = Math.max(...t.daily.map(d => d.count), 1);
+    const bars = t.daily.map((d, k) =>
+      `<div style="height:${(d.count / maxDaily) * 100}%"><span>d${k + 1}</span></div>`
+    ).join('') || '<div style="height:10%"><span>-</span></div>';
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>Turnout</h2>
+            <div class="stats" style="grid-template-columns:1fr 1fr">
+              <div class="stat"><b>${t.voted}</b><span>ballots in</span></div>
+              <div class="stat"><b>${t.not_voted}</b><span>joined, haven't voted</span></div>
+            </div>
+            <div class="bar"><b style="width:${t.joined > 0 ? (t.voted / t.joined) * 100 : 0}%"></b></div>
+            <p class="hint">${t.voted} of ${t.joined} joined members have voted.</p>
+            <div class="days" aria-label="Ballots in by day">${bars}</div>
+            <p style="height:1rem"></p>
+          </div>
+        </div>
+        <div>
+          <div class="card dark">
+            <h2>No counts. On purpose.</h2>
+            <p class="hint">While voting is open nobody sees any numbers per person or per award, including you. You see turnout only. Counts show up after you close voting.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderResults() {
+    const idx = phaseIndex(currentPoll.status);
+
+    if (idx < 4) {
+      return '<div class="card"><h2>Results</h2><div class="lock">🔒 Results are hidden until voting closes. Nobody can see any counts before then, you included.</div></div>';
+    }
+
+    const isPublished = currentPoll.status === 'published';
+
+    // Show tally with cap changes
+    let changedRows = '';
+    if (pollTally) {
+      // Simple display of results (full cap logic would be in a separate function)
+      changedRows = pollTally.map(cat => {
+        const nominees = cat.nominees || [];
+        const top = nominees[0];
+        return `<tr><td>${FeralAuth.esc(cat.title)}</td><td>${top ? FeralAuth.esc(top.display_name) + ' (' + top.votes + ')' : '—'}</td><td>—</td></tr>`;
+      }).join('');
+    }
+
+    const captions = currentPoll.captions || { defaults: {}, highlights: {}, categories: {} };
+
+    return `
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h2>After the golds rule</h2>
+            <p class="hint">Nobody gets more than ${currentPoll.settings?.gold_cap || 3} golds. Biggest landslides are handed out first.</p>
+            <div style="overflow-x:auto">
+              <table class="tbl">
+                <tr><th>Award</th><th>Most votes</th><th>Awarded</th></tr>
+                ${changedRows || '<tr><td colspan="3">No results yet</td></tr>'}
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Captions</h2>
+            <p class="hint">Shown on the results page and share cards. Edit any of them.</p>
+            <div class="field">
+              <label>Default, winner cards</label>
+              <input id="capWinner" value="${FeralAuth.esc(captions.defaults?.winner || '')}" ${isPublished ? 'disabled' : ''}>
+            </div>
+            <div class="field">
+              <label>Default, personal cards</label>
+              <input id="capPersonal" value="${FeralAuth.esc(captions.defaults?.personal || '')}" ${isPublished ? 'disabled' : ''}>
+            </div>
+            <button class="btn outline small" ${isPublished ? 'disabled' : ''} data-save-captions>Save captions</button>
+          </div>
+        </div>
+        <div>
+          <div class="card dark">
+            <h2>${isPublished ? 'Published' : 'Ready?'}</h2>
+            ${isPublished
+              ? `<p class="hint">Results went public ${fmtDate(currentPoll.published_at)}. The results page and share cards are live.</p>`
+              : `
+                <label class="chk"><input type="checkbox" data-pub-check="0" ${publishChecks[0] ? 'checked' : ''}><span>I read the golds changes and I'm happy with them.</span></label>
+                <label class="chk"><input type="checkbox" data-pub-check="1" ${publishChecks[1] ? 'checked' : ''}><span>I checked the captions.</span></label>
+                <label class="chk"><input type="checkbox" data-pub-check="2" ${publishChecks[2] ? 'checked' : ''}><span>I know I can't see who voted for who, and I'm not trying to.</span></label>
+                <p style="margin-top:1rem">
+                  <button class="btn big" style="background:var(--paper);color:var(--ink);border-color:var(--paper)" data-publish ${publishChecks.every(Boolean) ? '' : 'disabled'}>Publish results</button>
+                </p>
+                <p class="hint">Publishing makes results public and builds the results page and share cards. You can't take it back, so look it over first.</p>
+              `
+            }
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderLog() {
+    const rows = pollAuditLog.map(log =>
+      `<div class="row">
+        <div class="row-info">
+          <b style="font-weight:500">${FeralAuth.esc(log.action.replace(/_/g, ' '))}</b>
+          <span>${fmtDateTime(log.created_at)} · ${FeralAuth.esc(log.actor_handle)}</span>
+        </div>
+      </div>`
+    ).join('') || '<div class="list-empty">No actions logged yet.</div>';
+
+    return `
+      <div class="card">
+        <h2>Log</h2>
+        <p class="hint">Every admin action and every phase change. Votes are never in here.</p>
+        <div class="list log">${rows}</div>
+      </div>
+    `;
+  }
+
+  function bindPollEvents() {
+    // Screen navigation
+    document.querySelectorAll('[data-go-screen]').forEach(btn => {
+      btn.onclick = () => {
+        pollScreen = btn.dataset.goScreen;
+        currentPoll = null;
+        renderPollsScreen();
+      };
+    });
+
+    document.querySelectorAll('[data-poll-screen]').forEach(btn => {
+      btn.onclick = () => {
+        pollScreen = btn.dataset.pollScreen;
+        renderPollsScreen();
+      };
+    });
+
+    // Open poll
+    document.querySelectorAll('[data-open-poll]').forEach(btn => {
+      btn.onclick = async () => {
+        pollScreen = 'overview';
+        await loadPollDetails(btn.dataset.openPoll);
+      };
+    });
+
+    // New poll form
+    const newPollForm = document.getElementById('newPollForm');
+    if (newPollForm) {
+      // Date validation
+      const validateDates = () => {
+        const joinClose = document.getElementById('npJoinClose')?.value;
+        const votingOpen = document.getElementById('npVotingOpen')?.value;
+        const msg = document.getElementById('npDateMsg');
+        if (joinClose && votingOpen && votingOpen < joinClose) {
+          msg.innerHTML = '<div class="msg bad">Voting can't open before joining closes. Move voting later or joining earlier.</div>';
+        } else {
+          msg.innerHTML = '';
+        }
+      };
+      document.getElementById('npJoinClose')?.addEventListener('change', validateDates);
+      document.getElementById('npVotingOpen')?.addEventListener('change', validateDates);
+
+      newPollForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('npTitle').value.trim();
+        const topic = document.getElementById('npTopic').value.trim();
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+        const settings = {
+          votes_per_person_per_ballot: parseInt(document.getElementById('npVotesPerBallot').value) || 3,
+          gold_cap: parseInt(document.getElementById('npGoldCap').value) || 3,
+          min_votes_for_award: parseInt(document.getElementById('npMinVotes').value) || 2,
+          ideas_per_member: parseInt(document.getElementById('npIdeasPerMember').value) || 3,
+          min_categories: parseInt(document.getElementById('npMinCategories').value) || 12,
+          max_categories: parseInt(document.getElementById('npMaxCategories').value) || 20,
+          min_participants: parseInt(document.getElementById('npMinParticipants').value) || 10,
+          cap_fallback: document.getElementById('npCapFallback').value,
+          tie_rule: 'share_gold'
+        };
+
+        const msg = document.getElementById('npMsg');
+        const btn = document.getElementById('npSubmit');
+        btn.disabled = true;
+        btn.textContent = 'Creating...';
+
+        const { data, error } = await sb.rpc('create_poll', {
+          p_slug: slug,
+          p_title: title,
+          p_topic: topic || null,
+          p_settings: settings
+        });
+
+        if (error) {
+          msg.className = 'msg bad';
+          msg.textContent = FeralAuth.friendlyError(error);
+          msg.hidden = false;
+          btn.disabled = false;
+          btn.textContent = 'Save as draft';
+          return;
+        }
+
+        // Update dates
+        const joinOpen = document.getElementById('npJoinOpen').value;
+        const ideasClose = document.getElementById('npIdeasClose').value;
+        const joinClose = document.getElementById('npJoinClose').value;
+        const votingOpen = document.getElementById('npVotingOpen').value;
+        const votingClose = document.getElementById('npVotingClose').value;
+
+        if (joinOpen || ideasClose || joinClose || votingOpen || votingClose) {
+          await sb.rpc('update_poll_dates', {
+            p_poll_id: data,
+            p_join_open_at: joinOpen ? new Date(joinOpen).toISOString() : null,
+            p_ideas_close_at: ideasClose ? new Date(ideasClose).toISOString() : null,
+            p_join_close_at: joinClose ? new Date(joinClose).toISOString() : null,
+            p_voting_open_at: votingOpen ? new Date(votingOpen).toISOString() : null,
+            p_voting_close_at: votingClose ? new Date(votingClose).toISOString() : null
+          });
+        }
+
+        toast('Poll saved as a draft. Nothing opens until you say so.');
+        pollScreen = 'list';
+        await loadPolls();
+      };
+    }
+
+    // Phase transitions
+    document.querySelector('[data-next-phase]')?.addEventListener('click', async function() {
+      const btn = this;
+      btn.disabled = true;
+      const nextStatus = {
+        draft: 'ideas_open',
+        ideas_open: 'curating',
+        curating: 'voting_open',
+        voting_open: 'closed',
+        closed: 'published'
+      }[currentPoll.status];
+
+      if (!nextStatus) return;
+
+      // If going to published, use publish_poll with checkboxes
+      if (nextStatus === 'published') {
+        pollScreen = 'results';
+        renderPollsScreen();
+        return;
+      }
+
+      const { error } = await sb.rpc('transition_poll_status', {
+        p_poll_id: currentPoll.id,
+        p_new_status: nextStatus
+      });
+
+      if (error) {
+        toast('Error: ' + FeralAuth.friendlyError(error));
+        btn.disabled = false;
+        return;
+      }
+
+      toast('Done. ' + PHASE_NAMES[nextStatus] + '. Logged.');
+      await loadPolls();
+      await loadPollDetails(currentPoll.id);
+    });
+
+    // Close joining early
+    document.querySelector('[data-close-joining]')?.addEventListener('click', async function() {
+      const { error } = await sb.rpc('close_joining_early', { p_poll_id: currentPoll.id });
+      if (error) {
+        toast('Error: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+      toast('Joining closed. The list is locked.');
+      await loadPollDetails(currentPoll.id);
+    });
+
+    // Reopen voting
+    document.querySelector('[data-reopen-voting]')?.addEventListener('click', async function() {
+      if (!confirm('Reopen voting? This will be logged.')) return;
+      const { error } = await sb.rpc('reopen_voting', { p_poll_id: currentPoll.id });
+      if (error) {
+        toast('Error: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+      toast('Voting reopened. Logged.');
+      await loadPollDetails(currentPoll.id);
+    });
+
+    // Remove participant
+    document.querySelectorAll('[data-remove-participant]').forEach(btn => {
+      btn.onclick = async () => {
+        if (!confirm('Remove this member from the poll?')) return;
+        const { error } = await sb.rpc('admin_remove_participant', {
+          p_poll_id: currentPoll.id,
+          p_member_id: btn.dataset.removeParticipant
+        });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Removed. Logged.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Accept idea
+    document.querySelectorAll('[data-accept-idea]').forEach(btn => {
+      btn.onclick = async () => {
+        const ideaId = btn.dataset.acceptIdea;
+        const idea = pollIdeas.find(i => i.id === ideaId);
+
+        // Update status
+        await sb.rpc('update_idea_status', {
+          p_idea_id: ideaId,
+          p_status: 'accepted'
+        });
+
+        // Create category
+        const nextPos = pollCategories.length + 1;
+        await sb.rpc('create_category', {
+          p_poll_id: currentPoll.id,
+          p_idea_id: ideaId,
+          p_title: idea.text,
+          p_position: nextPos
+        });
+
+        toast('Accepted. It's on the ballot.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Decline idea
+    document.querySelectorAll('[data-decline-idea]').forEach(btn => {
+      btn.onclick = async () => {
+        const reason = prompt('Reason for declining (optional):');
+        const { error } = await sb.rpc('update_idea_status', {
+          p_idea_id: btn.dataset.declineIdea,
+          p_status: 'declined',
+          p_reason: reason || null
+        });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Declined.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Edit idea
+    document.querySelectorAll('[data-edit-idea]').forEach(btn => {
+      btn.onclick = async () => {
+        const idea = pollIdeas.find(i => i.id === btn.dataset.editIdea);
+        const newText = prompt('Edit idea text:', idea?.text);
+        if (!newText || newText === idea.text) return;
+
+        const { error } = await sb.rpc('update_idea_text', {
+          p_idea_id: btn.dataset.editIdea,
+          p_new_text: newText
+        });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Edited. Logged.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Merge idea
+    document.querySelectorAll('[data-merge-idea]').forEach(btn => {
+      btn.onclick = async () => {
+        const targetText = prompt('Merge into which idea? Enter the text of the target idea:');
+        if (!targetText) return;
+
+        const target = pollIdeas.find(i => i.text.toLowerCase().includes(targetText.toLowerCase()) && i.id !== btn.dataset.mergeIdea);
+        if (!target) {
+          toast('Could not find target idea.');
+          return;
+        }
+
+        const { error } = await sb.rpc('merge_ideas', {
+          p_source_id: btn.dataset.mergeIdea,
+          p_target_id: target.id
+        });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Merged. Upvotes combined.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Edit category
+    document.querySelectorAll('[data-edit-cat]').forEach(btn => {
+      btn.onclick = async () => {
+        const cat = pollCategories.find(c => c.id === btn.dataset.editCat);
+        const newTitle = prompt('Edit award title:', cat?.title);
+        if (!newTitle || newTitle === cat.title) return;
+
+        const { error } = await sb.rpc('update_category_title', {
+          p_category_id: btn.dataset.editCat,
+          p_new_title: newTitle
+        });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Updated. Logged.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Remove category
+    document.querySelectorAll('[data-remove-cat]').forEach(btn => {
+      btn.onclick = async () => {
+        if (!confirm('Remove this award from the ballot?')) return;
+        const { error } = await sb.rpc('delete_category', { p_category_id: btn.dataset.removeCat });
+        if (error) {
+          toast('Error: ' + FeralAuth.friendlyError(error));
+          return;
+        }
+        toast('Removed from ballot.');
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Move category up/down
+    document.querySelectorAll('[data-move-cat-up]').forEach(btn => {
+      btn.onclick = async () => {
+        const idx = pollCategories.findIndex(c => c.id === btn.dataset.moveCatUp);
+        if (idx <= 0) return;
+        const newOrder = [...pollCategories];
+        [newOrder[idx - 1], newOrder[idx]] = [newOrder[idx], newOrder[idx - 1]];
+        await sb.rpc('reorder_categories', {
+          p_poll_id: currentPoll.id,
+          p_category_ids: newOrder.map(c => c.id)
+        });
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    document.querySelectorAll('[data-move-cat-down]').forEach(btn => {
+      btn.onclick = async () => {
+        const idx = pollCategories.findIndex(c => c.id === btn.dataset.moveCatDown);
+        if (idx < 0 || idx >= pollCategories.length - 1) return;
+        const newOrder = [...pollCategories];
+        [newOrder[idx], newOrder[idx + 1]] = [newOrder[idx + 1], newOrder[idx]];
+        await sb.rpc('reorder_categories', {
+          p_poll_id: currentPoll.id,
+          p_category_ids: newOrder.map(c => c.id)
+        });
+        await loadPollDetails(currentPoll.id);
+      };
+    });
+
+    // Publish checkboxes
+    document.querySelectorAll('[data-pub-check]').forEach(cb => {
+      cb.onchange = () => {
+        publishChecks[parseInt(cb.dataset.pubCheck)] = cb.checked;
+        renderPollsScreen();
+      };
+    });
+
+    // Publish button
+    document.querySelector('[data-publish]')?.addEventListener('click', async function() {
+      if (!publishChecks.every(Boolean)) return;
+      if (!confirm('Publish results? This cannot be undone.')) return;
+
+      const { error } = await sb.rpc('publish_poll', {
+        p_poll_id: currentPoll.id,
+        p_checked_results: true,
+        p_checked_captions: true,
+        p_checked_privacy: true
+      });
+
+      if (error) {
+        toast('Error: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+
+      toast('Published. Results are public.');
+      await loadPolls();
+      await loadPollDetails(currentPoll.id);
+    });
+
+    // Save captions
+    document.querySelector('[data-save-captions]')?.addEventListener('click', async function() {
+      const captions = currentPoll.captions || { defaults: {}, highlights: {}, categories: {} };
+      captions.defaults = captions.defaults || {};
+      captions.defaults.winner = document.getElementById('capWinner')?.value || '';
+      captions.defaults.personal = document.getElementById('capPersonal')?.value || '';
+
+      const { error } = await sb.rpc('update_poll_captions', {
+        p_poll_id: currentPoll.id,
+        p_captions: captions
+      });
+
+      if (error) {
+        toast('Error: ' + FeralAuth.friendlyError(error));
+        return;
+      }
+
+      toast('Captions saved.');
+      await loadPollDetails(currentPoll.id);
+    });
   }
 
   // --- Invites ---

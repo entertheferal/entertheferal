@@ -33,7 +33,7 @@ button{cursor:pointer}
 @media (max-width:900px){.form-col{border-right:0;border-bottom:1.5px solid var(--ink);order:2}}
 
 .preview-col{background:var(--paper-2);overflow-y:auto;display:flex;flex-direction:column}
-@media (max-width:900px){.preview-col{max-height:380px;order:1}}
+@media (max-width:900px){.preview-col{max-height:380px;order:-1}}
 
 h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:0 0 1.25rem}
 
@@ -96,6 +96,13 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
 .save-status{font-size:.82rem;color:var(--ink-soft)}
 .save-status.ok{color:var(--green)}
 .save-status.bad{color:var(--red)}
+@media (max-width:900px){
+  .save-bar{position:fixed;bottom:0;left:0;right:0;z-index:10}
+  .form-col{padding-bottom:4.5rem}
+}
+
+/* Screen reader only */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* Preview */
 .preview{background:var(--paper);flex:1}
@@ -138,6 +145,7 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
 <div class="layout" id="layout">
   <div class="loading" style="grid-column:1/-1">Loading...</div>
 </div>
+<div aria-live="polite" class="sr" id="liveStatus"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../../js/supabase-config.js"></script>
@@ -220,6 +228,11 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
     // Handle
     const handleEl = document.getElementById('previewHandle');
     if (handleEl) handleEl.textContent = '@' + data.handle;
+  }
+
+  function announceStatus(text) {
+    const live = document.getElementById('liveStatus');
+    if (live) live.textContent = text;
   }
 
   function markDirty() {
@@ -405,6 +418,47 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
       updateNameCount();
     }
 
+    // Handle availability check
+    const handleInput = document.getElementById('handle');
+    const handleHint = document.getElementById('handleHint');
+    if (handleInput && !handleInput.disabled) {
+      let handleTimeout = null;
+      handleInput.addEventListener('input', () => {
+        const val = handleInput.value.toLowerCase().trim();
+        if (handleTimeout) clearTimeout(handleTimeout);
+
+        // Same as current - no check needed
+        if (val === profile.handle) {
+          handleHint.textContent = 'You can change this once every 30 days';
+          handleHint.className = 'hint';
+          return;
+        }
+
+        // Validate format
+        if (val.length < 3 || !/^[a-z0-9_.]{3,20}$/.test(val)) {
+          handleHint.textContent = '3-20 characters: lowercase letters, numbers, dots, underscores';
+          handleHint.className = 'hint bad';
+          return;
+        }
+
+        handleHint.textContent = 'Checking...';
+        handleHint.className = 'hint';
+
+        handleTimeout = setTimeout(async () => {
+          const available = await FeralAuth.checkHandle(val);
+          if (handleInput.value.toLowerCase().trim() === val) {
+            if (available) {
+              handleHint.textContent = 'Available';
+              handleHint.className = 'hint ok';
+            } else {
+              handleHint.textContent = 'Taken';
+              handleHint.className = 'hint bad';
+            }
+          }
+        }, 400);
+      });
+    }
+
     const bioInput = document.getElementById('bio');
     const bioCount = document.getElementById('bioCount');
     if (bioInput && bioCount) {
@@ -462,7 +516,28 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
     }
 
     // Remove photo
-    document.getElementById('removePhotoBtn')?.addEventListener('click', () => {
+    document.getElementById('removePhotoBtn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('removePhotoBtn');
+      btn.disabled = true;
+      btn.textContent = 'Removing...';
+
+      // Remove from server if there's an existing photo
+      if (profile.avatar_type === 'photo' && profile.avatar_path) {
+        const { error } = await FeralAuth.removeAvatar();
+        if (error) {
+          btn.disabled = false;
+          btn.textContent = 'Remove';
+          const status = document.getElementById('saveStatus');
+          status.textContent = 'Failed to remove photo';
+          status.className = 'save-status bad';
+          announceStatus('Failed to remove photo');
+          return;
+        }
+        // Update local profile state
+        profile.avatar_type = 'initial';
+        profile.avatar_path = null;
+      }
+
       photoFile = null;
       photoPreviewUrl = null;
       document.getElementById('photoPreview').innerHTML = '<span style="color:var(--ink-soft);font-size:.8rem">No photo</span>';
@@ -470,8 +545,10 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
       document.querySelectorAll('.avatar-tab').forEach(t => t.setAttribute('aria-selected', t.dataset.type === 'initial' ? 'true' : 'false'));
       document.querySelectorAll('.avatar-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('panelInitial').classList.add('active');
-      markDirty();
+      btn.disabled = false;
+      btn.textContent = 'Remove';
       updatePreview();
+      announceStatus('Photo removed');
     });
 
     // Save button
@@ -683,6 +760,7 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
     saveBtn.textContent = 'Saving...';
     status.textContent = 'Saving...';
     status.className = 'save-status';
+    announceStatus('Saving...');
 
     // Upload photo if changed
     if (photoFile && data.avatar_type === 'photo') {
@@ -722,10 +800,12 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
     const { error } = await FeralAuth.updateProfile(updates);
 
     if (error) {
-      status.textContent = FeralAuth.friendlyError(error);
+      const errorMsg = FeralAuth.friendlyError(error);
+      status.textContent = errorMsg;
       status.className = 'save-status bad';
       saveBtn.disabled = false;
       saveBtn.textContent = 'Save changes';
+      announceStatus('Error: ' + errorMsg);
       return;
     }
 
@@ -739,6 +819,7 @@ h1{font-family:var(--black);font-weight:400;font-size:2rem;line-height:1;margin:
     status.className = 'save-status ok';
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save changes';
+    announceStatus('Profile saved successfully');
 
     setTimeout(() => {
       if (!isDirty) {
