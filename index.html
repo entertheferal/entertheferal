@@ -93,9 +93,15 @@ main{min-height:100%;display:flex;flex-direction:column;align-items:center;justi
   .vbswirl{display:none}
   }
 @media (prefers-reduced-motion:reduce){.d{animation:none;opacity:var(--o,1)}}
+
+/* Nav bar */
+.topbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:flex-end;padding:.9rem 1.25rem;z-index:10}
+.topbar a,.topbar button{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;padding:.3rem .5rem;cursor:pointer}
+.topbar a:hover,.topbar button:hover{text-decoration:underline}
 </style>
 </head>
 <body>
+<nav class="topbar" id="topbar"></nav>
 <main>
   <img class="d z1 vbred" alt="" src="images/deco/vb-red.webp">
   <img class="d z1 vbdrip" alt="" src="images/deco/vb-drip.webp">
@@ -120,6 +126,31 @@ document.getElementById('playBtn').addEventListener('click', function() {
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+// Render nav bar
+(async function() {
+  var topbar = document.getElementById('topbar');
+  try {
+    var user = await FeralAuth.getUser();
+    if (user) {
+      var profile = await FeralAuth.getProfile();
+      topbar.innerHTML = '<a href="/u/' + FeralAuth.esc(profile.handle) + '">My profile</a>' +
+        '<a href="/calendar">Calendar</a>' +
+        (profile.is_admin ? '<a href="/admin/">Admin</a>' : '') +
+        '<button type="button" id="signOutBtn">Sign out</button>';
+      document.getElementById('signOutBtn').onclick = async function() {
+        await FeralAuth.signOut();
+        window.location.reload();
+      };
+    } else {
+      topbar.innerHTML = '<a href="/login/">Sign in</a>';
+    }
+  } catch (e) {
+    topbar.innerHTML = '<a href="/login/">Sign in</a>';
+  }
+})();
+</script>
 <script>
 // Handle magic link auth callback
 (function() {
